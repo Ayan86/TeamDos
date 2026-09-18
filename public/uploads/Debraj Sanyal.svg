@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <!-- Daylight Rocky Outdoor Ambience -->
+    <linearGradient id="skyQuarry" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="50%" stop-color="#cbd5e1"/>
+      <stop offset="85%" stop-color="#78716c"/>
+      <stop offset="100%" stop-color="#292524"/>
+    </linearGradient>
+    <linearGradient id="shearling" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="50%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="distressedLeather" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="50%" stop-color="#451a03"/>
+      <stop offset="100%" stop-color="#1c1917"/>
+    </linearGradient>
+    <linearGradient id="skinDebraj" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d49b72"/>
+      <stop offset="60%" stop-color="#8c532d"/>
+      <stop offset="100%" stop-color="#3b1d0d"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background: Rugged Quarry Rocks & Open Cloudy Sky -->
+  <rect width="800" height="1000" fill="url(#skyQuarry)"/>
+
+  <!-- Quarry Rock Formations in Background -->
+  <polygon points="-50,450 150,380 320,440 480,390 680,450 850,370 850,700 -50,700" fill="#57534e" opacity="0.65"/>
+  <polygon points="-50,530 220,470 420,520 620,460 850,510 850,750 -50,750" fill="#44403c"/>
+
+  <!-- Debraj Sanyal: Looking upward/right in the vintage shearling coat -->
+  <g>
+    <!-- Heavy Brown Leather Duster Body -->
+    <path d="M220,530 C190,620 140,750 90,1000 L710,1000 C660,750 610,620 580,530 C530,510 470,535 400,540 C330,535 270,510 220,530 Z" fill="url(#distressedLeather)"/>
+
+    <!-- Black Inner Tactical Shirt -->
+    <path d="M360,460 L440,460 L445,680 L355,680 Z" fill="#0c0a09"/>
+
+    <!-- Tactical Black Web Belt with Silver Buckle -->
+    <rect x="290" y="700" width="220" height="35" rx="4" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+    <rect x="380" y="695" width="40" height="45" rx="4" fill="#a1a1aa" stroke="#e4e4e7" stroke-width="2"/>
+    <rect x="390" y="705" width="20" height="25" rx="2" fill="#27272a"/>
+
+    <!-- Massive Plush Fur / Shearling Fleece Collar (Iconic feature of Debraj's coat) -->
+    <!-- Left Lapel -->
+    <path d="M280,480 C270,560 300,640 360,670 C370,610 360,540 330,480 Z" fill="url(#shearling)" stroke="#b45309" stroke-width="2"/>
+    <!-- Right Lapel -->
+    <path d="M520,480 C530,560 500,640 440,670 C430,610 440,540 470,480 Z" fill="url(#shearling)" stroke="#b45309" stroke-width="2"/>
+    <!-- Back Neck Fur Trim -->
+    <path d="M330,470 Q400,430 470,470 Q400,485 330,470 Z" fill="url(#shearling)"/>
+
+    <!-- Strong Neck -->
+    <path d="M365,390 L435,390 L430,470 L370,470 Z" fill="#693c1f"/>
+
+    <!-- Head & Face (Turned slightly up and to the right) -->
+    <ellipse cx="400" cy="330" rx="95" ry="120" fill="url(#skinDebraj)"/>
+
+    <!-- Dark Wavy Swept-Back Hair (Windblown, rugged) -->
+    <path d="M295,290 C285,185 350,140 410,145 C480,150 525,195 515,290 C490,210 450,175 410,175 C360,175 320,215 295,290 Z" fill="#0c0a09"/>
+    <path d="M315,190 Q390,130 460,170 Q420,175 350,195 Z" fill="#1c1917"/>
+
+    <!-- Strong Masculine Brow & Eyes (Focused upward gaze) -->
+    <path d="M335,305 Q365,295 385,305" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M415,305 Q435,295 465,305" stroke="#1c1917" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+    <!-- Eyes looking upward/right -->
+    <ellipse cx="362" cy="318" rx="11" ry="6.5" fill="#f8fafc"/>
+    <circle cx="365" cy="316" r="4.5" fill="#18181b"/>
+    <ellipse cx="440" cy="318" rx="11" ry="6.5" fill="#f8fafc"/>
+    <circle cx="443" cy="316" r="4.5" fill="#18181b"/>
+
+    <!-- Chiseled Nose & Determined Mouth -->
+    <path d="M402,308 L405,355 L415,360" stroke="#3b1d0d" stroke-width="3" fill="none"/>
+    <path d="M380,395 Q405,400 430,395" stroke="#451a03" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+    <!-- Subtle Stubble / Beard Shading -->
+    <path d="M340,340 C350,420 450,420 460,340 C465,395 445,435 400,440 C355,435 335,395 340,340 Z" fill="#0c0a09" opacity="0.3"/>
+  </g>
+
+  <!-- Title Card Footer -->
+  <rect x="0" y="860" width="800" height="140" fill="#0c0a09" opacity="0.95"/>
+  <line x1="0" y1="860" x2="800" y2="860" stroke="#dc2626" stroke-width="2" opacity="0.9"/>
+  <text x="50" y="915" fill="#f3f4f6" font-family="'Cinzel', serif" font-size="32" font-weight="bold" letter-spacing="3">DEBRAJ SANYAL</text>
+  <text x="50" y="950" fill="#ef4444" font-family="'Share Tech Mono', monospace" font-size="16" letter-spacing="4">FOUNDER // LEAD INVESTIGATOR</text>
+  <text x="750" y="930" text-anchor="end" fill="#6b7280" font-family="'Share Tech Mono', monospace" font-size="14">EST. 2010</text>
+</svg>
