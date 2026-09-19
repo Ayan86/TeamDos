@@ -106,6 +106,30 @@
         </nav>
 
         <div class="nav-actions-wrap" style="display:flex; align-items:center; gap:12px; margin-left:24px; padding-left:16px; border-left:1px solid rgba(255, 255, 255, 0.12);">
+          <!-- Horror Ambient Audio Controller -->
+          <button id="horrorAudioBtn" class="nav-audio-btn" type="button" aria-label="Toggle Horror Ambient Audio" title="Ambient Horror Soundscape (Click to Unmute / Mute)">
+            <span class="audio-icon-wrap" id="audioIconWrap">
+              <!-- Muted Icon -->
+              <svg id="audioIconMuted" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+              <!-- Playing Icon -->
+              <svg id="audioIconPlaying" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </span>
+            <span class="audio-waves" id="audioWaves">
+              <span class="wave-bar bar-1"></span>
+              <span class="wave-bar bar-2"></span>
+              <span class="wave-bar bar-3"></span>
+              <span class="wave-bar bar-4"></span>
+            </span>
+            <span class="audio-btn-label" id="audioBtnLabel">AUDIO: OFF</span>
+          </button>
+
           <button class="nav-emergency-btn" data-nav="report">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -132,6 +156,11 @@
         <button class="nav-item-btn" data-nav="contact">Contact</button>
         <button class="nav-item-btn" data-nav="report">Report An Incident</button>
         <button class="nav-item-btn" data-nav="admin">Admin Portal</button>
+        <div style="padding-top:10px; border-top:1px solid rgba(255,255,255,0.1); margin-top:6px;">
+          <button id="mobileHorrorAudioBtn" class="nav-audio-btn" style="width:100%; justify-content:center;" type="button">
+            <span>🔊 ATMOSPHERIC AUDIO (MUTE / UNMUTE)</span>
+          </button>
+        </div>
       </div>
     </header>
 

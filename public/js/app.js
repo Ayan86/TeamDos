@@ -261,6 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initPreloader();
     initNavigation();
     initMobileMenu();
+    initHorrorAudio();
     initContactForm();
     initReportForm();
     initAdminMediaUploadForm();
@@ -1386,6 +1387,376 @@ function setFilter(category, filterValue) {
   if (parentBar) {
     parentBar.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
+  }
+}
+
+// ==========================================================================
+// HORROR AMBIENT SOUNDSCAPE AUDIO ENGINE (Web Audio API)
+// Synthesizes atmospheric dark paranormal ambient music:
+// 1. Sub-bass Infrasound Resonator (43.6 Hz / 54.8 Hz)
+// 2. Dissonant Minor Ambient Pads with slow filter sweeps
+// 3. EVP Wind / Atmospheric sweeps (bandpass-filtered noise)
+// 4. Subtle Spectral Chime pings for uncanny depth
+// ==========================================================================
+const HorrorAudioEngine = {
+  ctx: null,
+  masterGain: null,
+  compressor: null,
+  isPlaying: false,
+  initialized: false,
+  nodes: [],
+  chimeTimer: null,
+
+  init() {
+    if (this.initialized) return;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      this.ctx = new AudioCtx();
+
+      // Master dynamics compressor to keep ambient sound smooth & prevent harsh clipping
+      this.compressor = this.ctx.createDynamicsCompressor();
+      this.compressor.threshold.setValueAtTime(-24, this.ctx.currentTime);
+      this.compressor.knee.setValueAtTime(30, this.ctx.currentTime);
+      this.compressor.ratio.setValueAtTime(12, this.ctx.currentTime);
+      this.compressor.attack.setValueAtTime(0.003, this.ctx.currentTime);
+      this.compressor.release.setValueAtTime(0.25, this.ctx.currentTime);
+
+      // Master Gain
+      this.masterGain = this.ctx.createGain();
+      this.masterGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
+
+      this.masterGain.connect(this.compressor);
+      this.compressor.connect(this.ctx.destination);
+
+      this.buildSoundscape();
+      this.initialized = true;
+    } catch (e) {
+      console.warn('Web Audio not supported or failed to initialize:', e);
+    }
+  },
+
+  buildSoundscape() {
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+
+    // --- 1. SUB-BASS DRONE (Infrasound 43.65Hz F1 & 55Hz A1) ---
+    const subOsc1 = this.ctx.createOscillator();
+    subOsc1.type = 'sine';
+    subOsc1.frequency.setValueAtTime(43.65, now);
+
+    const subOsc2 = this.ctx.createOscillator();
+    subOsc2.type = 'triangle';
+    subOsc2.frequency.setValueAtTime(54.8, now);
+
+    const subFilter = this.ctx.createBiquadFilter();
+    subFilter.type = 'lowpass';
+    subFilter.frequency.setValueAtTime(140, now);
+
+    const subGain = this.ctx.createGain();
+    subGain.gain.setValueAtTime(0.35, now);
+
+    subOsc1.connect(subFilter);
+    subOsc2.connect(subFilter);
+    subFilter.connect(subGain);
+    subGain.connect(this.masterGain);
+
+    subOsc1.start();
+    subOsc2.start();
+    this.nodes.push(subOsc1, subOsc2, subFilter, subGain);
+
+    // --- 2. GHOSTLY DISSONANT PAD (D2, F2, Ab2, C#3) ---
+    const chords = [73.42, 87.31, 103.83, 138.59];
+    const padGain = this.ctx.createGain();
+    padGain.gain.setValueAtTime(0.18, now);
+
+    const padFilter = this.ctx.createBiquadFilter();
+    padFilter.type = 'lowpass';
+    padFilter.frequency.setValueAtTime(320, now);
+    padFilter.Q.setValueAtTime(4.0, now);
+
+    // LFO to slowly sweep the pad filter for eerie breathing motion
+    const lfo = this.ctx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.setValueAtTime(0.08, now); // ~12.5 second breath cycle
+
+    const lfoGain = this.ctx.createGain();
+    lfoGain.gain.setValueAtTime(180, now);
+
+    lfo.connect(lfoGain);
+    lfoGain.connect(padFilter.frequency);
+    lfo.start();
+    this.nodes.push(lfo, lfoGain);
+
+    chords.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      osc.type = idx % 2 === 0 ? 'sawtooth' : 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      // Subtle detune for organic analog drift
+      osc.detune.setValueAtTime((idx - 1.5) * 7, now);
+      osc.connect(padFilter);
+      osc.start();
+      this.nodes.push(osc);
+    });
+
+    padFilter.connect(padGain);
+    padGain.connect(this.masterGain);
+    this.nodes.push(padFilter, padGain);
+
+    // --- 3. EVP ATMOSPHERIC NOISE & WIND SWEEPS ---
+    const bufferSize = 2 * this.ctx.sampleRate;
+    const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const output = noiseBuffer.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0;
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1;
+      // Pink noise filter approximation
+      b0 = 0.997 * b0 + white * 0.05;
+      b1 = 0.985 * b1 + white * 0.11;
+      b2 = 0.950 * b2 + white * 0.25;
+      output[i] = (b0 + b1 + b2) * 0.5;
+    }
+
+    const whiteNoise = this.ctx.createBufferSource();
+    whiteNoise.buffer = noiseBuffer;
+    whiteNoise.loop = true;
+
+    const windFilter = this.ctx.createBiquadFilter();
+    windFilter.type = 'bandpass';
+    windFilter.frequency.setValueAtTime(450, now);
+    windFilter.Q.setValueAtTime(2.5, now);
+
+    const windLfo = this.ctx.createOscillator();
+    windLfo.type = 'sine';
+    windLfo.frequency.setValueAtTime(0.04, now); // ~25s wind gust cycle
+
+    const windLfoGain = this.ctx.createGain();
+    windLfoGain.gain.setValueAtTime(320, now);
+
+    windLfo.connect(windLfoGain);
+    windLfoGain.connect(windFilter.frequency);
+    windLfo.start();
+
+    const windGain = this.ctx.createGain();
+    windGain.gain.setValueAtTime(0.12, now);
+
+    whiteNoise.connect(windFilter);
+    windFilter.connect(windGain);
+    windGain.connect(this.masterGain);
+    whiteNoise.start();
+
+    this.nodes.push(whiteNoise, windFilter, windLfo, windLfoGain, windGain);
+
+    // --- 4. PERIODIC SPECTRAL CHIMES ---
+    this.scheduleNextSpectralPing();
+  },
+
+  scheduleNextSpectralPing() {
+    if (this.chimeTimer) clearTimeout(this.chimeTimer);
+    const delay = 12000 + Math.random() * 10000; // 12-22 seconds
+    this.chimeTimer = setTimeout(() => {
+      if (this.isPlaying && this.ctx) {
+        this.playSpectralPing();
+      }
+      this.scheduleNextSpectralPing();
+    }, delay);
+  },
+
+  playSpectralPing() {
+    try {
+      if (!this.ctx || this.ctx.state !== 'running') return;
+      const now = this.ctx.currentTime;
+      const notes = [587.33, 622.25, 783.99, 932.33, 1174.66]; // High eerie tones
+      const freq = notes[Math.floor(Math.random() * notes.length)];
+
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(freq, now);
+      filter.Q.setValueAtTime(8.0, now);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.08, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 5.5); // long decay
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.masterGain);
+
+      osc.start(now);
+      osc.stop(now + 6);
+    } catch (err) {
+      // safe fallback
+    }
+  },
+
+  async unmute() {
+    try {
+      this.init();
+      if (this.ctx && this.ctx.state === 'suspended') {
+        await this.ctx.resume();
+      }
+      const now = this.ctx ? this.ctx.currentTime : 0;
+      if (this.masterGain && this.ctx) {
+        this.masterGain.gain.cancelScheduledValues(now);
+        this.masterGain.gain.setValueAtTime(Math.max(0.0001, this.masterGain.gain.value), now);
+        this.masterGain.gain.exponentialRampToValueAtTime(0.42, now + 1.2);
+      }
+      this.isPlaying = true;
+      safeSetStorage('dos_horror_audio', 'true');
+      this.updateUI(true);
+    } catch (err) {
+      console.warn('Audio unmute error:', err);
+    }
+  },
+
+  mute() {
+    try {
+      if (this.ctx && this.masterGain) {
+        const now = this.ctx.currentTime;
+        this.masterGain.gain.cancelScheduledValues(now);
+        this.masterGain.gain.setValueAtTime(Math.max(0.0001, this.masterGain.gain.value), now);
+        this.masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
+      }
+      this.isPlaying = false;
+      safeSetStorage('dos_horror_audio', 'false');
+      this.updateUI(false);
+    } catch (err) {
+      console.warn('Audio mute error:', err);
+    }
+  },
+
+  toggle() {
+    if (this.isPlaying) {
+      this.mute();
+      showAudioToast('🔇 Atmospheric Horror Audio: MUTED');
+    } else {
+      this.unmute();
+      showAudioToast('🔊 Atmospheric Horror Audio: ACTIVE');
+    }
+  },
+
+  updateUI(playing) {
+    const btn = document.getElementById('horrorAudioBtn');
+    const mobileBtn = document.getElementById('mobileHorrorAudioBtn');
+    const iconMuted = document.getElementById('audioIconMuted');
+    const iconPlaying = document.getElementById('audioIconPlaying');
+    const label = document.getElementById('audioBtnLabel');
+
+    if (btn) {
+      if (playing) {
+        btn.classList.add('playing');
+        if (iconMuted) iconMuted.style.display = 'none';
+        if (iconPlaying) iconPlaying.style.display = 'block';
+        if (label) label.textContent = 'AUDIO: ON';
+        btn.setAttribute('title', 'Atmospheric Horror Audio: Playing (Click to Mute)');
+      } else {
+        btn.classList.remove('playing');
+        if (iconMuted) iconMuted.style.display = 'block';
+        if (iconPlaying) iconPlaying.style.display = 'none';
+        if (label) label.textContent = 'AUDIO: OFF';
+        btn.setAttribute('title', 'Atmospheric Horror Audio: Muted (Click to Unmute)');
+      }
+    }
+
+    if (mobileBtn) {
+      mobileBtn.innerHTML = playing 
+        ? '<span>🔊 HORROR AUDIO: PLAYING (TAP TO MUTE)</span>' 
+        : '<span>🔇 HORROR AUDIO: MUTED (TAP TO UNMUTE)</span>';
+      if (playing) {
+        mobileBtn.classList.add('playing');
+      } else {
+        mobileBtn.classList.remove('playing');
+      }
+    }
+  }
+};
+
+// Audio Notification Toast
+function showAudioToast(msg) {
+  let toast = document.getElementById('audioToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'audioToast';
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(12, 13, 18, 0.95);
+      border: 1px solid var(--red-primary);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+    `;
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  toast.style.transform = 'translateY(0)';
+
+  if (window.audioToastTimer) clearTimeout(window.audioToastTimer);
+  window.audioToastTimer = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(12px)';
+  }, 2500);
+}
+
+// Initialize audio controllers & listeners
+function initHorrorAudio() {
+  const btn = document.getElementById('horrorAudioBtn');
+  const mobileBtn = document.getElementById('mobileHorrorAudioBtn');
+
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      HorrorAudioEngine.toggle();
+    });
+  }
+
+  if (mobileBtn) {
+    mobileBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      HorrorAudioEngine.toggle();
+    });
+  }
+
+  // Keyboard shortcut: Press 'M' or 'm' to toggle mute
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'm' || e.key === 'M') {
+      HorrorAudioEngine.toggle();
+    }
+  });
+
+  // Check saved state or auto-prompt politely on user interaction
+  const savedAudio = safeGetStorage('dos_horror_audio');
+  if (savedAudio === 'true') {
+    const resumeOnInteraction = () => {
+      HorrorAudioEngine.unmute();
+      window.removeEventListener('click', resumeOnInteraction);
+      window.removeEventListener('keydown', resumeOnInteraction);
+    };
+    window.addEventListener('click', resumeOnInteraction, { once: true });
+    window.addEventListener('keydown', resumeOnInteraction, { once: true });
   }
 }
 
