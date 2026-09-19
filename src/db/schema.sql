@@ -1,4 +1,4 @@
--- Detectives of Supernaturals (DOS)
+-- Detectives of Supernatural (DOS)
 -- PostgreSQL Database Schema Definition
 -- Created for full production deployment with foreign keys, indexes, and constraints
 
@@ -31,7 +31,7 @@ CREATE INDEX IF NOT EXISTS idx_categories_module ON categories(module);
 -- 3. SiteSettings Table
 CREATE TABLE IF NOT EXISTS site_settings (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    organization_name VARCHAR(255) NOT NULL DEFAULT 'Detectives of Supernaturals',
+    organization_name VARCHAR(255) NOT NULL DEFAULT 'Detectives of Supernatural',
     short_name VARCHAR(50) NOT NULL DEFAULT 'DOS',
     tagline VARCHAR(255) NOT NULL DEFAULT 'RISE ABOVE FEAR',
     founded_year VARCHAR(10) NOT NULL DEFAULT '2010',

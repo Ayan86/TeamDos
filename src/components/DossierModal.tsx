@@ -192,7 +192,7 @@ export const DossierModal: React.FC<DossierModalProps> = ({ caseItem, onClose })
 
         {/* Footer */}
         <div className="bg-[#050507] border-t border-neutral-900 px-6 py-3 flex items-center justify-between text-[11px] font-mono-tech text-neutral-500">
-          <span>DETECTIVES OF SUPERNATURALS // ARCHIVAL DIVISION</span>
+          <span>DETECTIVES OF SUPERNATURAL // ARCHIVAL DIVISION</span>
           <button
             onClick={() => window.print()}
             className="flex items-center space-x-1.5 text-gray-400 hover:text-white transition-colors"

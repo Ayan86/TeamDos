@@ -153,7 +153,7 @@ export const Home: React.FC<HomeProps> = ({
 
             {/* Main Description */}
             <p className="mt-6 text-sm sm:text-base md:text-lg text-gray-200 max-w-3xl mx-auto font-sans leading-relaxed text-balance drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-              {settings.heroDescription || "Founded in 2010, Detectives of Supernaturals (DOS) is India’s foremost scientific paranormal research and evidence collection organization. We combine dark technology, environmental telemetrics, and investigative journalism to demystify anomalous phenomena."}
+              {settings.heroDescription || "Founded in 2010, Detectives of Supernatural (DOS) is India’s foremost scientific paranormal research and evidence collection organization. We combine dark technology, environmental telemetrics, and investigative journalism to demystify anomalous phenomena."}
             </p>
 
             {/* Action Buttons: CONTACT US and INVESTIGATIONS */}
@@ -252,7 +252,7 @@ export const Home: React.FC<HomeProps> = ({
             <div className="lg:col-span-5">
               <div className="relative rounded-lg overflow-hidden border border-red-900/50 shadow-[0_0_35px_rgba(220,38,38,0.2)]">
                 <img
-                  src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop"
+                  src="/horror_background_wide.jpg"
                   alt="DOS Scientific field investigation monitoring console"
                   referrerPolicy="no-referrer"
                   className="w-full h-80 sm:h-96 object-cover filter contrast-125 brightness-90"

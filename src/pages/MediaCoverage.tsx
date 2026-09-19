@@ -8,7 +8,8 @@ import {
   Calendar, 
   Search, 
   Video,
-  Play
+  Play,
+  X
 } from 'lucide-react';
 import { MediaItem } from '../types';
 
@@ -19,6 +20,7 @@ interface MediaCoverageProps {
 export const MediaCoverage: React.FC<MediaCoverageProps> = ({ media }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedVideo, setSelectedVideo] = useState<MediaItem | null>(null);
 
   const categories = [
     { id: 'ALL', label: 'All Coverage' },
@@ -97,12 +99,15 @@ export const MediaCoverage: React.FC<MediaCoverageProps> = ({ media }) => {
           {filteredMedia.map((item) => (
             <div
               key={item.id}
-              className="group bg-black/40 backdrop-blur-md rounded-lg border border-neutral-800/80 hover:border-red-600/70 overflow-hidden flex flex-col justify-between transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_0_25px_rgba(220,38,38,0.25)]"
+              onClick={() => {
+                if (item.videoUrl) setSelectedVideo(item);
+              }}
+              className="group bg-black/40 backdrop-blur-md rounded-lg border border-neutral-800/80 hover:border-red-600/70 overflow-hidden flex flex-col justify-between transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_0_25px_rgba(220,38,38,0.25)] cursor-pointer"
             >
               {/* Thumbnail */}
               <div className="relative aspect-[16/9] overflow-hidden bg-black/50">
                 <img
-                  src={item.thumbnailUrl}
+                  src={item.thumbnailUrl || item.thumbnail || '/horror_background_wide.jpg'}
                   alt={item.title}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-110 brightness-90"
@@ -119,8 +124,8 @@ export const MediaCoverage: React.FC<MediaCoverageProps> = ({ media }) => {
 
                 {item.videoUrl && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-11 h-11 rounded-full bg-red-700/80 text-white flex items-center justify-center shadow-[0_0_20px_rgba(220,38,38,0.7)] group-hover:scale-110 transition-transform">
-                      <Play size={18} className="translate-x-0.5" />
+                    <div className="w-12 h-12 rounded-full bg-red-700 text-white flex items-center justify-center shadow-[0_0_25px_rgba(220,38,38,0.9)] group-hover:scale-110 transition-transform border border-red-500">
+                      <Play size={20} className="translate-x-0.5 text-white" />
                     </div>
                   </div>
                 )}
@@ -130,7 +135,7 @@ export const MediaCoverage: React.FC<MediaCoverageProps> = ({ media }) => {
               <div className="p-5 flex-1 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between text-[11px] font-mono-tech text-gray-400 mb-2">
-                    <span className="text-red-400 font-bold uppercase tracking-wider">{item.publisher}</span>
+                    <span className="text-red-400 font-bold uppercase tracking-wider">{item.publisher || item.publication}</span>
                     <span className="flex items-center space-x-1">
                       <Calendar size={11} className="text-neutral-500" />
                       <span>{item.date}</span>
@@ -142,26 +147,89 @@ export const MediaCoverage: React.FC<MediaCoverageProps> = ({ media }) => {
                   </h3>
 
                   <p className="mt-2 text-xs text-gray-400 leading-relaxed font-sans line-clamp-3">
-                    {item.summary}
+                    {item.summary || item.description}
                   </p>
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-neutral-900 flex items-center justify-between">
-                  <a
-                    href={item.videoUrl || item.externalUrl || '#'}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center space-x-1.5 text-xs font-mono-tech tracking-wider text-red-400 hover:text-red-300 uppercase transition-colors"
-                  >
-                    <span>VIEW COVERAGE</span>
-                    <ExternalLink size={13} />
-                  </a>
+                  {item.videoUrl ? (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedVideo(item);
+                      }}
+                      className="inline-flex items-center space-x-1.5 text-xs font-mono-tech tracking-wider text-red-400 hover:text-red-300 uppercase transition-colors"
+                    >
+                      <Video size={13} />
+                      <span>PLAY VIDEO BROADCAST</span>
+                    </button>
+                  ) : (
+                    <a
+                      href={item.externalUrl || '#'}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center space-x-1.5 text-xs font-mono-tech tracking-wider text-red-400 hover:text-red-300 uppercase transition-colors"
+                    >
+                      <span>VIEW COVERAGE</span>
+                      <ExternalLink size={13} />
+                    </a>
+                  )}
                   <span className="text-[10px] font-mono-tech text-neutral-600">DOS ARCHIVE</span>
                 </div>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Video Player Modal */}
+        {selectedVideo && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+            <div className="bg-[#09090d] border border-red-900/80 rounded-xl overflow-hidden max-w-4xl w-full shadow-[0_0_50px_rgba(220,38,38,0.4)]">
+              <div className="p-4 bg-black/80 border-b border-red-950 flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-mono-tech text-red-400 uppercase tracking-wider font-bold">
+                    {selectedVideo.publisher || selectedVideo.publication} • {selectedVideo.category}
+                  </span>
+                  <h3 className="font-cinzel text-lg font-bold text-gray-100 mt-0.5">
+                    {selectedVideo.title}
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setSelectedVideo(null)}
+                  className="w-9 h-9 rounded-full bg-neutral-900 hover:bg-red-950 text-gray-300 hover:text-white flex items-center justify-center transition-colors border border-neutral-800"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="p-6 bg-black flex flex-col items-center justify-center">
+                {selectedVideo.videoUrl && selectedVideo.videoUrl.includes('youtube') || selectedVideo.videoUrl?.includes('youtu.be') ? (
+                  <div className="w-full aspect-video">
+                    <iframe
+                      src={selectedVideo.videoUrl.replace('watch?v=', 'embed/')}
+                      title={selectedVideo.title}
+                      className="w-full h-full rounded"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <video
+                    src={selectedVideo.videoUrl}
+                    controls
+                    autoPlay
+                    className="w-full max-h-[70vh] rounded bg-black object-contain shadow-2xl"
+                  />
+                )}
+                
+                <p className="mt-4 text-xs font-mono-tech text-gray-400 text-center max-w-2xl">
+                  {selectedVideo.summary || selectedVideo.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

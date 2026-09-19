@@ -66,7 +66,7 @@ export const Contact: React.FC<ContactProps> = ({ settings, onNavigate }) => {
             CONTACT DOS
           </h1>
           <p className="mt-3 text-xs sm:text-sm text-gray-400">
-            For press inquiries, documentary collaborations, academic consultations, or general investigative correspondence with the Detectives of Supernaturals command team.
+            For press inquiries, documentary collaborations, academic consultations, or general investigative correspondence with the Detectives of Supernatural command team.
           </p>
         </div>
 
@@ -81,7 +81,7 @@ export const Contact: React.FC<ContactProps> = ({ settings, onNavigate }) => {
                 </div>
                 <div>
                   <h2 className="font-cinzel text-base font-bold text-gray-100 uppercase tracking-wider">
-                    {settings.siteName || "DETECTIVES OF SUPERNATURALS"}
+                    {settings.siteName || "DETECTIVES OF SUPERNATURAL"}
                   </h2>
                   <p className="font-mono-tech text-[10px] text-red-500 tracking-widest uppercase">
                     {settings.heroTagline || "RISE ABOVE FEAR"}
@@ -106,7 +106,7 @@ export const Contact: React.FC<ContactProps> = ({ settings, onNavigate }) => {
                   <Mail size={16} className="text-red-500 shrink-0 mt-0.5" />
                   <div>
                     <span className="text-neutral-500 block text-[10px] uppercase">Communications Desk:</span>
-                    <span>{settings.contactEmail || "contact@detectivesofsupernaturals.com"}</span>
+                    <span>{settings.contactEmail || "contact@detectivesofsupernatural.com"}</span>
                   </div>
                 </div>
 

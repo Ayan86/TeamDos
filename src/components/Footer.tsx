@@ -33,7 +33,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </div>
               <div>
                 <h3 className="font-cinzel text-sm font-bold tracking-[0.18em] text-gray-100 uppercase">
-                  Detectives of Supernaturals
+                  Detectives of Supernatural
                 </h3>
                 <p className="font-mono-tech text-[10px] tracking-[0.25em] text-red-500 uppercase">
                   Rise Above Fear
@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
 
             <p className="text-xs text-neutral-400 leading-relaxed">
-              Founded in 2010, Detectives of Supernaturals (DOS) is India’s foremost scientific paranormal research and evidence collection organization. We combine dark technology, environmental telemetrics, and investigative journalism to demystify anomalous phenomena.
+              Founded in 2010, Detectives of Supernatural (DOS) is India’s foremost scientific paranormal research and evidence collection organization. We combine dark technology, environmental telemetrics, and investigative journalism to demystify anomalous phenomena.
             </p>
 
             {/* Social Links */}
@@ -161,7 +161,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </div>
               <div className="flex items-center space-x-2.5">
                 <Mail size={15} className="text-red-500 shrink-0" />
-                <span>intake@detectivesofsupernaturals.com</span>
+                <span>intake@detectivesofsupernatural.com</span>
               </div>
               <div className="flex items-center space-x-2.5">
                 <Phone size={15} className="text-red-500 shrink-0" />
@@ -221,14 +221,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         {/* Scientific Methodology & Evidence Collection Disclaimer */}
         <div className="mt-12 pt-6 border-t border-neutral-900/90">
           <p className="text-[11px] text-neutral-500 leading-relaxed font-mono-tech text-justify">
-            <strong className="text-gray-400 uppercase">INVESTIGATIVE PROTOCOL DISCLAIMER:</strong> Detectives of Supernaturals (DOS) maintains a strict empirical standard. In our documentation and public archives, we scrupulously distinguish between reported witness testimonies, ambient environmental measurements, technical telemetrics (EMF, RF, thermography, infrasound), laboratory audio forensics, and scientific conclusions. DOS rejects manufactured superstition and pseudoscience, focusing strictly on verifiable evidence and technical investigation.
+            <strong className="text-gray-400 uppercase">INVESTIGATIVE PROTOCOL DISCLAIMER:</strong> Detectives of Supernatural (DOS) maintains a strict empirical standard. In our documentation and public archives, we scrupulously distinguish between reported witness testimonies, ambient environmental measurements, technical telemetrics (EMF, RF, thermography, infrasound), laboratory audio forensics, and scientific conclusions. DOS rejects manufactured superstition and pseudoscience, focusing strictly on verifiable evidence and technical investigation.
           </p>
         </div>
 
         {/* Copyright */}
         <div className="mt-8 pt-6 border-t border-neutral-900/60 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 font-mono-tech">
           <div>
-            © 2026 Detectives of Supernaturals. All Rights Reserved.
+            © 2026 Detectives of Supernatural. All Rights Reserved.
           </div>
           <div className="mt-2 sm:mt-0 flex space-x-4">
             <span>RISE ABOVE FEAR</span>

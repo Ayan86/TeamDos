@@ -27,7 +27,8 @@ import {
   Copy,
   ExternalLink,
   Image as ImageIcon,
-  Sparkles
+  Sparkles,
+  Video
 } from 'lucide-react';
 import { 
   SiteSettings, 
@@ -298,7 +299,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             { id: 'equipment', label: 'Equipment Arsenal', icon: Cpu },
             { id: 'media', label: 'Media Coverage', icon: Tv },
             { id: 'gallery', label: 'Evidence Gallery', icon: Camera },
-            { id: 'uploads', label: 'Image Upload & Media', icon: Upload, badge: uploadedFilesList.length > 0 ? uploadedFilesList.length : undefined },
             { id: 'reports', label: 'Activity Reports', icon: ShieldAlert, badge: reportsList.filter(r => r.status === 'New').length },
             { id: 'messages', label: 'Contact Inquiries', icon: MessageSquare, badge: messagesList.filter(m => m.status === 'unread').length },
           ].map((tab) => {
@@ -624,11 +624,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <div key={member.id} className="bg-[#09090d] border border-neutral-800 rounded-lg p-5 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="flex flex-col items-center shrink-0 space-y-2">
                       <img
-                        src={member.photoUrl ? member.photoUrl.replace(/ /g, '%20') : 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop'}
+                        src={member.photoUrl ? member.photoUrl.replace(/ /g, '%20') : '/uploads/Debraj_Sanyal.jpg'}
                         alt={member.name}
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          e.currentTarget.src = 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop';
+                          e.currentTarget.src = '/uploads/Debraj_Sanyal.jpg';
                         }}
                         className="w-24 h-32 object-cover rounded border border-red-900/60 bg-neutral-900 shadow-md"
                       />
@@ -975,7 +975,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       status: 'DOCUMENTED',
                       shortDescription: '',
                       fullDescription: '',
-                      heroImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
+                      heroImage: '/horror_background_wide.jpg',
                       evidenceCount: 4
                     });
                   }}
@@ -1353,7 +1353,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     setEditingItem({
                       title: '',
                       category: 'Investigations',
-                      imageUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop',
+                      imageUrl: '/horror_background_wide.jpg',
                       location: '',
                       date: new Date().toISOString().split('T')[0],
                       caption: ''
@@ -1509,233 +1509,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             </div>
           )}
 
-          {/* 9. IMAGE UPLOADS & MEDIA ASSETS */}
-          {activeTab === 'uploads' && (
-            <div className="space-y-8 font-mono-tech text-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h2 className="font-cinzel text-2xl font-bold uppercase tracking-wider text-gray-100 flex items-center space-x-2">
-                    <span>IMAGE UPLOAD & EVIDENCE MEDIA VAULT</span>
-                  </h2>
-                  <p className="text-gray-400 mt-1">
-                    Upload and host investigation evidence, team portraits, equipment photos, and field anomalies (.jfif, .jpg, .png, .webp).
-                  </p>
-                </div>
 
-                <div className="flex items-center space-x-3">
-                  <label className="cursor-pointer px-4 py-2.5 rounded bg-red-700 hover:bg-red-600 text-white font-cinzel text-xs font-bold tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(220,38,38,0.4)] flex items-center space-x-2 border border-red-500">
-                    <Upload size={15} />
-                    <span>{isUploading ? 'UPLOADING...' : 'UPLOAD NEW IMAGES'}</span>
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*,.jfif"
-                      disabled={isUploading}
-                      className="hidden"
-                      onChange={async (e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                          setIsUploading(true);
-                          try {
-                            const files = Array.from(e.target.files);
-                            for (const file of files) {
-                              await api.uploadFile(file);
-                            }
-                            const refreshed = await api.getUploadedFiles();
-                            setUploadedFilesList(refreshed);
-                            setStatusMessage(`Successfully uploaded ${files.length} file(s)`);
-                            setTimeout(() => setStatusMessage(null), 4000);
-                          } catch (err) {
-                            alert('Failed to upload file');
-                          } finally {
-                            setIsUploading(false);
-                          }
-                        }
-                      }}
-                    />
-                  </label>
-                </div>
-              </div>
-
-              {/* Drag and Drop Zone */}
-              <div 
-                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                onDrop={async (e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                    setIsUploading(true);
-                    try {
-                      const files = Array.from(e.dataTransfer.files);
-                      for (const file of files) {
-                        await api.uploadFile(file);
-                      }
-                      const refreshed = await api.getUploadedFiles();
-                      setUploadedFilesList(refreshed);
-                      setStatusMessage(`Successfully uploaded ${files.length} file(s) via drag-and-drop`);
-                      setTimeout(() => setStatusMessage(null), 4000);
-                    } catch (err) {
-                      alert('Failed to upload file');
-                    } finally {
-                      setIsUploading(false);
-                    }
-                  }
-                }}
-                className="border-2 border-dashed border-red-900/60 hover:border-red-500 bg-[#08080c] rounded-xl p-8 text-center transition-all group"
-              >
-                <div className="max-w-md mx-auto space-y-3">
-                  <div className="w-14 h-14 mx-auto rounded-full bg-red-950/40 border border-red-800/80 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
-                    <Upload size={24} />
-                  </div>
-                  <div className="text-gray-200 font-cinzel text-sm font-bold tracking-wider uppercase">
-                    DRAG & DROP PHOTOGRAPHS HERE
-                  </div>
-                  <p className="text-gray-500 text-[11px]">
-                    Supports JFIF, JPG, PNG, WEBP, and GIF formats up to 25MB each.
-                  </p>
-                  <div>
-                    <label className="inline-flex items-center space-x-2 px-3.5 py-2 rounded bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-gray-300 text-xs cursor-pointer">
-                      <ImageIcon size={14} className="text-red-400" />
-                      <span>Browse From Computer</span>
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/*,.jfif"
-                        disabled={isUploading}
-                        className="hidden"
-                        onChange={async (e) => {
-                          if (e.target.files && e.target.files.length > 0) {
-                            setIsUploading(true);
-                            try {
-                              const files = Array.from(e.target.files);
-                              for (const file of files) {
-                                await api.uploadFile(file);
-                              }
-                              const refreshed = await api.getUploadedFiles();
-                              setUploadedFilesList(refreshed);
-                              setStatusMessage(`Successfully uploaded ${files.length} file(s)`);
-                              setTimeout(() => setStatusMessage(null), 4000);
-                            } catch (err) {
-                              alert('Failed to upload file');
-                            } finally {
-                              setIsUploading(false);
-                            }
-                          }
-                        }}
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              {/* Media Repository Grid */}
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono-tech text-xs tracking-widest text-red-400 uppercase font-bold">
-                    HOSTED IMAGES ({uploadedFilesList.length} FILES IN SERVER VAULT)
-                  </h3>
-                  {copiedUrl && (
-                    <span className="text-emerald-400 text-xs font-mono flex items-center space-x-1">
-                      <CheckCircle2 size={13} />
-                      <span>URL copied to clipboard!</span>
-                    </span>
-                  )}
-                </div>
-
-                {uploadedFilesList.length === 0 ? (
-                  <div className="text-center py-12 bg-[#09090d] border border-neutral-800 rounded-lg text-neutral-500">
-                    No files uploaded yet. Drag and drop photos above to begin hosting evidence.
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {uploadedFilesList.map((file, idx) => (
-                      <div key={idx} className="group bg-[#09090d] border border-neutral-800 hover:border-red-600/70 rounded-lg overflow-hidden transition-all flex flex-col">
-                        <div className="relative aspect-video bg-black overflow-hidden flex items-center justify-center">
-                          <img
-                            src={file.url}
-                            alt={file.filename}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-2">
-                            <a
-                              href={file.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="p-2 rounded bg-neutral-900/90 text-white hover:text-red-400 transition-colors"
-                              title="Open Full Image"
-                            >
-                              <ExternalLink size={14} />
-                            </a>
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(file.url);
-                                setCopiedUrl(file.url);
-                                setTimeout(() => setCopiedUrl(null), 2500);
-                              }}
-                              className="p-2 rounded bg-neutral-900/90 text-white hover:text-red-400 transition-colors"
-                              title="Copy Image URL"
-                            >
-                              <Copy size={14} />
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="p-3 flex-1 flex flex-col justify-between space-y-2">
-                          <div className="truncate text-gray-200 text-xs font-semibold" title={file.filename}>
-                            {file.filename}
-                          </div>
-                          <div className="flex items-center justify-between text-[10px] text-neutral-500">
-                            <span>{(file.size / 1024).toFixed(1)} KB</span>
-                            <span>{new Date(file.mtime).toLocaleDateString()}</span>
-                          </div>
-                          <div className="pt-2 border-t border-neutral-900 flex items-center space-x-2">
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(file.url);
-                                setCopiedUrl(file.url);
-                                setTimeout(() => setCopiedUrl(null), 2500);
-                              }}
-                              className="flex-1 py-1.5 rounded bg-neutral-900 hover:bg-neutral-800 text-gray-300 text-[10px] uppercase tracking-wider flex items-center justify-center space-x-1 border border-neutral-800"
-                            >
-                              <Copy size={11} />
-                              <span>Copy URL</span>
-                            </button>
-                            <button
-                              onClick={async () => {
-                                try {
-                                  const newImg: GalleryImage = {
-                                    id: `gal-${Date.now()}`,
-                                    title: file.filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' '),
-                                    category: 'Evidence',
-                                    imageUrl: file.url,
-                                    location: 'Field Reconnaissance',
-                                    date: new Date().toISOString().split('T')[0],
-                                    caption: `Archival evidence image hosted in DOS investigation server: ${file.filename}`
-                                  };
-                                  await api.createGalleryImage(newImg);
-                                  loadAllAdminData();
-                                  onRefreshData();
-                                  setStatusMessage(`Added "${newImg.title}" directly to Evidence Gallery!`);
-                                  setTimeout(() => setStatusMessage(null), 4000);
-                                } catch (err) {
-                                  alert('Failed to add to gallery');
-                                }
-                              }}
-                              title="Add directly to Evidence Gallery"
-                              className="py-1.5 px-2.5 rounded bg-red-950/60 hover:bg-red-900/80 text-red-300 text-[10px] uppercase tracking-wider border border-red-800 flex items-center space-x-1"
-                            >
-                              <Sparkles size={11} />
-                              <span>+ Gallery</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
 
           {/* 8. CONTACT MESSAGES */}
           {activeTab === 'messages' && (
@@ -1807,7 +1581,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       description: '',
                       specifications: { 'Operational Range': '0 - 50 mG', 'Sampling Rate': '1 kHz' },
                       methodology: '',
-                      imageUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop',
+                      imageUrl: '/horror_background_wide.jpg',
                       status: 'Active'
                     });
                   }}
@@ -1860,7 +1634,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     MEDIA & PRESS COVERAGE
                   </h2>
                   <p className="text-gray-400 mt-1">
-                    Manage documentary episodes, news features, and podcast links.
+                    Manage documentary episodes, news features, podcast interviews, and upload broadcast videos.
                   </p>
                 </div>
 
@@ -1873,7 +1647,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       publisher: '',
                       date: new Date().toISOString().split('T')[0],
                       summary: '',
-                      thumbnailUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop',
+                      thumbnailUrl: '/horror_background_wide.jpg',
                       videoUrl: ''
                     });
                   }}
@@ -1887,16 +1661,31 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {mediaList.map((m) => (
                   <div key={m.id} className="bg-[#09090d] border border-neutral-800 rounded p-4 flex space-x-4">
-                    <img src={m.thumbnailUrl} alt="" className="w-20 h-20 object-cover rounded border border-neutral-800 shrink-0" />
+                    <img src={m.thumbnailUrl || m.thumbnail || '/horror_background_wide.jpg'} alt="" className="w-20 h-20 object-cover rounded border border-neutral-800 shrink-0" />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-red-400 font-bold">{m.publisher}</span>
+                        <span className="text-red-400 font-bold">{m.publisher || m.publication}</span>
                         <span className="text-neutral-500">{m.date}</span>
                       </div>
                       <h4 className="font-cinzel font-bold text-gray-200 mt-1">{m.title}</h4>
-                      <p className="text-neutral-400 line-clamp-2 mt-1">{m.summary}</p>
+                      <p className="text-neutral-400 line-clamp-2 mt-1">{m.summary || m.description}</p>
+                      {m.videoUrl && (
+                        <div className="mt-2 text-[10px] text-red-400 font-bold flex items-center space-x-1">
+                          <Video size={12} />
+                          <span>Video Attached / Streamable</span>
+                        </div>
+                      )}
                       
                       <div className="mt-3 flex space-x-2">
+                        <button
+                          onClick={() => {
+                            setIsCreating(false);
+                            setEditingItem({ ...m });
+                          }}
+                          className="px-2.5 py-1 rounded bg-neutral-900 text-gray-300 hover:text-white"
+                        >
+                          Edit
+                        </button>
                         <button
                           onClick={async () => {
                             if (confirm(`Delete media item ${m.title}?`)) {
@@ -1914,6 +1703,155 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   </div>
                 ))}
               </div>
+
+              {/* Media Edit/Create Modal */}
+              {editingItem && activeTab === 'media' && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                  <div className="bg-[#09090d] border border-red-900 rounded-xl p-6 max-w-lg w-full font-mono-tech text-xs space-y-4 max-h-[90vh] overflow-y-auto">
+                    <div className="flex items-center justify-between border-b border-neutral-800 pb-2">
+                      <h3 className="font-cinzel text-lg font-bold text-gray-100">
+                        {isCreating ? 'ADD MEDIA BROADCAST / PRESS' : 'EDIT MEDIA BROADCAST'}
+                      </h3>
+                      <button onClick={() => setEditingItem(null)} className="text-gray-400 hover:text-white">
+                        <X size={18} />
+                      </button>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-400 mb-1">Feature / Broadcast Title</label>
+                      <input
+                        type="text"
+                        value={editingItem.title}
+                        onChange={(e) => setEditingItem({ ...editingItem, title: e.target.value })}
+                        className="w-full bg-black border border-neutral-800 rounded p-2 text-gray-200"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-gray-400 mb-1">Category</label>
+                        <select
+                          value={editingItem.category}
+                          onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
+                          className="w-full bg-black border border-neutral-800 rounded p-2 text-gray-200"
+                        >
+                          {['Television', 'Newspapers', 'Magazines', 'YouTube', 'Podcasts', 'Interviews', 'Online Media', 'Documentaries'].map((c) => (
+                            <option key={c} value={c}>{c}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-gray-400 mb-1">Publisher / Publication</label>
+                        <input
+                          type="text"
+                          value={editingItem.publisher || editingItem.publication || ''}
+                          onChange={(e) => setEditingItem({ ...editingItem, publisher: e.target.value, publication: e.target.value })}
+                          className="w-full bg-black border border-neutral-800 rounded p-2 text-gray-200"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-400 mb-1">Date</label>
+                      <input
+                        type="text"
+                        value={editingItem.date}
+                        onChange={(e) => setEditingItem({ ...editingItem, date: e.target.value })}
+                        className="w-full bg-black border border-neutral-800 rounded p-2 text-gray-200"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-400 mb-1">Thumbnail Image URL / Upload</label>
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={editingItem.thumbnailUrl || editingItem.thumbnail || ''}
+                          onChange={(e) => setEditingItem({ ...editingItem, thumbnailUrl: e.target.value, thumbnail: e.target.value })}
+                          className="flex-1 bg-black border border-neutral-800 rounded p-2 text-gray-200"
+                        />
+                        <label className="cursor-pointer px-3 py-2 bg-neutral-900 rounded border border-neutral-700 text-gray-300 flex items-center space-x-1">
+                          <Upload size={13} />
+                          <span>Browse</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={async (e) => {
+                              if (e.target.files?.[0]) {
+                                const url = await handleUploadImage(e.target.files[0]);
+                                setEditingItem({ ...editingItem, thumbnailUrl: url, thumbnail: url });
+                              }
+                            }}
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-400 mb-1">Video File / Broadcast URL (.mp4, YouTube, WebM)</label>
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={editingItem.videoUrl || ''}
+                          onChange={(e) => setEditingItem({ ...editingItem, videoUrl: e.target.value })}
+                          placeholder="/uploads/broadcast.mp4 or https://youtube.com/..."
+                          className="flex-1 bg-black border border-neutral-800 rounded p-2 text-gray-200"
+                        />
+                        <label className="cursor-pointer px-3 py-2 bg-red-950/80 rounded border border-red-800 text-red-300 flex items-center space-x-1 hover:bg-red-900">
+                          <Upload size={13} />
+                          <span>Upload Video</span>
+                          <input
+                            type="file"
+                            accept="video/*,.mp4,.webm,.mkv,.mov"
+                            className="hidden"
+                            onChange={async (e) => {
+                              if (e.target.files?.[0]) {
+                                const url = await handleUploadImage(e.target.files[0]);
+                                setEditingItem({ ...editingItem, videoUrl: url });
+                              }
+                            }}
+                          />
+                        </label>
+                      </div>
+                      <p className="mt-1 text-[10px] text-neutral-500">Upload video file directly to server or paste YouTube link for instant play in Media page.</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-400 mb-1">Summary / Description</label>
+                      <textarea
+                        rows={3}
+                        value={editingItem.summary || editingItem.description || ''}
+                        onChange={(e) => setEditingItem({ ...editingItem, summary: e.target.value, description: e.target.value })}
+                        className="w-full bg-black border border-neutral-800 rounded p-2 text-gray-200 font-sans"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-neutral-800">
+                      <button onClick={() => setEditingItem(null)} className="px-4 py-2 rounded bg-neutral-900 text-gray-300">
+                        Cancel
+                      </button>
+                      <button
+                        onClick={async () => {
+                          if (isCreating) {
+                            await api.createMedia(editingItem);
+                          } else {
+                            await api.updateMedia(editingItem.id, editingItem);
+                          }
+                          setEditingItem(null);
+                          loadAllAdminData();
+                          onRefreshData();
+                          setStatusMessage('Media coverage item saved successfully!');
+                          setTimeout(() => setStatusMessage(null), 3000);
+                        }}
+                        className="px-6 py-2 rounded bg-red-700 hover:bg-red-600 text-white font-bold"
+                      >
+                        Save Media Item
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

@@ -56,11 +56,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           
           {/* Left Cluster: DOS Logo + Navbar placed directly beside it */}
           <div className="flex items-center space-x-3 sm:space-x-5 lg:space-x-6">
-            {/* DOS Logo: Emblem only, without writing DETECTIVES OF SUPERNATURALS */}
+            {/* DOS Logo: Emblem only, without writing DETECTIVES OF SUPERNATURAL */}
             <button 
               onClick={() => handleNavClick('home')}
               className="flex items-center text-left group focus:outline-none"
-              title="DOS - Detectives of Supernaturals"
+              title="DOS - Detectives of Supernatural"
               aria-label="DOS Home"
             >
               <div className="relative w-11 h-11 bg-black rounded border border-red-600/60 flex items-center justify-center transition-all duration-300 group-hover:border-red-500 group-hover:box-glow-red shadow-[0_0_15px_rgba(220,38,38,0.3)]">

@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Health Check API
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', organization: 'Detectives of Supernaturals (DOS)', founded: 2010 });
+  res.json({ status: 'ok', organization: 'Detectives of Supernatural (DOS)', founded: 2010 });
 });
 
 // Ensure upload directory exists
@@ -42,6 +42,9 @@ app.use('/uploads', express.static(uploadsDir, {
   }
 }));
 
+// Serve static assets from public folder (css, js, images)
+app.use(express.static(path.join(process.cwd(), 'public')));
+
 // Multer Storage Configuration
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -56,7 +59,7 @@ const multerStorage = multer.diskStorage({
 
 const upload = multer({
   storage: multerStorage,
-  limits: { fileSize: 25 * 1024 * 1024 } // 25MB max
+  limits: { fileSize: 150 * 1024 * 1024 } // 150MB max for video files and evidence
 });
 
 // Simple Secure Token / Session auth for Admin
@@ -359,6 +362,48 @@ app.get('/api/media', (req, res) => {
 app.post('/api/media', requireAuth, (req, res) => {
   const item = storage.createMedia(req.body);
   res.status(201).json(item);
+});
+
+// Dedicated Media Video Upload with file and metadata
+app.post('/api/media/upload-video', requireAuth, upload.fields([
+  { name: 'videoFile', maxCount: 1 },
+  { name: 'thumbnailFile', maxCount: 1 }
+]), (req, res) => {
+  try {
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const body = req.body;
+    
+    let videoUrl = body.videoUrl || '';
+    if (files && files['videoFile'] && files['videoFile'][0]) {
+      videoUrl = `/uploads/${files['videoFile'][0].filename}`;
+    }
+
+    let thumbnail = body.thumbnail || '/horror_background_wide.jpg';
+    if (files && files['thumbnailFile'] && files['thumbnailFile'][0]) {
+      thumbnail = `/uploads/${files['thumbnailFile'][0].filename}`;
+    }
+
+    const newMedia = storage.createMedia({
+      title: body.title || 'Untitled Video Broadcast',
+      publication: body.publication || 'DOS Media Archives',
+      date: body.date || new Date().toISOString().split('T')[0],
+      category: body.category || 'Documentaries',
+      description: body.description || '',
+      videoUrl: videoUrl,
+      externalUrl: body.externalUrl || '',
+      thumbnail: thumbnail,
+      isPublished: true
+    });
+
+    res.status(201).json({
+      success: true,
+      media: newMedia,
+      message: 'Media coverage video published successfully!'
+    });
+  } catch (err) {
+    console.error('Failed to process video upload:', err);
+    res.status(500).json({ error: 'Failed to process media coverage video upload' });
+  }
 });
 
 app.put('/api/media/:id', requireAuth, (req, res) => {

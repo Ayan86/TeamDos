@@ -6,12 +6,12 @@ interface TeamCardProps {
   onPhotoUpdated?: (updatedMember: TeamMember) => void;
 }
 
-// Dedicated high-resolution fallback portraits matching each team member's role and character
+// Dedicated local portraits matching each team member's role and character
 const FALLBACK_PORTRAITS: Record<string, string> = {
-  'Debraj Sanyal': 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop',
-  'Ishita Das Sanyal': 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop',
-  'Anirban Das': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
-  'Ayush Majumder': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop',
+  'Debraj Sanyal': '/uploads/Debraj_Sanyal.jpg',
+  'Ishita Das Sanyal': '/uploads/Ishita_Das_Sanyal.jpg',
+  'Anirban Das': '/uploads/Anirban_Das.jpg',
+  'Ayush Majumder': '/uploads/Ayush_Majumder.jpg',
 };
 
 export const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
@@ -24,7 +24,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   const nameSlug = member.name.toLowerCase().replace(/\s+/g, '-');
   const nameUnderscore = member.name.replace(/\s+/g, '_');
   const encodedName = encodeURIComponent(member.name);
-  const fallbackUrl = FALLBACK_PORTRAITS[member.name] || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop';
+  const fallbackUrl = FALLBACK_PORTRAITS[member.name] || '/uploads/Debraj_Sanyal.jpg';
 
   const getSavedLocalPhoto = () => {
     try {

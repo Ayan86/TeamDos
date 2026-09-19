@@ -1,21 +1,741 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DOS | Detectives of Supernaturals</title>
-    <meta name="description" content="Founded in 2010, Detectives of Supernaturals (DOS) is India's leading paranormal research organization. Rise Above Fear through empirical evidence and technical investigation." />
-    <meta property="og:title" content="DOS | Detectives of Supernaturals" />
+    <title>DOS | Detectives of Supernatural - Rise Above Fear</title>
+    <meta name="description" content="Founded in 2010 by Debraj Sanyal & Ishita Das Sanyal, Detectives of Supernatural (DOS) is India's leading empirical paranormal research team." />
+    <meta property="og:title" content="DOS | Detectives of Supernatural" />
     <meta property="og:description" content="India's leading paranormal research organization. Bridging science and the unexplained through empirical evidence collection." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- Google Fonts: Cinzel & Plus Jakarta Sans & Share Tech Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <!-- Pure Vanilla CSS Stylesheet (Easy to customize manually) -->
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Early Preloader Handlers -->
+    <script>
+      window.preloaderDismissed = false;
+      window.handlePreloaderImageError = function(img) {
+        if (!img) return;
+        img.style.display = 'none';
+        var fallback = document.getElementById('preloaderVectorFallback');
+        if (fallback) fallback.style.display = 'flex';
+      };
+      window.dismissPreloader = function() {
+        if (window.preloaderDismissed) return;
+        window.preloaderDismissed = true;
+        var preloader = document.getElementById('dos-preloader');
+        if (preloader) {
+          preloader.classList.add('fade-out');
+          setTimeout(function() {
+            preloader.style.display = 'none';
+          }, 800);
+        }
+      };
+    </script>
   </head>
-  <body class="bg-[#050505] text-[#E5E5E5] antialiased selection:bg-red-900 selection:text-white min-h-screen">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body>
+    <!-- ====================================================================
+         CINEMATIC DOS PRELOADER
+         ==================================================================== -->
+    <div id="dos-preloader">
+      <div class="preloader-ambient-glow"></div>
+      <div class="preloader-container">
+        <div class="preloader-logo-frame">
+          <img 
+            id="preloaderImage" 
+            src="/paranormal_logo.svg" 
+            alt="DOS - Detectives of Supernatural Logo" 
+            class="preloader-emblem-img"
+            onerror="handlePreloaderImageError(this)"
+          />
+          <div id="preloaderVectorFallback" class="preloader-fallback-vector">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 15px rgba(239,68,68,0.7)); margin-bottom:12px;">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <line x1="12" y1="2" x2="12" y2="18"/>
+              <line x1="8" y1="7" x2="16" y2="7"/>
+              <circle cx="12" cy="11" r="3" fill="#ef4444" fill-opacity="0.2"/>
+            </svg>
+          </div>
+        </div>
+
+        <h2 class="preloader-title">DETECTIVES OF SUPERNATURAL</h2>
+        <div class="preloader-subtitle">RISE ABOVE FEAR // ARCHIVES & TELEMETRY</div>
+
+        <div class="preloader-progress-track">
+          <div id="preloaderProgressFill" class="preloader-progress-fill"></div>
+        </div>
+
+        <div id="preloaderStatusText" class="preloader-status">INITIALIZING CALIBRATED TELEMETRY...</div>
+
+        <button type="button" class="preloader-skip-btn" onclick="dismissPreloader()">
+          ENTER ARCHIVES ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         HEADER & NAVIGATION BAR
+         ==================================================================== -->
+    <header class="navbar">
+      <div class="container nav-container">
+        <div class="nav-brand" data-nav="home">
+          <div class="nav-logo-badge">
+            <img src="/paranormal_logo.svg" alt="DOS Emblem" class="nav-logo-img" onerror="this.src='/logo.svg'" />
+          </div>
+          <div class="nav-brand-text">
+            <h1>DETECTIVES OF SUPERNATURAL</h1>
+            <span>RISE ABOVE FEAR • EST. 2010</span>
+          </div>
+        </div>
+
+        <nav>
+          <ul class="nav-menu">
+            <li><button class="nav-item-btn active" data-nav="home">Home</button></li>
+            <li><button class="nav-item-btn" data-nav="vault">Evidence Vault</button></li>
+            <li><button class="nav-item-btn" data-nav="equipment">Equipment</button></li>
+            <li><button class="nav-item-btn" data-nav="media">Media Coverage</button></li>
+            <li><button class="nav-item-btn" data-nav="gallery">Gallery</button></li>
+            <li><button class="nav-item-btn" data-nav="contact">Contact</button></li>
+            <li><button class="nav-item-btn" data-nav="admin">Admin</button></li>
+          </ul>
+        </nav>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="nav-emergency-btn" data-nav="report">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <span>REPORT INCIDENT</span>
+          </button>
+
+          <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <div class="mobile-nav-menu" id="mobileNavMenu">
+        <button class="nav-item-btn" data-nav="home">Home</button>
+        <button class="nav-item-btn" data-nav="vault">Evidence Vault</button>
+        <button class="nav-item-btn" data-nav="equipment">Equipment</button>
+        <button class="nav-item-btn" data-nav="media">Media Coverage</button>
+        <button class="nav-item-btn" data-nav="gallery">Gallery</button>
+        <button class="nav-item-btn" data-nav="contact">Contact</button>
+        <button class="nav-item-btn" data-nav="report">Report An Incident</button>
+        <button class="nav-item-btn" data-nav="admin">Admin Portal</button>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         PAGE 1: HOME SECTION
+         ==================================================================== -->
+    <main id="page-home" class="page-view active">
+      <!-- Hero Banner -->
+      <section class="hero-section" style="background-image: url('/horror_background_wide.jpg');">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+          <div class="hero-pill">
+            <span>SCIENTIFIC PARANORMAL RESEARCH • ESTABLISHED 2010</span>
+          </div>
+          <h1 class="hero-title">DETECTIVES OF SUPERNATURAL</h1>
+          <p class="hero-subtitle">
+            Demystifying unexplained phenomena across India through empirical science, thermal telemetry, multi-spectrum imaging, and forensic audio engineering.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary" data-nav="report">
+              <span>REPORT AN ANOMALOUS INCIDENT</span>
+            </button>
+            <button class="btn-secondary" data-nav="vault">
+              <span>EXPLORE EVIDENCE VAULT</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Telemetry Status Bar -->
+      <section class="telemetry-bar">
+        <div class="container telemetry-grid">
+          <div class="telemetry-item">
+            <div class="telemetry-icon">⚡</div>
+            <div class="telemetry-data">
+              <h4>15+ YEARS</h4>
+              <p>Active Research (Est. 2010)</p>
+            </div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-icon">🔍</div>
+            <div class="telemetry-data">
+              <h4>450+ CASES</h4>
+              <p>Investigated Nationwide</p>
+            </div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-icon">🛡️</div>
+            <div class="telemetry-data">
+              <h4>95% DEBUNKED</h4>
+              <p>Natural & Physical Causes</p>
+            </div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-icon">📡</div>
+            <div class="telemetry-data">
+              <h4>ZERO-LUX LAB</h4>
+              <p>Multi-Spectrum Analysis</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Investigative Personnel Grid (Debraj Sanyal, Ishita Das Sanyal, Anirban Das, Ayush Majumder) -->
+      <section class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">CORE FIELD SPECIALISTS</div>
+          <h2 class="section-title">THE INVESTIGATION TEAM</h2>
+          <p class="section-desc">
+            The founding directors and technical specialists behind DOS field operations, combining empirical physics, acoustics, and disciplined field research.
+          </p>
+        </div>
+        <div id="homeTeamGrid" class="grid-4"></div>
+      </section>
+
+      <!-- Featured Investigations Grid -->
+      <section class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">EMPIRICAL CASE STUDIES</div>
+          <h2 class="section-title">RECENT FIELD EXPEDITIONS</h2>
+          <p class="section-desc">
+            Archival records of on-site telemetry deployments, environmental audits, and cross-verified forensic evidence.
+          </p>
+        </div>
+        <div id="homeFeaturedInvestigations" class="grid-3"></div>
+      </section>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 2: ABOUT & TEAM SECTION (Retained for direct routing / modal references)
+         ==================================================================== -->
+    <main id="page-about" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">MISSION & PHILOSOPHY</div>
+          <h2 class="section-title">ABOUT DETECTIVES OF SUPERNATURAL</h2>
+          <p class="section-desc">
+            Founded in 2010 by Debraj Sanyal and Ishita Das Sanyal in Kolkata, DOS has pioneered scientific paranormal research across India under the banner "Rise Above Fear".
+          </p>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:32px; margin-bottom:50px;">
+          <h3 style="font-size:1.5rem; font-weight:700; color:#fff; margin-bottom:16px;">THE SCIENTIFIC APPROACH</h3>
+          <p style="color:var(--text-muted); line-height:1.7; margin-bottom:16px;">
+            Unlike sensationalized media representations, DOS approaches every unexplained report with skepticism and scientific rigor. Over 95% of reported hauntings are found to be natural occurrences caused by carbon monoxide, electromagnetic interference from faulty wiring, structural resonance infrasound (18.9 Hz), or psychological suggestion.
+          </p>
+          <p style="color:var(--text-muted); line-height:1.7;">
+            The remaining 5% of unexplained anomalies are captured on multi-sensor telemetry, thermal imaging, and calibrated audio arrays for exhaustive forensic analysis.
+          </p>
+        </div>
+
+        <div class="section-header">
+          <div class="section-tag">LEADERSHIP & ROSTER</div>
+          <h2 class="section-title">INVESTIGATORS & SCIENTISTS</h2>
+        </div>
+        <div id="aboutTeamGrid" class="grid-4"></div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 3: INVESTIGATIONS ARCHIVE SECTION
+         ==================================================================== -->
+    <main id="page-investigations" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">DOSSIER REPOSITORY</div>
+          <h2 class="section-title">FIELD INVESTIGATIONS ARCHIVE</h2>
+          <p class="section-desc">
+            Complete records of field audits, telemetry logs, and concluded verdicts.
+          </p>
+        </div>
+
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="setFilter('investigations', 'ALL')">ALL CASES</button>
+          <button class="filter-btn" onclick="setFilter('investigations', 'DOCUMENTED')">DOCUMENTED</button>
+          <button class="filter-btn" onclick="setFilter('investigations', 'RESOLVED')">RESOLVED</button>
+          <button class="filter-btn" onclick="setFilter('investigations', 'DEBUNKED')">DEBUNKED</button>
+        </div>
+
+        <div id="investigationsGrid" class="grid-3"></div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 4: EVIDENCE VAULT SECTION
+         ==================================================================== -->
+    <main id="page-vault" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">CLASSIFIED TELEMETRY</div>
+          <h2 class="section-title">EVIDENCE VAULT</h2>
+          <p class="section-desc">
+            Verified electromagnetic spikes, thermal signatures, and acoustic recordings.
+          </p>
+        </div>
+
+        <div id="vaultGrid" class="grid-2"></div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 5: EQUIPMENT ARSENAL SECTION
+         ==================================================================== -->
+    <main id="page-equipment" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">SCIENTIFIC INSTRUMENTATION</div>
+          <h2 class="section-title">EQUIPMENT ARSENAL</h2>
+          <p class="section-desc">
+            The calibrated sensors, thermal cameras, and acoustic hardware used in zero-lux investigations.
+          </p>
+        </div>
+
+        <div id="equipmentGrid" class="grid-3"></div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 6: MEDIA COVERAGE SECTION
+         ==================================================================== -->
+    <main id="page-media" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">PRESS & BROADCASTS</div>
+          <h2 class="section-title">MEDIA COVERAGE & DOCUMENTARIES</h2>
+          <p class="section-desc">
+            National television specials, investigative print features, podcasts, and video reports.
+          </p>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom: 24px;">
+          <div class="filter-bar" style="margin-bottom:0; justify-content:flex-start;">
+            <button class="filter-btn active" onclick="setFilter('media', 'ALL')">ALL MEDIA COVERAGE</button>
+            <button class="filter-btn" onclick="setFilter('media', 'VIDEOS')">VIDEOS & DOCUMENTARIES</button>
+            <button class="filter-btn" onclick="setFilter('media', 'TELEVISION')">TELEVISION</button>
+            <button class="filter-btn" onclick="setFilter('media', 'NEWSPAPERS')">NEWSPAPERS</button>
+            <button class="filter-btn" onclick="setFilter('media', 'PODCASTS')">PODCASTS</button>
+          </div>
+          <div id="mediaAdminActionContainer" style="display:none;">
+            <button onclick="navigateTo('admin'); setTimeout(() => openAdminVideoUploadModal(), 100);" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+              <span>+ UPLOAD VIDEO IN ADMIN</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="mediaGrid" class="grid-3"></div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 7: EVIDENCE GALLERY SECTION
+         ==================================================================== -->
+    <main id="page-gallery" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">PHOTOGRAPHIC RECORDS</div>
+          <h2 class="section-title">EVIDENCE GALLERY</h2>
+          <p class="section-desc">
+            Zero-lux field photography, team deployments, and forensic location scans.
+          </p>
+        </div>
+
+        <div id="galleryGrid" class="grid-4"></div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 8: REPORT AN INCIDENT FORM
+         ==================================================================== -->
+    <main id="page-report" class="page-view">
+      <div class="container" style="padding-top: 40px; max-width: 800px;">
+        <div class="section-header">
+          <div class="section-tag">WITNESS INTAKE DESK</div>
+          <h2 class="section-title">REPORT AN INCIDENT</h2>
+          <p class="section-desc">
+            If you or your community are experiencing unexplained anomalies, submit a case report for confidential scientific triage.
+          </p>
+        </div>
+
+        <form id="caseReportForm" class="dos-card" style="padding:32px;">
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
+            <div class="form-group">
+              <label class="form-label" for="witnessName">Full Name *</label>
+              <input type="text" id="witnessName" class="form-control" required placeholder="e.g., Anirban Roy" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="witnessPhone">Phone Number *</label>
+              <input type="tel" id="witnessPhone" class="form-control" required placeholder="+91 98300 00000" />
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
+            <div class="form-group">
+              <label class="form-label" for="witnessEmail">Email Address *</label>
+              <input type="email" id="witnessEmail" class="form-control" required placeholder="contact@example.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="incidentLocation">Location / City / State *</label>
+              <input type="text" id="incidentLocation" class="form-control" required placeholder="e.g., Howrah, West Bengal" />
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
+            <div class="form-group">
+              <label class="form-label" for="incidentDate">Date of Activity</label>
+              <input type="date" id="incidentDate" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="incidentType">Type of Phenomenon</label>
+              <select id="incidentType" class="form-control">
+                <option value="Auditory / Footsteps / Voices">Auditory / Footsteps / Voices</option>
+                <option value="Apparition / Visual Shadow">Apparition / Visual Shadow</option>
+                <option value="Physical / Kinetic Movement">Physical / Kinetic Movement</option>
+                <option value="Electromagnetic / Electrical Malfunction">Electromagnetic / Electrical Malfunction</option>
+                <option value="Other / Multiple">Other / Multiple</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="incidentDescription">Detailed Chronology of Events *</label>
+            <textarea id="incidentDescription" class="form-control" required placeholder="Describe what you observed, time of day, witnesses present, and environmental factors..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reportEvidenceFile">Attach Photo / Audio / Document (Optional)</label>
+            <input type="file" id="reportEvidenceFile" class="form-control" accept="image/*,audio/*,.pdf,.jfif" />
+          </div>
+
+          <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:10px;">
+            <span>TRANSMIT CASE REPORT FOR TRIAGE</span>
+          </button>
+
+          <div id="reportFormStatus"></div>
+        </form>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 9: CONTACT INQUIRIES
+         ==================================================================== -->
+    <main id="page-contact" class="page-view">
+      <div class="container" style="padding-top: 40px; max-width: 700px;">
+        <div class="section-header">
+          <div class="section-tag">COMMUNICATIONS DESK</div>
+          <h2 class="section-title">CONTACT DOS HEADQUARTERS</h2>
+          <p class="section-desc">
+            For press inquiries, public lectures, workshops, or academic consultations.
+          </p>
+        </div>
+
+        <form id="contactForm" class="dos-card" style="padding:32px;">
+          <div class="form-group">
+            <label class="form-label" for="contactName">Your Name</label>
+            <input type="text" id="contactName" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactEmail">Your Email</label>
+            <input type="email" id="contactEmail" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactSubject">Subject</label>
+            <input type="text" id="contactSubject" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactMessage">Message</label>
+            <textarea id="contactMessage" class="form-control" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
+            <span>TRANSMIT MESSAGE</span>
+          </button>
+          <div id="contactFormStatus"></div>
+        </form>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         PAGE 10: ADMIN PORTAL
+         ==================================================================== -->
+    <main id="page-admin" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <!-- Login Form View -->
+        <div id="adminLoginSection" style="max-width: 440px; margin: 0 auto;">
+          <div class="section-header">
+            <div class="section-tag">RESTRICTED ACCESS</div>
+            <h2 class="section-title">INVESTIGATOR PORTAL</h2>
+            <p class="section-desc">Sign in to manage investigation files and roster records.</p>
+          </div>
+
+          <form id="adminLoginForm" class="dos-card" style="padding: 28px;">
+            <div class="form-group">
+              <label class="form-label" for="adminEmail">Investigator Email / Username</label>
+              <input type="text" id="adminEmail" class="form-control" value="admin@dos.in" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="adminPassword">Passcode</label>
+              <input type="password" id="adminPassword" class="form-control" value="RiseAboveFear2026!" required />
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content:center;">
+              <span>AUTHENTICATE</span>
+            </button>
+            <div id="adminLoginError" style="display:none; color:#f87171; font-size:0.8rem; margin-top:12px; text-align:center;"></div>
+          </form>
+        </div>
+
+        <!-- Authenticated Dashboard View -->
+        <div id="adminDashboardSection" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:30px; border-bottom:1px solid var(--border-color); padding-bottom:16px;">
+            <div>
+              <h2 style="font-size:1.8rem; font-weight:800; color:#fff;">DOS HEADQUARTERS CONSOLE</h2>
+              <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--red-primary);">Authenticated Session: Lead Investigator Clearance</div>
+            </div>
+            <button onclick="logoutAdmin()" class="btn-secondary" style="padding:8px 16px; font-size:0.8rem;">
+              <span>TERMINATE SESSION</span>
+            </button>
+          </div>
+
+          <!-- Stats Overview -->
+          <div class="grid-4" style="margin-bottom:30px;">
+            <div class="dos-card" style="padding:16px; text-align:center;">
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">TOTAL CASES</div>
+              <h3 id="statTotalInvestigations" style="font-size:2rem; font-weight:800; color:#fff;">0</h3>
+            </div>
+            <div class="dos-card" style="padding:16px; text-align:center;">
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">MEDIA COVERAGE</div>
+              <h3 id="statMediaCount" style="font-size:2rem; font-weight:800; color:#fff;">0</h3>
+            </div>
+            <div class="dos-card" style="padding:16px; text-align:center;">
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PENDING TRIAGE</div>
+              <h3 id="statPendingReports" style="font-size:2rem; font-weight:800; color:#ef4444;">0</h3>
+            </div>
+            <div class="dos-card" style="padding:16px; text-align:center;">
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">ACTIVE PERSONNEL</div>
+              <h3 id="statTeamCount" style="font-size:2rem; font-weight:800; color:#10b981;">0</h3>
+            </div>
+          </div>
+
+          <!-- Team Management & Portrait Uploads -->
+          <div class="dos-card" style="padding:24px; margin-bottom:30px;">
+            <h3 style="font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:6px;">INVESTIGATIVE PERSONNEL & PORTRAITS</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">
+              Manage portraits and credentials for Debraj Sanyal, Ishita Das Sanyal, Anirban Das, and Ayush Majumder.
+            </p>
+            <div id="adminTeamList" style="display:flex; flex-direction:column; gap:16px;"></div>
+          </div>
+
+          <!-- Media Coverage & Video Upload Management -->
+          <div class="dos-card" style="padding:24px; margin-bottom:30px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+              <div>
+                <h3 style="font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:4px;">MEDIA COVERAGE & VIDEO ARCHIVE</h3>
+                <p style="font-size:0.85rem; color:var(--text-muted);">
+                  Upload video documentary files (.mp4), attach TV broadcast recordings, or embed YouTube reports to display in the Media Coverage section.
+                </p>
+              </div>
+              <button onclick="openAdminVideoUploadModal()" class="btn-primary" style="padding:10px 20px; font-size:0.85rem;">
+                <span>+ UPLOAD VIDEO COVERAGE</span>
+              </button>
+            </div>
+            
+            <div id="adminMediaList" style="display:flex; flex-direction:column; gap:14px;"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         FOOTER
+         ==================================================================== -->
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="nav-logo-badge" style="width:36px; height:36px;">
+              <img src="/paranormal_logo.svg" alt="DOS Emblem" class="nav-logo-img" onerror="this.src='/logo.svg'" />
+            </div>
+            <h4 style="margin-bottom:0;">DETECTIVES OF SUPERNATURAL</h4>
+          </div>
+          <p>Founded in 2010 in Kolkata, West Bengal. Investigating unexplained phenomena through empirical research, thermal imaging, and acoustic engineering.</p>
+        </div>
+        <div class="footer-col">
+          <h4>EXPLORE ARCHIVES</h4>
+          <ul class="footer-links">
+            <li><a href="#vault" data-nav="vault">Classified Evidence Vault</a></li>
+            <li><a href="#equipment" data-nav="equipment">Scientific Equipment Arsenal</a></li>
+            <li><a href="#media" data-nav="media">Media Coverage & Documentaries</a></li>
+            <li><a href="#gallery" data-nav="gallery">Photographic Evidence Gallery</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>EMERGENCY RESPONSE</h4>
+          <p style="margin-bottom:8px;">24/7 Incident Dispatch Desk:</p>
+          <div style="font-family:var(--font-mono); font-size:1.1rem; color:var(--red-primary); font-weight:700;" id="emergencyPhoneDisplay">+91 98300 00000</div>
+          <p style="font-size:0.8rem; margin-top:8px;">Kolkata, West Bengal, India</p>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <div>© 2010–2026 Detectives of Supernatural (DOS). All Rights Reserved.</div>
+        <div>RISE ABOVE FEAR • EMPIRICAL PARANORMAL RESEARCH</div>
+      </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="investigationModal" class="modal-overlay">
+      <div class="modal-content">
+        <button class="modal-close-btn" onclick="closeModal('investigationModal')">✕</button>
+        <div id="investigationModalBody"></div>
+      </div>
+    </div>
+
+    <div id="lightboxModal" class="modal-overlay" onclick="closeModal('lightboxModal')">
+      <div class="modal-content" style="max-width: 900px; text-align:center; background:#000;" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeModal('lightboxModal')">✕</button>
+        <img id="lightboxImg" src="" alt="Evidence Lightbox" style="max-width:100%; max-height:70vh; object-fit:contain; border-radius:4px; margin-bottom:12px;" />
+        <h3 id="lightboxTitle" style="font-size:1.2rem; color:#fff; margin-bottom:4px;"></h3>
+        <p id="lightboxCaption" style="font-size:0.85rem; color:var(--text-muted);"></p>
+      </div>
+    </div>
+
+    <!-- Video Theater Player Modal -->
+    <div id="videoPlayerModal" class="modal-overlay" onclick="closeVideoPlayerModal()">
+      <div class="modal-content" style="max-width: 950px; background:#07080c; border:1px solid var(--border-hover);" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeVideoPlayerModal()">✕</button>
+        <div id="videoPlayerContainer" class="video-player-container"></div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
+          <div>
+            <span id="videoPlayerCategory" class="status-badge documented" style="margin-bottom:8px; display:inline-block;">TELEVISION</span>
+            <h2 id="videoPlayerTitle" style="font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:4px;">Video Title</h2>
+            <div id="videoPlayerMeta" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary);">
+              Broadcast: NDTV 24x7 • Date: 2024-08-16
+            </div>
+          </div>
+          <div id="videoPlayerActions" style="display:flex; gap:10px;"></div>
+        </div>
+        <p id="videoPlayerDesc" style="font-size:0.9rem; color:var(--text-muted); line-height:1.6; margin-top:12px; border-top:1px solid var(--border-subtle); padding-top:12px;"></p>
+      </div>
+    </div>
+
+    <!-- Admin Video / Media Upload Modal -->
+    <div id="adminVideoUploadModal" class="modal-overlay" onclick="closeModal('adminVideoUploadModal')">
+      <div class="modal-content" style="max-width: 750px; background:#0a0c12;" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeModal('adminVideoUploadModal')">✕</button>
+        <div style="margin-bottom:20px; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary); margin-bottom:4px;">ADMINISTRATION DESK</div>
+          <h2 style="font-size:1.4rem; font-weight:800; color:#fff;">UPLOAD MEDIA COVERAGE VIDEO</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted);">
+            Publish a documentary video, televised broadcast clip, or podcast episode directly to the Media Coverage archive.
+          </p>
+        </div>
+
+        <form id="adminMediaUploadForm">
+          <div class="form-group">
+            <label class="form-label">Video / Report Title *</label>
+            <input type="text" id="adminMediaTitle" class="form-control" placeholder="e.g. National Geographic Special: Science Behind Paranormal Encounters" required />
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+            <div class="form-group">
+              <label class="form-label">Media Category *</label>
+              <select id="adminMediaCategory" class="form-control" required>
+                <option value="Documentaries">Documentaries & Specials</option>
+                <option value="Television">Television Broadcast</option>
+                <option value="Podcasts">Podcasts & Talk Shows</option>
+                <option value="Interviews">Special Interviews</option>
+                <option value="Newspapers">Newspaper & Magazine Features</option>
+                <option value="Video Reports">Video Reports</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Publication / Channel Name *</label>
+              <input type="text" id="adminMediaPublication" class="form-control" placeholder="e.g. Discovery Channel / TRS" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Release / Broadcast Date *</label>
+              <input type="date" id="adminMediaDate" class="form-control" required />
+            </div>
+          </div>
+
+          <!-- Video Source Type Selector -->
+          <div class="form-group">
+            <label class="form-label">Video Source Type</label>
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+              <button type="button" id="btnSourceUpload" class="btn-primary" style="padding:6px 14px; font-size:0.75rem;" onclick="setVideoSourceMode('file')">
+                UPLOAD VIDEO FILE (.MP4/.WEBM)
+              </button>
+              <button type="button" id="btnSourceUrl" class="btn-secondary" style="padding:6px 14px; font-size:0.75rem;" onclick="setVideoSourceMode('url')">
+                EMBED YOUTUBE / VIDEO URL
+              </button>
+            </div>
+
+            <!-- Mode 1: File Upload -->
+            <div id="videoSourceFileBlock">
+              <div class="upload-dropzone" id="videoFileDropzone" onclick="document.getElementById('adminVideoFileInput').click()">
+                <div style="font-size:1.8rem; color:var(--red-primary); margin-bottom:6px;">📹</div>
+                <div style="font-weight:700; color:#fff; font-size:0.95rem; margin-bottom:4px;">Click or Drag & Drop Video File (.mp4, .webm, .mov)</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);" id="videoFileSelectedName">Supports files up to 150MB</div>
+                <input type="file" id="adminVideoFileInput" accept="video/mp4,video/webm,video/ogg,video/quicktime,.mp4,.webm,.mov" style="display:none;" onchange="handleVideoFileSelection(this)" />
+              </div>
+            </div>
+
+            <!-- Mode 2: Direct URL -->
+            <div id="videoSourceUrlBlock" style="display:none;">
+              <input type="url" id="adminVideoUrlInput" class="form-control" placeholder="https://www.youtube.com/watch?v=... or https://example.com/video.mp4" />
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Paste full YouTube, Vimeo, or direct MP4 stream URL</div>
+            </div>
+          </div>
+
+          <!-- Thumbnail & External Link -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px;">
+            <div class="form-group">
+              <label class="form-label">Thumbnail / Cover Image (Optional)</label>
+              <input type="file" id="adminMediaThumbnailFile" class="form-control" accept="image/*,.jfif" style="padding:8px;" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">External Article / Reference Link (Optional)</label>
+              <input type="url" id="adminMediaExternalUrl" class="form-control" placeholder="https://timesofindia.indiatimes.com/..." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description / Broadcast Synopsis *</label>
+            <textarea id="adminMediaDescription" class="form-control" style="min-height:90px;" placeholder="Provide a detailed summary of the investigation segment, key topics discussed, or telecast notes..." required></textarea>
+          </div>
+
+          <!-- Progress Bar -->
+          <div id="adminVideoUploadProgress" class="upload-progress-bar-wrap">
+            <div id="adminVideoUploadProgressBar" class="upload-progress-bar-fill"></div>
+          </div>
+
+          <div id="adminVideoUploadStatus" style="margin-top:12px; font-size:0.85rem;"></div>
+
+          <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+            <button type="button" class="btn-secondary" onclick="closeModal('adminVideoUploadModal')">
+              <span>CANCEL</span>
+            </button>
+            <button type="submit" id="adminMediaSubmitBtn" class="btn-primary" style="padding:10px 24px;">
+              <span>PUBLISH TO MEDIA COVERAGE</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Application Script (Vanilla JS) -->
+    <script src="/js/app.js"></script>
   </body>
 </html>
-

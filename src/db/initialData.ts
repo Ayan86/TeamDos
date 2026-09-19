@@ -11,7 +11,7 @@ import {
 } from '../types';
 
 export const initialSiteSettings: SiteSettings = {
-  organizationName: "Detectives of Supernaturals",
+  organizationName: "Detectives of Supernatural",
   shortName: "DOS",
   tagline: "RISE ABOVE FEAR",
   foundedYear: "2010",
@@ -35,8 +35,8 @@ export const initialSiteSettings: SiteSettings = {
   contactPhone: "+91 98300 00000",
   contactLocation: "Kolkata, West Bengal, India",
   socialLinks: {
-    youtube: "https://youtube.com/@DetectivesOfSupernaturals",
-    facebook: "https://facebook.com/DetectivesOfSupernaturals",
+    youtube: "https://youtube.com/@DetectivesOfSupernatural",
+    facebook: "https://facebook.com/DetectivesOfSupernatural",
     instagram: "https://instagram.com/dos_paranormal",
     twitter: "https://twitter.com/DOS_India"
   }
@@ -47,7 +47,7 @@ export const initialTeamMembers: TeamMember[] = [
     id: "tm-1",
     name: "Debraj Sanyal",
     role: "Founder",
-    photoUrl: "/uploads/Debraj_Sanyal.jfif",
+    photoUrl: "/uploads/Debraj_Sanyal.jpg",
     biography: "Devraj Sanyal is the Founder and Lead Investigator of Detectives of Supernatural (DOS), one of India's prominent paranormal research teams. Since 2010, he has dedicated himself to investigating unexplained phenomena through scientific methods, field research, and modern investigative equipment.",
     expertise: "Lead Investigator & Technical Strategy",
     displayOrder: 1,
@@ -59,7 +59,7 @@ export const initialTeamMembers: TeamMember[] = [
     id: "tm-2",
     name: "Ishita Das Sanyal",
     role: "Director & Lead Investigator",
-    photoUrl: "/uploads/Ishita_Das_Sanyal.jfif",
+    photoUrl: "/uploads/Ishita_Das_Sanyal.jpg",
     biography: "Ishita Das Sanyal is the Director and Lead Investigator of DOS. Recognized for her contributions to paranormal research and advocacy of the message \"Rise Above Fear,\" she leads investigations and public outreach programs focused on rational inquiry.",
     expertise: "Historical Research & Case Management",
     displayOrder: 2,
@@ -71,7 +71,7 @@ export const initialTeamMembers: TeamMember[] = [
     id: "tm-3",
     name: "Anirban Das",
     role: "Technical Head",
-    photoUrl: "/uploads/Anirban_Das.jfif",
+    photoUrl: "/uploads/Anirban_Das.jpg",
     biography: "Anirban Das is the Technical Head of DOS. He specializes in investigation technology and evidence analysis, utilizing scientific instruments to examine reports of unexplained phenomena with high technical precision.",
     expertise: "Sensory Instrumentation & Audio Engineering",
     displayOrder: 3,
@@ -83,7 +83,7 @@ export const initialTeamMembers: TeamMember[] = [
     id: "tm-4",
     name: "Ayush Majumder",
     role: "Field Investigator",
-    photoUrl: "/uploads/Ayush_Majumder.jfif",
+    photoUrl: "/uploads/Ayush_Majumder.jpg",
     biography: "Ayush Majumder is a Field Investigator at DOS, specializing in on-site evidence collection and field research. He supports the organization's mission to promote critical thinking through modern investigative techniques.",
     expertise: "Site Scouting & Environmental Telemetry",
     displayOrder: 4,
@@ -102,7 +102,7 @@ export const initialInvestigations: Investigation[] = [
     status: "DOCUMENTED",
     shortDescription: "Nighttime multi-sensor surveillance inside the pine ridges of Dow Hill documenting localized 18.9Hz infrasonic peaks and concurrent temperature plunges.",
     fullReport: "Over a 72-hour controlled deployment, the team deployed directional microphones, full-spectrum cameras, and tri-field electromagnetic sensors along the historic cart road. Acoustic analysis isolated low-frequency ambient pulses correlating with localized sudden drafts.",
-    heroImage: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1000&auto=format&fit=crop",
+    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
     isFeatured: true,
     evidenceCount: 14,
     findings: "Localized micro-climate barometric anomalies and low-frequency wind resonance; two unverified acoustic waveforms under forensic spectrographic review.",
@@ -117,7 +117,7 @@ export const initialInvestigations: Investigation[] = [
     status: "DOCUMENTED",
     shortDescription: "Acoustic baseline and seismic accelerometer study at Warren Hastings' 18th-century governor's mansion following repetitive nighttime cadence reports.",
     fullReport: "Dual-channel piezoceramic vibration sensors mounted on original teak rafters recorded synchronized percussive floor impulses without corresponding human entry.",
-    heroImage: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=1000&auto=format&fit=crop",
+    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
     isFeatured: true,
     evidenceCount: 8,
     findings: "Structural acoustic transference ruled out for 3 distinct audio signatures occurring at 02:44 AM.",
@@ -132,7 +132,7 @@ export const initialInvestigations: Investigation[] = [
     status: "CLOSED",
     shortDescription: "Thermal imaging sweep across 19th-century gothic mausoleums to measure reported cold spot vortexes amidst summer humidity.",
     fullReport: "Utilizing FLIR E8 thermal imaging units and laser thermometers, ambient differential thermal analysis revealed sandstone chimney evaporative effects that accounted for 80% of reported cold spots, with one unresolved thermal drop of -7.2°C at tomb 412.",
-    heroImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop",
+    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
     isFeatured: true,
     evidenceCount: 19,
     findings: "Comprehensive thermal baseline established; natural thermal dissipation documented alongside single isolated unverified anomaly.",
@@ -147,7 +147,7 @@ export const initialInvestigations: Investigation[] = [
     status: "UNDER_INVESTIGATION",
     shortDescription: "Stationary RF sensor grid and magnetometry inside the abandoned 13th-century Paliwal Brahmin settlement.",
     fullReport: "Continuous 96-hour data logging within the central temple precinct monitoring anomalous static electricity charges and radio frequency sweeps.",
-    heroImage: "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=1000&auto=format&fit=crop",
+    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
     isFeatured: true,
     evidenceCount: 22,
     findings: "Unusual localized magnetic field deviations pending mineralogical soil core analysis.",
@@ -162,7 +162,7 @@ export const initialInvestigations: Investigation[] = [
     status: "ARCHIVED",
     shortDescription: "Ultrasonic and RF frequency scanning of the dilapidated warehouse complex known as the House of Dolls.",
     fullReport: "Conducted during low-traffic night hours; environmental audio loggers deployed across three levels. Structural dampening and wind tunnel acoustics verified.",
-    heroImage: "https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1000&auto=format&fit=crop",
+    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
     isFeatured: false,
     evidenceCount: 11,
     findings: "Atmospheric acoustics verified; debunked 4 popular urban legends while isolating 1 unexplained metallic resonance.",
@@ -201,7 +201,7 @@ export const initialVaultCases: VaultCase[] = [
         caseId: "vlt-1",
         title: "Full-Spectrum Infrared Snapshot: Ridge Tree Line",
         type: "photo",
-        fileUrl: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1000&auto=format&fit=crop",
+        fileUrl: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
         description: "IR wavelength 850nm capture depicting micro-thermal chimney variation.",
         timestamp: "2025-11-14 03:15:00",
         classified: false
@@ -256,7 +256,7 @@ export const initialVaultCases: VaultCase[] = [
         caseId: "vlt-3",
         title: "Thermal Signature: Tomb 412 Thermal Drop",
         type: "photo",
-        fileUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop",
+        fileUrl: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
         description: "FLIR thermal capture displaying steep gradient difference between ambient night air (29°C) and focal point (21.8°C).",
         timestamp: "2025-05-19 01:28:45",
         classified: false
@@ -299,7 +299,7 @@ export const initialEquipment: EquipmentItem[] = [
       "Sensitivity": "0.1 milligauss resolution",
       "Field Axes": "3-axis true RMS detection"
     },
-    imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     status: "Operational",
     detectionMethod: "Tri-axial electromagnetic induction",
     createdAt: "2020-01-10T00:00:00Z"
@@ -316,7 +316,7 @@ export const initialEquipment: EquipmentItem[] = [
       "Scale Levels": "Green (0-1.5mG) to Red (20+ mG)",
       "Reaction Time": "Instantaneous (<50ms)"
     },
-    imageUrl: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     status: "Operational",
     detectionMethod: "Single-axis rapid electromagnetic detection",
     createdAt: "2019-05-12T00:00:00Z"
@@ -334,7 +334,7 @@ export const initialEquipment: EquipmentItem[] = [
       "Temperature Range": "-20°C to 550°C",
       "Frame Rate": "9 Hz calibrated"
     },
-    imageUrl: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     status: "Operational",
     detectionMethod: "Uncooled Microbolometer LWIR",
     createdAt: "2021-08-14T00:00:00Z"
@@ -351,7 +351,7 @@ export const initialEquipment: EquipmentItem[] = [
       "Resolution": "4K Ultra HD at 60fps",
       "Illumination": "High-output 850nm & 940nm IR Array"
     },
-    imageUrl: "https://images.unsplash.com/photo-1512790182412-b19e6d62bc39?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     status: "Operational",
     detectionMethod: "Direct CMOS multi-spectrum light absorption",
     createdAt: "2022-04-10T00:00:00Z"
@@ -368,7 +368,7 @@ export const initialEquipment: EquipmentItem[] = [
       "Noise Floor": "-120 dB EIN",
       "Input Channels": "4 XLR combo + interchangeable capsule"
     },
-    imageUrl: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     status: "Operational",
     detectionMethod: "Ultra-low noise condenser transducing",
     createdAt: "2020-11-05T00:00:00Z"
@@ -385,7 +385,7 @@ export const initialEquipment: EquipmentItem[] = [
       "Grid Density": "100+ precision dispersion points",
       "Coverage": "120-degree cone projection"
     },
-    imageUrl: "https://images.unsplash.com/photo-1507668077129-56e32842fceb?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     status: "Operational",
     detectionMethod: "Spatial disruption occlusion mapping",
     createdAt: "2023-03-01T00:00:00Z"
@@ -402,7 +402,7 @@ export const initialEquipment: EquipmentItem[] = [
       "Datalogging Interval": "1 second continuous flash storage",
       "Display": "Digital backlit multi-parameter LCD"
     },
-    imageUrl: "https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     status: "Field Deployed",
     detectionMethod: "Integrated solid-state sensor fusion",
     createdAt: "2023-09-18T00:00:00Z"
@@ -418,7 +418,7 @@ export const initialMediaCoverage: MediaItem[] = [
     category: "Newspapers",
     description: "Front-page investigative feature exploring how Debraj Sanyal and the DOS team apply thermal imaging, acoustic engineering, and empirical discipline to historic Bengal mysteries.",
     externalUrl: "https://telegraphindia.com",
-    thumbnail: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop",
+    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     isPublished: true,
     createdAt: "2025-12-03T10:00:00Z"
   },
@@ -431,7 +431,7 @@ export const initialMediaCoverage: MediaItem[] = [
     description: "A 45-minute documentary following Technical Lead Anirban Das as he breaks down audio anomalies, debunking urban myths while analyzing unexplained EMF signatures.",
     externalUrl: "https://nationalgeographic.com",
     videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=800&auto=format&fit=crop",
+    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     isPublished: true,
     createdAt: "2025-07-20T14:00:00Z"
   },
@@ -443,7 +443,7 @@ export const initialMediaCoverage: MediaItem[] = [
     category: "Newspapers",
     description: "In-depth anniversary profile tracing the journey of founders Debraj Sanyal and Ishita Das Sanyal from early 2010 field investigations to pioneering modern paranormal research.",
     externalUrl: "https://timesofindia.indiatimes.com",
-    thumbnail: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?q=80&w=800&auto=format&fit=crop",
+    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     isPublished: true,
     createdAt: "2025-04-12T09:00:00Z"
   },
@@ -456,7 +456,7 @@ export const initialMediaCoverage: MediaItem[] = [
     description: "Over 2 million viewers tuned into this 2.5 hour deep dive into empirical investigative methodologies, audio anomalies, and field encounters across India.",
     externalUrl: "https://spotify.com",
     videoUrl: "https://youtube.com",
-    thumbnail: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=800&auto=format&fit=crop",
+    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     isPublished: true,
     createdAt: "2024-11-30T11:30:00Z"
   },
@@ -468,7 +468,7 @@ export const initialMediaCoverage: MediaItem[] = [
     category: "Television",
     description: "Debraj Sanyal live in studio demonstrating EMF meters and thermal cameras to explain why 95% of reported hauntings are natural physical occurrences.",
     externalUrl: "https://ndtv.com",
-    thumbnail: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?q=80&w=800&auto=format&fit=crop",
+    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     isPublished: true,
     createdAt: "2024-08-17T18:00:00Z"
   },
@@ -480,7 +480,7 @@ export const initialMediaCoverage: MediaItem[] = [
     category: "Interviews",
     description: "Bengali print interview delving into calibrated sensor telemetry, electro-acoustic transduction, and the difference between belief and empirical data.",
     externalUrl: "https://anandabazar.com",
-    thumbnail: "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?q=80&w=800&auto=format&fit=crop",
+    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
     isPublished: true,
     createdAt: "2024-01-22T08:00:00Z"
   }
@@ -491,7 +491,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-1",
     title: "Midnight Setup at Dow Hill Ridge",
     caption: "Field Investigator Ayush Majumder deploying full-spectrum cameras along the historic cart road under dense midnight fog.",
-    imageUrl: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Investigations",
     location: "Kurseong, Darjeeling",
     date: "2025-11-14",
@@ -502,7 +502,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-2",
     title: "Warren Hastings Mansion Facade",
     caption: "Exterior colonial brickwork and archways of the Alipore mansion during ambient temperature profiling sweep.",
-    imageUrl: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Haunted Locations",
     location: "Alipore, Kolkata",
     date: "2025-08-22",
@@ -513,7 +513,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-3",
     title: "Tri-Field EMF Calibration Session",
     caption: "Technical Lead Anirban Das tuning natural EM meters inside the mobile field lab prior to site perimeter sweep.",
-    imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Equipment",
     location: "Kolkata HQ Lab",
     date: "2025-08-20",
@@ -524,7 +524,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-4",
     title: "Park Street Crypt 412 Thermal View",
     caption: "High-contrast thermal sensor trace displaying isolated localized cold vortex at tomb base.",
-    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Evidence",
     location: "Park Street Cemetery",
     date: "2025-05-19",
@@ -535,7 +535,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-5",
     title: "Kuldhara Abandoned Street At Twilight",
     caption: "The deserted sandstone corridors of the 13th-century settlement before zero-lux nighttime telemetry.",
-    imageUrl: "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Haunted Locations",
     location: "Jaisalmer, Rajasthan",
     date: "2025-02-10",
@@ -546,7 +546,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-6",
     title: "Debraj Sanyal Briefing Investigation Team",
     caption: "Founder Debraj Sanyal conducting the pre-investigation protocols briefing at base camp.",
-    imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Team",
     location: "Base Camp Alpha",
     date: "2025-10-15",
@@ -557,7 +557,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-7",
     title: "Laser Grid Occlusion Setup",
     caption: "532nm green laser dispersion matrix illuminating an enclosed 18th-century ballroom hallway.",
-    imageUrl: "https://images.unsplash.com/photo-1507668077129-56e32842fceb?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Equipment",
     location: "Sovabazar Estate",
     date: "2024-10-31",
@@ -568,7 +568,7 @@ export const initialGalleryImages: GalleryImage[] = [
     id: "gal-8",
     title: "Behind The Scenes: Night Mobile Command",
     caption: "Cofounder Ishita Das Sanyal cross-referencing colonial land registry records against realtime audio inputs.",
-    imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop",
+    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
     category: "Behind The Scenes",
     location: "Mobile Command Unit",
     date: "2025-08-22",
