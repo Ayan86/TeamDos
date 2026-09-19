@@ -139,7 +139,7 @@ export const Home: React.FC<HomeProps> = ({
 
             {/* Organization Name */}
             <h1 className="font-cinzel text-3xl sm:text-5xl md:text-6xl font-bold tracking-[0.14em] text-white uppercase drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)]">
-              DETECTIVES OF SUPERNATURALS
+              DETECTIVES OF SUPERNATURAL
             </h1>
 
             {/* Hero Statement / Tagline */}
@@ -216,7 +216,7 @@ export const Home: React.FC<HomeProps> = ({
               </h2>
 
               <p className="text-sm sm:text-base text-gray-200 leading-relaxed font-sans drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
-                {settings.whoWeAreText || "Detectives of Supernaturals (DOS) was forged with a singular imperative: to strip folklore, hearsay, and blind hysteria away from the study of anomalous occurrences. As pioneers in Indian paranormal investigation, our field agents and technical analysts subject reported haunting phenomena to rigorous scientific scrutiny."}
+                {settings.whoWeAreText || "Detectives of Supernatural (DOS) was forged with a singular imperative: to strip folklore, hearsay, and blind hysteria away from the study of anomalous occurrences. As pioneers in Indian paranormal investigation, our field agents and technical analysts subject reported haunting phenomena to rigorous scientific scrutiny."}
               </p>
 
               <div className="p-4 rounded bg-black/45 backdrop-blur-sm border border-red-950/70 border-l-4 border-l-red-600">

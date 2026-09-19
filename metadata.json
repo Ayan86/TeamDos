@@ -1,6 +1,6 @@
 {
-  "name": "Detectives of Supernaturals",
-  "description": "Founded in 2010, Detectives of Supernaturals (DOS) is India's leading paranormal research organization. Rise Above Fear.",
+  "name": "Detectives of Supernatural",
+  "description": "Founded in 2010, Detectives of Supernatural (DOS) is India's leading paranormal research organization. Rise Above Fear.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
