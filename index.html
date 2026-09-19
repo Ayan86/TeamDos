@@ -33,9 +33,13 @@
           preloader.classList.add('fade-out');
           setTimeout(function() {
             preloader.style.display = 'none';
-          }, 800);
+          }, 600);
         }
       };
+      // Guaranteed preloader auto-dismiss fallback
+      setTimeout(function() {
+        window.dismissPreloader();
+      }, 2000);
     </script>
   </head>
   <body>

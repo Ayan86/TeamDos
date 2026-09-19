@@ -4,6 +4,27 @@
  * Easy to inspect, customize, and maintain manually.
  */
 
+// Safe Browser Storage Helpers (Guarded against private browsing / iframe domain restrictions)
+function safeGetStorage(key, fallback = null) {
+  try {
+    return localStorage.getItem(key) || fallback;
+  } catch (_) {
+    return fallback;
+  }
+}
+
+function safeSetStorage(key, val) {
+  try {
+    localStorage.setItem(key, val);
+  } catch (_) {}
+}
+
+function safeRemoveStorage(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch (_) {}
+}
+
 // Global App State
 const state = {
   currentPage: 'home',
@@ -17,7 +38,7 @@ const state = {
   reports: [],
   messages: [],
   stats: {},
-  authToken: localStorage.getItem('dos_auth_token') || null,
+  authToken: safeGetStorage('dos_auth_token', null),
   currentUser: null,
   filters: {
     investigations: 'ALL',
@@ -28,20 +49,40 @@ const state = {
   }
 };
 
+// Safe JSON Fetch helper
+async function safeFetchJson(url, fallback) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return fallback;
+    return await res.json();
+  } catch (err) {
+    console.warn(`[DOS Client] Failed to fetch ${url}:`, err);
+    return fallback;
+  }
+}
+
 // ==========================================================================
 // 1. INITIALIZATION & ROUTING
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  initPreloader();
-  initNavigation();
-  initMobileMenu();
-  initHorrorAudio();
-  initContactForm();
-  initReportForm();
-  initAdminMediaUploadForm();
+  try {
+    initPreloader();
+    initNavigation();
+    initMobileMenu();
+    initHorrorAudio();
+    initContactForm();
+    initReportForm();
+    initAdminMediaUploadForm();
+  } catch (err) {
+    console.error('Initialization error:', err);
+  }
   
   // Fetch initial data from server
-  await loadPublicData();
+  try {
+    await loadPublicData();
+  } catch (err) {
+    console.error('Error in loadPublicData:', err);
+  }
   
   // Check URL hash for direct routing (e.g., #investigations, #admin)
   const initialHash = window.location.hash.replace('#', '');
@@ -157,32 +198,32 @@ function initMobileMenu() {
 async function loadPublicData() {
   try {
     const [settingsRes, teamRes, invRes, vaultRes, eqRes, mediaRes, galRes] = await Promise.all([
-      fetch('/api/settings').then(r => r.json()),
-      fetch('/api/team').then(r => r.json()),
-      fetch('/api/investigations').then(r => r.json()),
-      fetch('/api/vault').then(r => r.json()),
-      fetch('/api/equipment').then(r => r.json()),
-      fetch('/api/media').then(r => r.json()),
-      fetch('/api/gallery').then(r => r.json())
+      safeFetchJson('/api/settings', {}),
+      safeFetchJson('/api/team', []),
+      safeFetchJson('/api/investigations', []),
+      safeFetchJson('/api/vault', []),
+      safeFetchJson('/api/equipment', []),
+      safeFetchJson('/api/media', []),
+      safeFetchJson('/api/gallery', [])
     ]);
 
-    state.settings = settingsRes;
-    state.team = teamRes;
-    state.investigations = invRes;
-    state.vault = vaultRes;
-    state.equipment = eqRes;
-    state.media = mediaRes;
-    state.gallery = galRes;
+    state.settings = settingsRes || {};
+    state.team = Array.isArray(teamRes) ? teamRes : [];
+    state.investigations = Array.isArray(invRes) ? invRes : [];
+    state.vault = Array.isArray(vaultRes) ? vaultRes : [];
+    state.equipment = Array.isArray(eqRes) ? eqRes : [];
+    state.media = Array.isArray(mediaRes) ? mediaRes : [];
+    state.gallery = Array.isArray(galRes) ? galRes : [];
 
-    // Render all public components
-    renderSiteInfo();
-    renderHome();
-    renderTeam();
-    renderInvestigations();
-    renderVault();
-    renderEquipment();
-    renderMedia();
-    renderGallery();
+    // Render all public components defensively
+    try { renderSiteInfo(); } catch (e) { console.warn(e); }
+    try { renderHome(); } catch (e) { console.warn(e); }
+    try { renderTeam(); } catch (e) { console.warn(e); }
+    try { renderInvestigations(); } catch (e) { console.warn(e); }
+    try { renderVault(); } catch (e) { console.warn(e); }
+    try { renderEquipment(); } catch (e) { console.warn(e); }
+    try { renderMedia(); } catch (e) { console.warn(e); }
+    try { renderGallery(); } catch (e) { console.warn(e); }
   } catch (err) {
     console.error('Error loading public DOS data:', err);
   }
@@ -713,7 +754,7 @@ function initAdminLoginForm() {
       if (data.success) {
         state.authToken = data.token;
         state.currentUser = data.user;
-        localStorage.setItem('dos_auth_token', data.token);
+        safeSetStorage('dos_auth_token', data.token);
         errorBox.style.display = 'none';
         renderAdminPanel();
       } else {
@@ -730,7 +771,7 @@ function initAdminLoginForm() {
 function logoutAdmin() {
   state.authToken = null;
   state.currentUser = null;
-  localStorage.removeItem('dos_auth_token');
+  safeRemoveStorage('dos_auth_token');
   renderAdminPanel();
 }
 
@@ -1363,31 +1404,39 @@ const HorrorAudioEngine = {
   },
 
   async unmute() {
-    this.init();
-    if (this.ctx && this.ctx.state === 'suspended') {
-      await this.ctx.resume();
+    try {
+      this.init();
+      if (this.ctx && this.ctx.state === 'suspended') {
+        await this.ctx.resume();
+      }
+      const now = this.ctx ? this.ctx.currentTime : 0;
+      if (this.masterGain && this.ctx) {
+        this.masterGain.gain.cancelScheduledValues(now);
+        this.masterGain.gain.setValueAtTime(Math.max(0.0001, this.masterGain.gain.value), now);
+        this.masterGain.gain.exponentialRampToValueAtTime(0.42, now + 1.2);
+      }
+      this.isPlaying = true;
+      safeSetStorage('dos_horror_audio', 'true');
+      this.updateUI(true);
+    } catch (err) {
+      console.warn('Audio unmute error:', err);
     }
-    const now = this.ctx ? this.ctx.currentTime : 0;
-    if (this.masterGain && this.ctx) {
-      this.masterGain.gain.cancelScheduledValues(now);
-      this.masterGain.gain.setValueAtTime(Math.max(0.0001, this.masterGain.gain.value), now);
-      this.masterGain.gain.exponentialRampToValueAtTime(0.42, now + 1.2);
-    }
-    this.isPlaying = true;
-    localStorage.setItem('dos_horror_audio', 'true');
-    this.updateUI(true);
   },
 
   mute() {
-    if (this.ctx && this.masterGain) {
-      const now = this.ctx.currentTime;
-      this.masterGain.gain.cancelScheduledValues(now);
-      this.masterGain.gain.setValueAtTime(Math.max(0.0001, this.masterGain.gain.value), now);
-      this.masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
+    try {
+      if (this.ctx && this.masterGain) {
+        const now = this.ctx.currentTime;
+        this.masterGain.gain.cancelScheduledValues(now);
+        this.masterGain.gain.setValueAtTime(Math.max(0.0001, this.masterGain.gain.value), now);
+        this.masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
+      }
+      this.isPlaying = false;
+      safeSetStorage('dos_horror_audio', 'false');
+      this.updateUI(false);
+    } catch (err) {
+      console.warn('Audio mute error:', err);
     }
-    this.isPlaying = false;
-    localStorage.setItem('dos_horror_audio', 'false');
-    this.updateUI(false);
   },
 
   toggle() {
@@ -1507,9 +1556,8 @@ function initHorrorAudio() {
   });
 
   // Check saved state or auto-prompt politely on user interaction
-  const savedAudio = localStorage.getItem('dos_horror_audio');
+  const savedAudio = safeGetStorage('dos_horror_audio');
   if (savedAudio === 'true') {
-    // If user previously turned it on, resume on first document click
     const resumeOnInteraction = () => {
       HorrorAudioEngine.unmute();
       window.removeEventListener('click', resumeOnInteraction);
