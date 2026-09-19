@@ -74,11 +74,7 @@
           <div id="preloaderProgressFill" class="preloader-progress-fill"></div>
         </div>
 
-        <div id="preloaderStatusText" class="preloader-status">INITIALIZING CALIBRATED TELEMETRY...</div>
-
-        <button type="button" class="preloader-skip-btn" onclick="dismissPreloader()">
-          ENTER ARCHIVES ➔
-        </button>
+       
       </div>
     </div>
 
@@ -111,7 +107,7 @@
           </ul>
         </nav>
 
-        <div class="nav-actions-wrap" style="display:flex; align-items:center; gap:12px; margin-left:24px; padding-left:16px; border-left:1px solid rgba(255, 255, 255, 0.12);">
+        <div class="nav-actions-wrap">
           <!-- Horror Ambient Audio Controller -->
           <button id="horrorAudioBtn" class="nav-audio-btn" type="button" aria-label="Toggle Horror Ambient Audio" title="Ambient Horror Soundscape (Click to Unmute / Mute)">
             <span class="audio-icon-wrap" id="audioIconWrap">
@@ -141,9 +137,10 @@
           </button>
 
           <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
+            <span class="mobile-menu-label">MENU</span>
           </button>
         </div>
       </div>
@@ -175,7 +172,13 @@
       <section class="hero-section" style="background-image: url('/horror_background_wide.jpg');">
         <div class="hero-overlay"></div>
         <div class="container hero-content">
+          <div class="hero-logo-wrap">
+            <div class="hero-logo-badge">
+              <img src="/paranormal_logo.png" alt="Detectives of Supernatural Emblem" class="hero-logo-img" onerror="this.src='/logo.svg'" />
+            </div>
+          </div>
           <h1 class="hero-title">DETECTIVES OF SUPERNATURAL</h1>
+          <div class="hero-tagline">RISE ABOVE THE FEAR</div>
           <p class="hero-subtitle">
             Demystifying unexplained phenomena across India through empirical science, thermal telemetry, multi-spectrum imaging, and forensic audio engineering.
           </p>
