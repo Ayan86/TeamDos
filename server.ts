@@ -119,32 +119,74 @@ app.get('/api/auth/me', (req, res) => {
 // ----------------------------------------------------
 // UPLOAD API
 // ----------------------------------------------------
-app.post('/api/upload', upload.single('file'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-  const fileUrl = `/uploads/${req.file.filename}`;
-  res.json({
-    url: fileUrl,
-    filename: req.file.filename,
-    originalName: req.file.originalname,
-    size: req.file.size,
-    mimeType: req.file.mimetype
+app.post('/api/upload', (req, res) => {
+  upload.any()(req, res, (err) => {
+    if (err) {
+      console.warn('Multer upload error:', err);
+      return res.status(400).json({ error: err.message || 'File upload failed' });
+    }
+    const files = req.files as Express.Multer.File[];
+    if (files && files.length > 0) {
+      const file = files[0];
+      const fileUrl = `/uploads/${file.filename}`;
+      return res.json({
+        url: fileUrl,
+        filename: file.filename,
+        originalName: file.originalname,
+        size: file.size,
+        mimeType: file.mimetype
+      });
+    }
+
+    // Support Base64 data URL upload in JSON body
+    if (req.body && req.body.base64) {
+      try {
+        const matches = req.body.base64.match(/^data:([A-Za-z0-9\/\+\.\-]+);base64,(.+)$/);
+        if (matches && matches.length === 3) {
+          const mime = matches[1];
+          const buffer = Buffer.from(matches[2], 'base64');
+          let ext = '.bin';
+          if (mime.includes('png')) ext = '.png';
+          else if (mime.includes('jpeg') || mime.includes('jpg')) ext = '.jpg';
+          else if (mime.includes('webp')) ext = '.webp';
+          else if (mime.includes('mp4')) ext = '.mp4';
+          else if (mime.includes('svg')) ext = '.svg';
+          
+          const filename = `upload-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+          fs.writeFileSync(path.join(uploadsDir, filename), buffer);
+          return res.json({
+            url: `/uploads/${filename}`,
+            filename,
+            size: buffer.length,
+            mimeType: mime
+          });
+        }
+      } catch (b64Err) {
+        console.warn('Base64 write error:', b64Err);
+      }
+    }
+
+    return res.status(400).json({ error: 'No file uploaded or recognized' });
   });
 });
 
-app.post('/api/upload/multiple', upload.array('files', 10), (req, res) => {
-  const files = req.files as Express.Multer.File[];
-  if (!files || files.length === 0) {
-    return res.status(400).json({ error: 'No files uploaded' });
-  }
-  const results = files.map(file => ({
-    url: `/uploads/${file.filename}`,
-    filename: file.filename,
-    originalName: file.originalname,
-    size: file.size
-  }));
-  res.json({ files: results });
+app.post('/api/upload/multiple', (req, res) => {
+  upload.array('files', 10)(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message || 'Multiple upload failed' });
+    }
+    const files = req.files as Express.Multer.File[];
+    if (!files || files.length === 0) {
+      return res.status(400).json({ error: 'No files uploaded' });
+    }
+    const results = files.map(file => ({
+      url: `/uploads/${file.filename}`,
+      filename: file.filename,
+      originalName: file.originalname,
+      size: file.size
+    }));
+    res.json({ files: results });
+  });
 });
 
 app.get('/api/uploads', (req, res) => {
@@ -443,6 +485,36 @@ app.delete('/api/gallery/:id', requireAuth, (req, res) => {
 });
 
 // ----------------------------------------------------
+// RESEARCH PAPERS & METHODOLOGIES API
+// ----------------------------------------------------
+app.get('/api/research', (req, res) => {
+  res.json(storage.getResearch());
+});
+
+app.get('/api/research/:id', (req, res) => {
+  const item = storage.getResearchById(req.params.id);
+  if (!item) return res.status(404).json({ error: 'Research paper not found' });
+  res.json(item);
+});
+
+app.post('/api/research', requireAuth, (req, res) => {
+  const item = storage.createResearch(req.body);
+  res.status(201).json(item);
+});
+
+app.put('/api/research/:id', requireAuth, (req, res) => {
+  const item = storage.updateResearch(req.params.id, req.body);
+  if (!item) return res.status(404).json({ error: 'Research paper not found' });
+  res.json(item);
+});
+
+app.delete('/api/research/:id', requireAuth, (req, res) => {
+  const success = storage.deleteResearch(req.params.id);
+  if (!success) return res.status(404).json({ error: 'Research paper not found' });
+  res.json({ success: true });
+});
+
+// ----------------------------------------------------
 // REPORT ACTIVITY API (Public report intake)
 // ----------------------------------------------------
 app.get('/api/reports', requireAuth, (req, res) => {
@@ -493,6 +565,12 @@ app.put('/api/contact/:id', requireAuth, (req, res) => {
   res.json(item);
 });
 
+app.delete('/api/contact/:id', requireAuth, (req, res) => {
+  const success = storage.deleteMessage(req.params.id);
+  if (!success) return res.status(404).json({ error: 'Message not found' });
+  res.json({ success: true });
+});
+
 // ----------------------------------------------------
 // DASHBOARD STATS API
 // ----------------------------------------------------
@@ -500,9 +578,22 @@ app.get('/api/stats', requireAuth, (req, res) => {
   res.json(storage.getStats());
 });
 
-// Explicit JSON 404 for any unhandled /api route so it never returns HTML index.html
-app.all('/api/*', (req, res) => {
+// Explicit JSON 404 for any unhandled /api or /api/* route so it never returns HTML index.html
+app.all(['/api', '/api/*'], (req, res) => {
   res.status(404).json({ error: `API route not found: ${req.method} ${req.originalUrl}` });
+});
+
+// Global API error handler ensuring all errors for /api are JSON
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (req.path.startsWith('/api') || req.originalUrl.startsWith('/api')) {
+    console.error('[API Server Error]:', err);
+    const status = err.status || err.statusCode || (err.name === 'MulterError' ? 400 : 500);
+    return res.status(status).json({
+      error: err.message || 'An internal server error occurred',
+      code: err.code || 'SERVER_ERROR'
+    });
+  }
+  next(err);
 });
 
 // ----------------------------------------------------

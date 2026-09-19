@@ -106,8 +106,27 @@ export interface SiteSettings {
   };
 }
 
+export interface ResearchItem {
+  id: string;
+  title: string;
+  category: string;
+  author?: string;
+  publicationDate: string;
+  abstract: string;
+  fullContent?: string;
+  findings?: string;
+  imageUrl?: string;
+  videoUrl?: string; // YouTube or video file
+  documentUrl?: string;
+  tags?: string[];
+  isFeatured?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface Investigation {
   id: string;
+  caseNumber?: string;
   title: string;
   location: string;
   investigationDate: string;
@@ -116,6 +135,8 @@ export interface Investigation {
   fullDescription?: string;
   fullReport?: string;
   heroImage: string;
+  imageUrl?: string;
+  videoUrl?: string;
   isFeatured?: boolean;
   evidenceCount?: number;
   findings?: string;
@@ -128,6 +149,7 @@ export interface GalleryImage {
   title: string;
   caption?: string;
   imageUrl: string;
+  videoUrl?: string;
   category: GalleryCategory | string;
   location?: string;
   date?: string;
@@ -140,11 +162,16 @@ export interface MediaItem {
   title: string;
   publication?: string;
   publisher?: string;
+  outletName?: string;
+  coverageType?: string;
+  publishDate?: string;
   date: string;
   category: MediaCategory | string;
   description?: string;
   summary?: string;
+  shortSummary?: string;
   externalUrl?: string;
+  linkUrl?: string;
   videoUrl?: string;
   thumbnail?: string;
   thumbnailUrl?: string;
@@ -177,6 +204,8 @@ export interface VaultCase {
   summary?: string;
   findings?: string;
   conclusion?: string;
+  imageUrl?: string;
+  videoUrl?: string;
   classificationLevel?: 'PUBLIC ARCHIVE' | 'RESTRICTED EVIDENCE' | 'CLASSIFIED RESEARCH' | string;
   clearanceLevel?: number;
   redactedSummary?: string;
@@ -193,9 +222,12 @@ export interface EquipmentItem {
   modelNumber?: string;
   manufacturer?: string;
   description: string;
+  tag?: string;
+  serialNumber?: string;
   specs?: { [key: string]: string | number };
-  specifications?: { [key: string]: string | number };
+  specifications?: { [key: string]: string | number } | string;
   imageUrl: string;
+  videoUrl?: string;
   status: 'Operational' | 'Field Deployed' | 'Calibration' | 'Archived' | 'Active' | 'Calibrating' | string;
   detectionMethod?: string;
   methodology?: string;
@@ -247,6 +279,7 @@ export interface AdminUser {
 
 export interface DashboardStats {
   totalInvestigations: number;
+  researchCount: number;
   galleryImages: number;
   mediaCoverage: number;
   vaultCases: number;

@@ -89,7 +89,7 @@
       <div class="container nav-container">
         <div class="nav-brand" data-nav="home">
           <div class="nav-logo-badge">
-            <img src="/paranormal_logo.jpeg" alt="Detectives of Supernatural" class="nav-logo-img" onerror="this.src='/logo.svg'" />
+            <img src="/paranormal_logo.png" alt="Detectives of Supernatural" class="nav-logo-img" onerror="this.src='/logo.svg'" />
           </div>
         </div>
 
@@ -99,6 +99,7 @@
             <li><button class="nav-item-btn" data-nav="vault">Evidence Vault</button></li>
             <li><button class="nav-item-btn" data-nav="equipment">Equipment</button></li>
             <li><button class="nav-item-btn" data-nav="media">Media Coverage</button></li>
+            <li><button class="nav-item-btn" data-nav="research">Research</button></li>
             <li><button class="nav-item-btn" data-nav="gallery">Gallery</button></li>
             <li><button class="nav-item-btn" data-nav="contact">Contact</button></li>
             <li><button class="nav-item-btn" data-nav="admin">Admin</button></li>
@@ -152,6 +153,7 @@
         <button class="nav-item-btn" data-nav="vault">Evidence Vault</button>
         <button class="nav-item-btn" data-nav="equipment">Equipment</button>
         <button class="nav-item-btn" data-nav="media">Media Coverage</button>
+        <button class="nav-item-btn" data-nav="research">Research</button>
         <button class="nav-item-btn" data-nav="gallery">Gallery</button>
         <button class="nav-item-btn" data-nav="contact">Contact</button>
         <button class="nav-item-btn" data-nav="report">Report An Incident</button>
@@ -371,6 +373,38 @@
     </main>
 
     <!-- ====================================================================
+         PAGE 6: SCIENTIFIC RESEARCH & PAPERS SECTION
+         ==================================================================== -->
+    <main id="page-research" class="page-view">
+      <div class="container" style="padding-top: 40px;">
+        <div class="section-header">
+          <div class="section-tag">EMPIRICAL METHODOLOGY & PARANORMAL SCIENCE</div>
+          <h2 class="section-title">SCIENTIFIC RESEARCH & STUDIES</h2>
+          <p class="section-desc">
+            Empirical whitepapers, bio-acoustic resonance models, frequency analyses, and investigative methodologies developed by Detectives of Supernatural.
+          </p>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom: 24px;">
+          <div class="filter-bar" style="margin-bottom:0; justify-content:flex-start;">
+            <button class="filter-btn active" onclick="setFilter('research', 'ALL')">ALL RESEARCH</button>
+            <button class="filter-btn" onclick="setFilter('research', 'ACOUSTICS')">ACOUSTICS & EVP</button>
+            <button class="filter-btn" onclick="setFilter('research', 'EMF')">EMF & GEOMAGNETIC</button>
+            <button class="filter-btn" onclick="setFilter('research', 'THERMAL')">THERMAL & OPTICAL</button>
+            <button class="filter-btn" onclick="setFilter('research', 'METHODOLOGY')">METHODOLOGY</button>
+          </div>
+          <div id="researchAdminActionContainer" style="display:none;">
+            <button onclick="navigateTo('admin'); setTimeout(() => switchAdminTab('research'), 100);" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+              <span>+ MANAGE RESEARCH IN ADMIN</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="researchGrid" class="research-grid"></div>
+      </div>
+    </main>
+
+    <!-- ====================================================================
          PAGE 7: EVIDENCE GALLERY SECTION
          ==================================================================== -->
     <main id="page-gallery" class="page-view">
@@ -501,13 +535,13 @@
          PAGE 10: ADMIN PORTAL
          ==================================================================== -->
     <main id="page-admin" class="page-view">
-      <div class="container" style="padding-top: 40px;">
+      <div class="container" style="padding-top: 40px; max-width: 1300px;">
         <!-- Login Form View -->
         <div id="adminLoginSection" style="max-width: 440px; margin: 0 auto;">
           <div class="section-header">
             <div class="section-tag">RESTRICTED ACCESS</div>
             <h2 class="section-title">INVESTIGATOR PORTAL</h2>
-            <p class="section-desc">Sign in to manage investigation files and roster records.</p>
+            <p class="section-desc">Sign in to access the Central HQ CMS, manage site sections, research papers, and media broadcasts.</p>
           </div>
 
           <form id="adminLoginForm" class="dos-card" style="padding: 28px;">
@@ -520,68 +554,337 @@
               <input type="password" id="adminPassword" class="form-control" value="RiseAboveFear2026!" required />
             </div>
             <button type="submit" class="btn-primary" style="width: 100%; justify-content:center;">
-              <span>AUTHENTICATE</span>
+              <span>AUTHENTICATE & ENTER HQ</span>
             </button>
             <div id="adminLoginError" style="display:none; color:#f87171; font-size:0.8rem; margin-top:12px; text-align:center;"></div>
           </form>
         </div>
 
-        <!-- Authenticated Dashboard View -->
+        <!-- Authenticated Dashboard View with Sidebar & Central CMS -->
         <div id="adminDashboardSection" style="display:none;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:30px; border-bottom:1px solid var(--border-color); padding-bottom:16px;">
+          <!-- Top Bar -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:16px;">
             <div>
-              <h2 style="font-size:1.8rem; font-weight:800; color:#fff;">DOS HEADQUARTERS CONSOLE</h2>
-              <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--red-primary);">Authenticated Session: Lead Investigator Clearance</div>
+              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary); letter-spacing:0.1em;">DOS CENTRAL HEADQUARTERS & CONTENT MANAGEMENT</div>
+              <h2 style="font-size:1.7rem; font-weight:800; color:#fff;">INVESTIGATOR CONSOLE</h2>
             </div>
-            <button onclick="logoutAdmin()" class="btn-secondary" style="padding:8px 16px; font-size:0.8rem;">
-              <span>TERMINATE SESSION</span>
-            </button>
-          </div>
-
-          <!-- Stats Overview -->
-          <div class="grid-4" style="margin-bottom:30px;">
-            <div class="dos-card" style="padding:16px; text-align:center;">
-              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">TOTAL CASES</div>
-              <h3 id="statTotalInvestigations" style="font-size:2rem; font-weight:800; color:#fff;">0</h3>
-            </div>
-            <div class="dos-card" style="padding:16px; text-align:center;">
-              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">MEDIA COVERAGE</div>
-              <h3 id="statMediaCount" style="font-size:2rem; font-weight:800; color:#fff;">0</h3>
-            </div>
-            <div class="dos-card" style="padding:16px; text-align:center;">
-              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PENDING TRIAGE</div>
-              <h3 id="statPendingReports" style="font-size:2rem; font-weight:800; color:#ef4444;">0</h3>
-            </div>
-            <div class="dos-card" style="padding:16px; text-align:center;">
-              <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">ACTIVE PERSONNEL</div>
-              <h3 id="statTeamCount" style="font-size:2rem; font-weight:800; color:#10b981;">0</h3>
-            </div>
-          </div>
-
-          <!-- Team Management & Portrait Uploads -->
-          <div class="dos-card" style="padding:24px; margin-bottom:30px;">
-            <h3 style="font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:6px;">INVESTIGATIVE PERSONNEL & PORTRAITS</h3>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">
-              Manage portraits and credentials for Debraj Sanyal, Ishita Das Sanyal, Anirban Das, and Ayush Majumder.
-            </p>
-            <div id="adminTeamList" style="display:flex; flex-direction:column; gap:16px;"></div>
-          </div>
-
-          <!-- Media Coverage & Video Upload Management -->
-          <div class="dos-card" style="padding:24px; margin-bottom:30px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
-              <div>
-                <h3 style="font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:4px;">MEDIA COVERAGE & VIDEO ARCHIVE</h3>
-                <p style="font-size:0.85rem; color:var(--text-muted);">
-                  Upload video documentary files (.mp4), attach TV broadcast recordings, or embed YouTube reports to display in the Media Coverage section.
-                </p>
-              </div>
-              <button onclick="openAdminVideoUploadModal()" class="btn-primary" style="padding:10px 20px; font-size:0.85rem;">
-                <span>+ UPLOAD VIDEO COVERAGE</span>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <button onclick="logoutAdmin()" class="btn-secondary" style="padding:8px 16px; font-size:0.8rem;">
+                <span>TERMINATE SESSION</span>
               </button>
             </div>
-            
-            <div id="adminMediaList" style="display:flex; flex-direction:column; gap:14px;"></div>
+          </div>
+
+          <!-- Two-Column Layout (Sidebar + Content Pane) -->
+          <div class="admin-layout-container">
+            <!-- Left Sidebar Navigation -->
+            <aside class="admin-sidebar">
+              <div class="admin-sidebar-category">CONTROL CENTER</div>
+              <button class="admin-sidebar-nav-btn active" onclick="switchAdminTab('overview')">
+                <span class="btn-left"><span>📊</span> Dashboard Overview</span>
+              </button>
+
+              <div class="admin-sidebar-category">PUBLIC SECTIONS & CONTENT</div>
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('research')">
+                <span class="btn-left"><span>🔬</span> Research & Papers</span>
+                <span class="admin-sidebar-badge" id="badgeAdminResearch">0</span>
+              </button>
+
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('investigations')">
+                <span class="btn-left"><span>🔍</span> Investigations</span>
+                <span class="admin-sidebar-badge" id="badgeAdminInvestigations">0</span>
+              </button>
+
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('vault')">
+                <span class="btn-left"><span>🗄️</span> Evidence Vault</span>
+                <span class="admin-sidebar-badge" id="badgeAdminVault">0</span>
+              </button>
+
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('equipment')">
+                <span class="btn-left"><span>⚡</span> Equipment Tech</span>
+                <span class="admin-sidebar-badge" id="badgeAdminEquipment">0</span>
+              </button>
+
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('media')">
+                <span class="btn-left"><span>📺</span> Media Coverage</span>
+                <span class="admin-sidebar-badge" id="badgeAdminMedia">0</span>
+              </button>
+
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('team')">
+                <span class="btn-left"><span>👥</span> Team Personnel</span>
+                <span class="admin-sidebar-badge" id="badgeAdminTeam">0</span>
+              </button>
+
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('gallery')">
+                <span class="btn-left"><span>🖼️</span> Evidence Gallery</span>
+                <span class="admin-sidebar-badge" id="badgeAdminGallery">0</span>
+              </button>
+
+              <div class="admin-sidebar-category">INCOMING TRIAGE</div>
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('reports')">
+                <span class="btn-left"><span>🚨</span> Incident Reports</span>
+                <span class="admin-sidebar-badge" id="badgeAdminReports" style="background:#ef4444; color:#fff;">0</span>
+              </button>
+
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('messages')">
+                <span class="btn-left"><span>✉️</span> Contact Inquiries</span>
+                <span class="admin-sidebar-badge" id="badgeAdminMessages">0</span>
+              </button>
+
+              <div class="admin-sidebar-category">SYSTEM</div>
+              <button class="admin-sidebar-nav-btn" onclick="switchAdminTab('settings')">
+                <span class="btn-left"><span>⚙️</span> Site Settings</span>
+              </button>
+            </aside>
+
+            <!-- Right Main Content Panes -->
+            <main class="admin-content-pane">
+              <!-- TAB 1: OVERVIEW -->
+              <div id="admin-tab-overview" class="admin-tab-pane active">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">SYSTEM METRICS & DOSSIER OVERVIEW</h3>
+                    <p class="admin-pane-desc">Live statistics across public research, archived evidence, and active dispatches.</p>
+                  </div>
+                </div>
+
+                <div class="grid-4" style="margin-bottom:24px;">
+                  <div class="dos-card" style="padding:16px; text-align:center;">
+                    <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">RESEARCH PAPERS</div>
+                    <h3 id="statResearchCount" style="font-size:2rem; font-weight:800; color:#38bdf8;">0</h3>
+                  </div>
+                  <div class="dos-card" style="padding:16px; text-align:center;">
+                    <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">ACTIVE CASES</div>
+                    <h3 id="statTotalInvestigations" style="font-size:2rem; font-weight:800; color:#fff;">0</h3>
+                  </div>
+                  <div class="dos-card" style="padding:16px; text-align:center;">
+                    <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">MEDIA BROADCASTS</div>
+                    <h3 id="statMediaCount" style="font-size:2rem; font-weight:800; color:#fff;">0</h3>
+                  </div>
+                  <div class="dos-card" style="padding:16px; text-align:center;">
+                    <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">PENDING TRIAGE</div>
+                    <h3 id="statPendingReports" style="font-size:2rem; font-weight:800; color:#ef4444;">0</h3>
+                  </div>
+                </div>
+
+                <div class="dos-card" style="padding:20px; margin-bottom:24px;">
+                  <h4 style="font-size:1.1rem; color:#fff; margin-bottom:8px;">Quick Content Publishing</h4>
+                  <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+                    Select any category from the sidebar or click a shortcut below to upload new photos, YouTube videos, and text articles directly to the live site.
+                  </p>
+                  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button onclick="openAdminEntityModal('research')" class="btn-primary" style="font-size:0.8rem; padding:8px 16px;">
+                      <span>+ PUBLISH RESEARCH PAPER</span>
+                    </button>
+                    <button onclick="openAdminEntityModal('media')" class="btn-primary" style="font-size:0.8rem; padding:8px 16px;">
+                      <span>+ ADD MEDIA COVERAGE / VIDEO</span>
+                    </button>
+                    <button onclick="openAdminEntityModal('investigations')" class="btn-secondary" style="font-size:0.8rem; padding:8px 16px;">
+                      <span>+ NEW INVESTIGATION DOSSIER</span>
+                    </button>
+                    <button onclick="openAdminEntityModal('vault')" class="btn-secondary" style="font-size:0.8rem; padding:8px 16px;">
+                      <span>+ CLASSIFIED VAULT RECORD</span>
+                    </button>
+                    <button onclick="openAdminEntityModal('gallery')" class="btn-secondary" style="font-size:0.8rem; padding:8px 16px;">
+                      <span>+ UPLOAD GALLERY PHOTO</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="dos-card" style="padding:20px;">
+                  <h4 style="font-size:1.1rem; color:#fff; margin-bottom:12px;">Recent Investigation Case Log</h4>
+                  <div id="adminRecentInvList" style="display:flex; flex-direction:column; gap:10px;"></div>
+                </div>
+              </div>
+
+              <!-- TAB 2: RESEARCH -->
+              <div id="admin-tab-research" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">RESEARCH PAPERS & SCIENTIFIC STUDIES</h3>
+                    <p class="admin-pane-desc">Manage empirical whitepapers, acoustic frequency data, YouTube documentary analyses, and research texts.</p>
+                  </div>
+                  <button onclick="openAdminEntityModal('research')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+                    <span>+ ADD RESEARCH PAPER</span>
+                  </button>
+                </div>
+                <div class="admin-search-bar">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Search research papers by title, author, or category..." oninput="filterAdminList('research', this.value)" />
+                </div>
+                <div id="adminResearchList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 3: INVESTIGATIONS -->
+              <div id="admin-tab-investigations" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">INVESTIGATION DOSSIERS</h3>
+                    <p class="admin-pane-desc">Manage field deployment records, location telemetries, incident case files, and findings.</p>
+                  </div>
+                  <button onclick="openAdminEntityModal('investigations')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+                    <span>+ ADD INVESTIGATION</span>
+                  </button>
+                </div>
+                <div class="admin-search-bar">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Search investigations..." oninput="filterAdminList('investigations', this.value)" />
+                </div>
+                <div id="adminInvestigationsList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 4: EVIDENCE VAULT -->
+              <div id="admin-tab-vault" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">CLASSIFIED EVIDENCE VAULT</h3>
+                    <p class="admin-pane-desc">Manage historical artifacts, haunted object dossiers, containment logs, and spectral records.</p>
+                  </div>
+                  <button onclick="openAdminEntityModal('vault')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+                    <span>+ ADD VAULT CASE</span>
+                  </button>
+                </div>
+                <div class="admin-search-bar">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Search vault cases..." oninput="filterAdminList('vault', this.value)" />
+                </div>
+                <div id="adminVaultList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 5: EQUIPMENT -->
+              <div id="admin-tab-equipment" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">SCIENTIFIC EQUIPMENT ARSENAL</h3>
+                    <p class="admin-pane-desc">Manage sensory meters, thermal imagers, full-spectrum cameras, and audio transducers.</p>
+                  </div>
+                  <button onclick="openAdminEntityModal('equipment')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+                    <span>+ ADD EQUIPMENT ITEM</span>
+                  </button>
+                </div>
+                <div class="admin-search-bar">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Search equipment..." oninput="filterAdminList('equipment', this.value)" />
+                </div>
+                <div id="adminEquipmentList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 6: MEDIA COVERAGE -->
+              <div id="admin-tab-media" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">MEDIA COVERAGE & BROADCASTS</h3>
+                    <p class="admin-pane-desc">Manage television telecasts, newspaper features, YouTube documentaries, and podcast interviews.</p>
+                  </div>
+                  <button onclick="openAdminEntityModal('media')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+                    <span>+ ADD MEDIA COVERAGE / VIDEO</span>
+                  </button>
+                </div>
+                <div class="admin-search-bar">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Search media coverage..." oninput="filterAdminList('media', this.value)" />
+                </div>
+                <div id="adminMediaList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 7: TEAM -->
+              <div id="admin-tab-team" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">INVESTIGATIVE PERSONNEL & ROSTER</h3>
+                    <p class="admin-pane-desc">Update bios, credentials, roles, and portraits for core team members and investigators.</p>
+                  </div>
+                  <button onclick="openAdminEntityModal('team')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+                    <span>+ ADD TEAM MEMBER</span>
+                  </button>
+                </div>
+                <div id="adminTeamList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 8: GALLERY -->
+              <div id="admin-tab-gallery" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">EVIDENCE GALLERY ARCHIVE</h3>
+                    <p class="admin-pane-desc">Upload zero-lux photos, thermal snapshots, forensic site scans, and video links.</p>
+                  </div>
+                  <button onclick="openAdminEntityModal('gallery')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+                    <span>+ UPLOAD EVIDENCE PHOTO</span>
+                  </button>
+                </div>
+                <div id="adminGalleryList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:16px;"></div>
+              </div>
+
+              <!-- TAB 9: REPORTS -->
+              <div id="admin-tab-reports" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">WITNESS INCIDENT SUBMISSIONS</h3>
+                    <p class="admin-pane-desc">Triage incoming public incident reports and scientific investigation requests.</p>
+                  </div>
+                </div>
+                <div id="adminReportsList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 10: MESSAGES -->
+              <div id="admin-tab-messages" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">CONTACT MESSAGES & INQUIRIES</h3>
+                    <p class="admin-pane-desc">Read messages submitted through the public contact desk.</p>
+                  </div>
+                </div>
+                <div id="adminMessagesList" style="display:flex; flex-direction:column; gap:12px;"></div>
+              </div>
+
+              <!-- TAB 11: SETTINGS -->
+              <div id="admin-tab-settings" class="admin-tab-pane">
+                <div class="admin-pane-header">
+                  <div>
+                    <h3 class="admin-pane-title">SITE CONFIGURATION</h3>
+                    <p class="admin-pane-desc">Update organization details, emergency phone number, contact email, and banner text.</p>
+                  </div>
+                </div>
+                <form id="adminSettingsForm" class="dos-card" style="padding:24px;">
+                  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px;">
+                    <div class="form-group">
+                      <label class="form-label">Site Name</label>
+                      <input type="text" id="settingSiteName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Motto / Tagline</label>
+                      <input type="text" id="settingTagline" class="form-control" />
+                    </div>
+                  </div>
+                  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px;">
+                    <div class="form-group">
+                      <label class="form-label">24/7 Emergency Phone Number</label>
+                      <input type="text" id="settingPhone" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Contact Email</label>
+                      <input type="email" id="settingEmail" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">HQ Location / Address</label>
+                    <input type="text" id="settingAddress" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Emergency Desk Status Banner</label>
+                    <input type="text" id="settingEmergencyStatus" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">About / Mission Summary</label>
+                    <textarea id="settingAboutText" class="form-control" style="min-height:80px;"></textarea>
+                  </div>
+                  <button type="submit" class="btn-primary" style="padding:10px 24px;">
+                    <span>SAVE SETTINGS</span>
+                  </button>
+                  <div id="adminSettingsStatus" style="margin-top:10px; font-size:0.85rem;"></div>
+                </form>
+              </div>
+            </main>
           </div>
         </div>
       </div>
@@ -607,6 +910,7 @@
             <li><a href="#vault" data-nav="vault">Classified Evidence Vault</a></li>
             <li><a href="#equipment" data-nav="equipment">Scientific Equipment Arsenal</a></li>
             <li><a href="#media" data-nav="media">Media Coverage & Documentaries</a></li>
+            <li><a href="#research" data-nav="research">Empirical Research & Studies</a></li>
             <li><a href="#gallery" data-nav="gallery">Photographic Evidence Gallery</a></li>
           </ul>
         </div>
@@ -622,6 +926,179 @@
         <div>RISE ABOVE FEAR • EMPIRICAL PARANORMAL RESEARCH</div>
       </div>
     </footer>
+
+    <!-- Universal Entity CMS Editor Modal (Supports Photos, YouTube Videos, and Text Upload for all Pages) -->
+    <div id="adminEntityModal" class="modal-overlay" onclick="closeModal('adminEntityModal')">
+      <div class="modal-content" style="max-width: 820px; background:#0a0c12; max-height:90vh; overflow-y:auto;" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeModal('adminEntityModal')">✕</button>
+        <div style="margin-bottom:20px; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary); margin-bottom:4px;" id="adminEntityModalTypeLabel">CONTENT MANAGEMENT SYSTEM</div>
+          <h2 style="font-size:1.4rem; font-weight:800; color:#fff;" id="adminEntityModalTitle">Add New Content Entry</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted);" id="adminEntityModalSubtitle">Upload images, embed YouTube videos, and edit text to reflect on the user pages.</p>
+        </div>
+
+        <form id="adminEntityForm">
+          <input type="hidden" id="entitySectionType" />
+          <input type="hidden" id="entityEditId" />
+          <input type="hidden" id="entityId" />
+
+          <!-- Title / Main Name -->
+          <div class="form-group" id="groupEntityTitle">
+            <label class="form-label" id="lblEntityTitle">Title / Headline *</label>
+            <input type="text" id="entityTitle" class="form-control" required placeholder="Enter item title..." />
+          </div>
+
+          <!-- Dynamic Meta Fields Grid -->
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+            <div class="form-group" id="groupEntityCategory">
+              <label class="form-label" id="lblEntityCategory">Category / Classification</label>
+              <input type="text" id="entityCategory" class="form-control" placeholder="e.g. Acoustics & EVP, Television, Spectrometry..." />
+            </div>
+            <div class="form-group" id="groupEntityAuthor">
+              <label class="form-label" id="lblEntityAuthor">Author / Publication / Lead</label>
+              <input type="text" id="entityAuthor" class="form-control" placeholder="e.g. Debraj Sanyal..." />
+            </div>
+            <div class="form-group" id="groupEntityDate">
+              <label class="form-label" id="lblEntityDate">Date</label>
+              <input type="date" id="entityDate" class="form-control" />
+            </div>
+            <div class="form-group" id="groupEntityLocation">
+              <label class="form-label" id="lblEntityLocation">Field Location</label>
+              <input type="text" id="entityLocation" class="form-control" placeholder="e.g. Kolkata, West Bengal..." />
+            </div>
+            <div class="form-group" id="groupEntityStatus">
+              <label class="form-label" id="lblEntityStatus">Investigation Status</label>
+              <select id="entityStatus" class="form-control">
+                <option value="Active">Active</option>
+                <option value="Documented">Documented</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+            <div class="form-group" id="groupEntityRole">
+              <label class="form-label" id="lblEntityRole">Organizational Role</label>
+              <input type="text" id="entityRole" class="form-control" placeholder="e.g. Lead Investigator..." />
+            </div>
+            <div class="form-group" id="groupEntityExpertise">
+              <label class="form-label" id="lblEntityExpertise">Field Expertise</label>
+              <input type="text" id="entityExpertise" class="form-control" placeholder="e.g. EVP Analysis, Thermal..." />
+            </div>
+            <div class="form-group" id="groupEntityThreatLevel">
+              <label class="form-label" id="lblEntityThreatLevel">Threat Level</label>
+              <select id="entityThreatLevel" class="form-control">
+                <option value="Standard">Standard</option>
+                <option value="Elevated">Elevated</option>
+                <option value="Severe">Severe</option>
+                <option value="Classified">Classified</option>
+              </select>
+            </div>
+            <div class="form-group" id="groupEntitySpecs">
+              <label class="form-label" id="lblEntitySpecs">Technical Specifications</label>
+              <input type="text" id="entitySpecs" class="form-control" placeholder="e.g. 0.01 microTesla sensitivity..." />
+            </div>
+            <div class="form-group" id="groupEntityExternalUrl">
+              <label class="form-label" id="lblEntityExternalUrl">External Article URL</label>
+              <input type="url" id="entityExternalUrl" class="form-control" placeholder="https://..." />
+            </div>
+          </div>
+
+          <!-- Citations & Bibliography -->
+          <div class="form-group" id="groupEntityCitations">
+            <label class="form-label" id="lblEntityCitations">Citations & Academic References</label>
+            <input type="text" id="entityCitations" class="form-control" placeholder="e.g. ISO 1996 Acoustic Standards, IEEE Geoscience..." />
+          </div>
+
+          <!-- Photo / Image Upload Section -->
+          <div class="form-group" id="groupEntityImageSection" style="background:#07080d; border:1px solid var(--border-subtle); border-radius:8px; padding:16px;">
+            <label class="form-label" style="font-weight:700; color:#fff; display:flex; align-items:center; gap:8px;">
+              <span>📷</span> PHOTO / COVER IMAGE UPLOAD & URL
+            </label>
+            <div style="display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; margin-top:8px;">
+              <div style="flex:1; min-width:240px;">
+                <div class="upload-dropzone" style="padding:16px;" onclick="document.getElementById('entityImageFileInput').click()">
+                  <div style="font-size:1.5rem; margin-bottom:4px;">🖼️</div>
+                  <div style="font-weight:600; color:#fff; font-size:0.85rem;">Click to Upload Photo File</div>
+                  <div style="font-size:0.75rem; color:var(--text-muted);" id="entityImageFileName">Supports .jpg, .png, .webp, .jfif</div>
+                  <input type="file" id="entityImageFileInput" accept="image/*,.jfif" style="display:none;" onchange="handleEntityImageFile(this)" />
+                </div>
+                <div style="margin-top:10px;">
+                  <input type="text" id="entityImageUrl" class="form-control" placeholder="Or enter direct Image URL (e.g., /horror_background_wide.jpg)" oninput="updateEntityImagePreview(this.value)" />
+                </div>
+              </div>
+              <div id="entityImagePreviewContainer" style="width:140px; aspect-ratio:16/9; background:#000; border-radius:4px; overflow:hidden; border:1px solid var(--border-color); display:flex; align-items:center; justify-content:center;">
+                <img id="entityImagePreview" src="/horror_background_wide.jpg" alt="Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/horror_background_wide.jpg'" />
+              </div>
+            </div>
+          </div>
+
+          <!-- YouTube Video / Video Embed Section -->
+          <div class="form-group" id="groupEntityVideoSection" style="background:#07080d; border:1px solid var(--border-subtle); border-radius:8px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <label class="form-label" style="font-weight:700; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:0;">
+                <span>📹</span> YOUTUBE VIDEO / VIDEO STREAM UPLOAD
+              </label>
+              <button type="button" id="btnClearVideoPreview" onclick="clearEntityVideo()" style="display:none; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); color:#f87171; font-size:0.75rem; padding:3px 10px; border-radius:4px; cursor:pointer; font-family:var(--font-mono); align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.3)'" onmouseout="this.style.background='rgba(239,68,68,0.15)'">
+                <span>✕ REMOVE / CLEAR VIDEO</span>
+              </button>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">
+              Paste any YouTube video link (e.g. <code>https://www.youtube.com/watch?v=...</code> or <code>https://youtu.be/...</code>) or upload an MP4/WebM video file.
+            </p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:240px; position:relative;">
+                <div style="position:relative; display:flex; align-items:center;">
+                  <input type="url" id="entityVideoUrl" class="form-control" style="padding-right:36px;" placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..." oninput="updateEntityVideoPreview(this.value)" />
+                  <button type="button" id="entityVideoUrlClearBtn" onclick="clearEntityVideo()" title="Clear video link" style="display:none; position:absolute; right:8px; background:rgba(255,255,255,0.1); border:none; color:#f87171; width:22px; height:22px; border-radius:50%; font-size:0.8rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; transition:all 0.2s;" onmouseover="this.style.background='#dc2626'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='#f87171';">✕</button>
+                </div>
+                <div style="margin-top:8px; display:flex; align-items:center; gap:10px;">
+                  <button type="button" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem;" onclick="document.getElementById('entityVideoFileInput').click()">
+                    <span>📁 UPLOAD MP4/WEBM FILE</span>
+                  </button>
+                  <span id="entityVideoFileName" style="font-size:0.75rem; color:var(--text-muted);"></span>
+                  <input type="file" id="entityVideoFileInput" accept="video/mp4,video/webm,.mp4,.webm" style="display:none;" onchange="handleEntityVideoFile(this)" />
+                </div>
+              </div>
+            </div>
+            <!-- Video Live Preview Wrap with Prominent Floating Cross Option -->
+            <div id="entityVideoPreviewWrap" style="position:relative; margin-top:14px; display:none;">
+              <button type="button" onclick="clearEntityVideo()" title="Close / Remove Video Preview (✕)" class="video-red-cross-btn" style="top:8px; right:8px;">
+                ✕
+              </button>
+              <div id="entityVideoPreviewBox" style="position:relative; aspect-ratio:16/9; max-height:280px; background:#000; border-radius:6px; overflow:hidden; border:2px solid var(--red-primary);"></div>
+            </div>
+          </div>
+
+          <!-- Text Content (Short Summary & Detailed Findings / Full Text) -->
+          <div class="form-group" id="groupEntitySummary">
+            <label class="form-label" id="lblEntitySummary">Brief Summary / Abstract *</label>
+            <textarea id="entitySummary" class="form-control" style="min-height:75px;" required placeholder="Brief description to appear on cards..."></textarea>
+          </div>
+
+          <div class="form-group" id="groupEntityFullContent">
+            <label class="form-label" id="lblEntityFullContent">Full Article / Scientific Findings / Specifications / Case Report</label>
+            <textarea id="entityFullContent" class="form-control" style="min-height:140px;" placeholder="Full detailed empirical study, case notes, technical specifications, or biography..."></textarea>
+          </div>
+
+          <div id="adminEntityStatus" style="margin-top:10px; font-size:0.85rem;"></div>
+
+          <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+            <button type="button" class="btn-secondary" onclick="closeModal('adminEntityModal')">
+              <span>CANCEL</span>
+            </button>
+            <button type="submit" id="adminEntitySubmitBtn" class="btn-primary" style="padding:10px 24px;">
+              <span>SAVE & PUBLISH TO SITE</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Research Paper Detailed Reader Modal -->
+    <div id="researchModal" class="modal-overlay" onclick="closeModal('researchModal')">
+      <div class="modal-content" style="max-width: 900px; background:#08090e; border:1px solid var(--border-hover); max-height:90vh; overflow-y:auto;" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeModal('researchModal')">✕</button>
+        <div id="researchModalBody"></div>
+      </div>
+    </div>
 
     <!-- Modals -->
     <div id="investigationModal" class="modal-overlay">
@@ -642,8 +1119,8 @@
 
     <!-- Video Theater Player Modal -->
     <div id="videoPlayerModal" class="modal-overlay" onclick="closeVideoPlayerModal()">
-      <div class="modal-content" style="max-width: 950px; background:#07080c; border:1px solid var(--border-hover);" onclick="event.stopPropagation()">
-        <button class="modal-close-btn" onclick="closeVideoPlayerModal()">✕</button>
+      <div class="modal-content" style="max-width: 950px; background:#07080c; border:1px solid var(--border-hover); position:relative; padding-top:40px;" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeVideoPlayerModal()" title="Close Video (✕)" aria-label="Close Video">✕</button>
         <div id="videoPlayerContainer" class="video-player-container"></div>
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
           <div>
@@ -723,8 +1200,18 @@
 
             <!-- Mode 2: Direct URL -->
             <div id="videoSourceUrlBlock" style="display:none;">
-              <input type="url" id="adminVideoUrlInput" class="form-control" placeholder="https://www.youtube.com/watch?v=... or https://example.com/video.mp4" />
+              <div style="position:relative; display:flex; align-items:center;">
+                <input type="url" id="adminVideoUrlInput" class="form-control" style="padding-right:36px;" placeholder="https://www.youtube.com/watch?v=... or https://example.com/video.mp4" oninput="updateAdminVideoUrlPreview(this.value)" />
+                <button type="button" id="adminVideoUrlClearBtn" onclick="clearAdminVideoUrlPreview()" title="Clear video link" style="display:none; position:absolute; right:8px; background:rgba(255,255,255,0.1); border:none; color:#f87171; width:22px; height:22px; border-radius:50%; font-size:0.8rem; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; transition:all 0.2s;" onmouseover="this.style.background='#dc2626'; this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='#f87171';">✕</button>
+              </div>
               <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Paste full YouTube, Vimeo, or direct MP4 stream URL</div>
+              <!-- Live Video Preview Box with Cross Option -->
+              <div id="adminVideoUrlPreviewWrap" style="position:relative; margin-top:10px; display:none;">
+                <button type="button" onclick="clearAdminVideoUrlPreview()" title="Close / Remove Video Preview (✕)" class="video-red-cross-btn" style="top:8px; right:8px;">
+                  ✕
+                </button>
+                <div id="adminVideoUrlPreviewBox" style="position:relative; aspect-ratio:16/9; max-height:240px; background:#000; border-radius:6px; overflow:hidden; border:2px solid var(--red-primary);"></div>
+              </div>
             </div>
           </div>
 
@@ -761,6 +1248,33 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Admin Permanent Deletion Confirmation Modal -->
+    <div id="adminConfirmModal" class="modal-overlay" onclick="closeConfirmModal()">
+      <div class="modal-content" style="max-width: 480px; background:#0c0e14; border:1px solid rgba(239,68,68,0.5); box-shadow:0 10px 40px rgba(0,0,0,0.9), 0 0 25px rgba(220,38,38,0.25); position:relative;" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeConfirmModal()">✕</button>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <div style="width:42px; height:42px; border-radius:50%; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.4); display:flex; align-items:center; justify-content:center; color:#f87171; font-size:1.3rem; flex-shrink:0;">
+            ⚠️
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--red-primary); letter-spacing:1px;">CONFIRM PERMANENT DELETION</div>
+            <h3 id="confirmModalTitle" style="font-size:1.15rem; font-weight:800; color:#fff; margin:0;">Delete Record</h3>
+          </div>
+        </div>
+        <p id="confirmModalMessage" style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; margin-bottom:20px;">
+          Are you sure you want to permanently remove this record? This change will reflect on the live site immediately.
+        </p>
+        <div style="display:flex; justify-content:flex-end; gap:12px;">
+          <button type="button" class="btn-secondary" onclick="closeConfirmModal()" style="padding:8px 18px; font-size:0.8rem;">
+            <span>CANCEL</span>
+          </button>
+          <button type="button" id="confirmModalProceedBtn" class="btn-primary" style="background:#dc2626; border-color:#ef4444; padding:8px 20px; font-size:0.8rem; box-shadow:0 4px 15px rgba(220,38,38,0.4);">
+            <span>🗑 DELETE RECORD</span>
+          </button>
+        </div>
       </div>
     </div>
 

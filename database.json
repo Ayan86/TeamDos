@@ -160,6 +160,20 @@
   ],
   "vault": [
     {
+      "title": "EMF",
+      "caseId": "sfs",
+      "classification": "sfs",
+      "threatLevel": "Elevated",
+      "synopsis": "zsfsf",
+      "description": "zsfsf",
+      "analysis": "sfsfs",
+      "findings": "sfsfs",
+      "evidenceImage": "/uploads/file-1789822281457-799244849.jfif",
+      "id": "vlt-1789822281660",
+      "createdAt": "2026-09-19T12:51:21.660Z",
+      "updatedAt": "2026-09-19T12:51:21.660Z"
+    },
+    {
       "id": "vlt-1",
       "caseId": "DOS-VLT-042",
       "title": "Dow Hill Acoustic Anomalies & Sub-Audible Waveforms",
@@ -305,7 +319,10 @@
       "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
       "status": "Operational",
       "detectionMethod": "Tri-axial electromagnetic induction",
-      "createdAt": "2020-01-10T00:00:00Z"
+      "createdAt": "2020-01-10T00:00:00Z",
+      "usage": "Calibrated broadband electromagnetic field meter measuring AC magnetic, AC electric, and RF/microwave radiation simultaneously with rapid 3-axis response.",
+      "photoUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "methodology": "Tri-axial electromagnetic induction"
     },
     {
       "id": "eq-2",
@@ -322,7 +339,10 @@
       "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
       "status": "Operational",
       "detectionMethod": "Single-axis rapid electromagnetic detection",
-      "createdAt": "2019-05-12T00:00:00Z"
+      "createdAt": "2019-05-12T00:00:00Z",
+      "usage": "Industry-standard rapid-response milligauss meter with instantaneous 5-LED multi-level indicators used for detecting instantaneous magnetic spikes in field investigations.",
+      "photoUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "methodology": "Single-axis rapid electromagnetic detection"
     },
     {
       "id": "eq-3",
@@ -340,7 +360,10 @@
       "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
       "status": "Operational",
       "detectionMethod": "Uncooled Microbolometer LWIR",
-      "createdAt": "2021-08-14T00:00:00Z"
+      "createdAt": "2021-08-14T00:00:00Z",
+      "usage": "Precision thermal imaging diagnostic system with 320x240 IR resolution and MSX enhancement for mapping subtle thermal dissipation and ambient cold spots.",
+      "photoUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "methodology": "Uncooled Microbolometer LWIR"
     },
     {
       "id": "eq-4",
@@ -357,7 +380,10 @@
       "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
       "status": "Operational",
       "detectionMethod": "Direct CMOS multi-spectrum light absorption",
-      "createdAt": "2022-04-10T00:00:00Z"
+      "createdAt": "2022-04-10T00:00:00Z",
+      "usage": "Sensor optical filter removed to capture complete ultraviolet, visible, and infrared light spectrums up to 1050nm in total darkness.",
+      "photoUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "methodology": "Direct CMOS multi-spectrum light absorption"
     },
     {
       "id": "eq-5",
@@ -374,7 +400,10 @@
       "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
       "status": "Operational",
       "detectionMethod": "Ultra-low noise condenser transducing",
-      "createdAt": "2020-11-05T00:00:00Z"
+      "createdAt": "2020-11-05T00:00:00Z",
+      "usage": "Studio-grade low-noise microphone preamplifiers (-120dB EIN) paired with high-sensitivity XY and shotgun capsule mics for pristine audio forensic isolation.",
+      "photoUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "methodology": "Ultra-low noise condenser transducing"
     },
     {
       "id": "eq-6",
@@ -391,7 +420,10 @@
       "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
       "status": "Operational",
       "detectionMethod": "Spatial disruption occlusion mapping",
-      "createdAt": "2023-03-01T00:00:00Z"
+      "createdAt": "2023-03-01T00:00:00Z",
+      "usage": "Coherent 532nm emerald laser beam splitter producing a 100-point calibrated grid across rooms to detect minute optical shadow disruptions and 3D volume breaks.",
+      "photoUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "methodology": "Spatial disruption occlusion mapping"
     },
     {
       "id": "eq-7",
@@ -408,7 +440,23 @@
       "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
       "status": "Field Deployed",
       "detectionMethod": "Integrated solid-state sensor fusion",
-      "createdAt": "2023-09-18T00:00:00Z"
+      "createdAt": "2023-09-18T00:00:00Z",
+      "usage": "Compact environmental logger logging continuous barometric pressure, ambient temperature, humidity, vibration accelerometer, and electromagnetic shifts.",
+      "photoUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "methodology": "Integrated solid-state sensor fusion"
+    },
+    {
+      "name": "gjgjgf",
+      "category": "dd",
+      "specs": "dg",
+      "usage": "cvdg",
+      "imageUrl": "/uploads/file-1789822593015-486758180.jfif",
+      "id": "eq-1789822593198",
+      "createdAt": "2026-09-19T12:56:33.198Z",
+      "status": "Operational",
+      "description": "cvdg",
+      "photoUrl": "/uploads/file-1789822593015-486758180.jfif",
+      "methodology": "dg"
     }
   ],
   "media": [
@@ -653,5 +701,88 @@
       "createdAt": "2026-09-10T14:20:00Z"
     }
   ],
-  "reportCounter": 3
+  "reportCounter": 3,
+  "research": [
+    {
+      "id": "res-1",
+      "title": "18.9 Hz Infrasound Resonance & Human Ocular Vibration in Heritage Structures",
+      "category": "Infrasound & Acoustics",
+      "author": "Debraj Sanyal & DOS Technical Division",
+      "publicationDate": "2026-05-18",
+      "abstract": "An empirical investigation into standing acoustic waves between 17 Hz and 19 Hz generated by architectural air corridors. Correlating sub-audible air vibrations with peripheral vision distortions and sensations of dread in pre-independence colonial mansions.",
+      "fullContent": "### Introduction & Experimental Hypothesis\nMany historical estates reported as 'haunted' exhibit specific spatial geometry that acts as a Helmholtz acoustic resonator. When ambient outdoor wind velocities exceed 18 km/h, these long corridors generate low-frequency acoustic standing waves.\n\n### Methodology\n1. Multi-point infrasonic barometer array deployed along corridors.\n2. Ultrasonic microphone capture sampled at 192 kHz / 32-bit float.\n3. Continuous participant physiological monitoring (galvanic skin response and pupil dilation).\n\n### Findings\nIn 34% of documented heritage case files, an 18.9 Hz infrasonic peak was recorded. This frequency coincides with the human eyeball's resonant optical frequency, inducing subtle mechanical oscillations of the vitreous humor and triggering illusory peripheral shadow shapes.\n\n### Conclusion\nDemystifying natural environmental triggers is paramount. By mapping standing acoustic waves, DOS distinguishes between legitimate unexplained anomalies and architectural bio-acoustic phenomena.",
+      "findings": "Demonstrated direct correlation between corridor wind resonance (18.9 Hz) and peripheral visual artifacts across 6 historical estates.",
+      "imageUrl": "/uploads/heritage_estate.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "Infrasound",
+        "Bio-Acoustics",
+        "Debunking",
+        "Helmholtz Resonance"
+      ],
+      "isFeatured": true,
+      "createdAt": "2026-05-18T10:00:00Z"
+    },
+    {
+      "id": "res-2",
+      "title": "Fast Fourier Transform (FFT) Spectral Analysis of Electronic Voice Phenomena (EVP)",
+      "category": "Audio & EVP Analysis",
+      "author": "Ishita Das Sanyal & DOS Audio Lab",
+      "publicationDate": "2026-03-22",
+      "abstract": "Comparative spectral density study distinguishing radio frequency bleed-through, microphone diaphragm thermal noise, and anomalous structured vocal formants captured in electrically isolated Faraday environments.",
+      "fullContent": "### Objective\nElectronic Voice Phenomena (EVP) remains one of the most widely documented yet easily corrupted categories of evidence. This paper presents a standardized signal verification protocol.\n\n### Test Environment\nField recordings conducted in custom double-layered mu-metal and copper RF shielded Faraday enclosures to eliminate cell tower, AM/FM radio, and emergency frequency cross-talk.\n\n### Spectrographic Identification\nLegitimate anomalous recordings exhibit formant characteristics (F1, F2 peaks) without the carrier wave harmonics typical of commercial RF transmissions.\n\n### Protocol Guidelines\n- Minimum 96 kHz 24-bit PCM capture.\n- Dual-recorder differential noise cancellation.\n- Blind panel voice articulation grading.",
+      "findings": "Established mathematical threshold for distinguishing background radio frequency bleed from unexplainable acoustic harmonic clusters.",
+      "imageUrl": "/uploads/evp_analysis.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "EVP",
+        "Spectrogram",
+        "FFT",
+        "Faraday Shielding",
+        "Signal Processing"
+      ],
+      "isFeatured": true,
+      "createdAt": "2026-03-22T14:30:00Z"
+    },
+    {
+      "id": "res-3",
+      "title": "Tri-Axis Geomagnetic Field Deviations & Localized Temperature Gradient Inversions",
+      "category": "EMF & Geomagnetism",
+      "author": "Anirban Das & Debraj Sanyal",
+      "publicationDate": "2025-11-14",
+      "abstract": "Correlating multi-axis milligauss fluctuations with rapid thermodynamic drops during nocturnal field investigations using calibrated micro-bolometers and fluxgate magnetometers.",
+      "fullContent": "### Overview\nDuring intense paranormal activity claims, investigators frequently observe sudden temperature drops of 5°C to 12°C within a localized volume of less than 1 cubic meter. This paper examines whether electromagnetic field induction is physically responsible for thermodynamic absorption.\n\n### Telemetry Equipment\n- Tri-axis ELF/VLF Gaussmeter (0.1 mG resolution)\n- Forward Looking Infrared (FLIR) radiometric thermal imaging\n- Precision platinum RTD temperature probes\n\n### Analytical Summary\nData collected across 48 investigative nights reveals that in 7 cases, acute magnetic spikes (>25 mG) occurred precisely simultaneously with 8°C localized drops in ambient temperature without any corresponding drafts or HVAC air currents.",
+      "findings": "Documented 7 statistically significant events exhibiting simultaneous EMF flux (>25 mG) and non-convective thermal inversions (>8°C drop).",
+      "imageUrl": "/uploads/thermal_camera.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "EMF",
+        "FLIR Thermal",
+        "Thermodynamics",
+        "Geomagnetic Flux"
+      ],
+      "isFeatured": false,
+      "createdAt": "2025-11-14T09:00:00Z"
+    },
+    {
+      "id": "res-4",
+      "title": "The Standardized Paranormal Investigation Protocol (SPIP-v4) for Indian Heritage Sites",
+      "category": "Methodology & Protocols",
+      "author": "Ayush Majumder & Debraj Sanyal",
+      "publicationDate": "2025-08-05",
+      "abstract": "Comprehensive 12-stage operational blueprint for ethical, non-destructive, and scientifically calibrated investigations in archaeological and historical monuments across India.",
+      "fullContent": "### Protocol Mandates\n1. **Pre-Investigation Triage**: Historical deed verification, architectural structural survey, environmental hazard check.\n2. **Baseline Calibration**: 2-hour multi-sensor background logging before human team deployment.\n3. **Controlled Isolation**: Elimination of all mobile devices, smart watches, and synthetic interference sources.\n4. **Peer Review & Debunking Stage**: Minimum 72-hour review period where 3 independent analysts attempt natural refutation.\n5. **Secure Archival**: Immutable cryptographic hashing of raw audio/video files.",
+      "findings": "Reduced false-positive paranormal claims by 68% through systematic baseline environmental logging and historical background auditing.",
+      "imageUrl": "/uploads/investigation_protocol.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "Methodology",
+        "Ethics",
+        "Debunking",
+        "Scientific Rigor"
+      ],
+      "isFeatured": false,
+      "createdAt": "2025-08-05T16:00:00Z"
+    }
+  ]
 }

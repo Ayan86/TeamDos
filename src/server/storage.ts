@@ -10,7 +10,8 @@ import {
   EquipmentItem, 
   ActivityReport, 
   ContactMessage,
-  DashboardStats
+  DashboardStats,
+  ResearchItem
 } from '../types';
 import { 
   initialSiteSettings, 
@@ -21,7 +22,8 @@ import {
   initialMediaCoverage, 
   initialGalleryImages, 
   initialActivityReports, 
-  initialContactMessages 
+  initialContactMessages,
+  initialResearchItems
 } from '../db/initialData';
 
 interface DatabaseData {
@@ -32,6 +34,7 @@ interface DatabaseData {
   equipment: EquipmentItem[];
   media: MediaItem[];
   gallery: GalleryImage[];
+  research: ResearchItem[];
   reports: ActivityReport[];
   messages: ContactMessage[];
   reportCounter: number;
@@ -50,7 +53,11 @@ class StorageManager {
     try {
       if (fs.existsSync(DB_FILE)) {
         const raw = fs.readFileSync(DB_FILE, 'utf-8');
-        return JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        if (!parsed.research || !Array.isArray(parsed.research)) {
+          parsed.research = initialResearchItems;
+        }
+        return parsed;
       }
     } catch (e) {
       console.error('Error loading database.json, falling back to defaults', e);
@@ -64,6 +71,7 @@ class StorageManager {
       equipment: initialEquipment,
       media: initialMediaCoverage,
       gallery: initialGalleryImages,
+      research: initialResearchItems,
       reports: initialActivityReports,
       messages: initialContactMessages,
       reportCounter: 2
@@ -400,10 +408,67 @@ class StorageManager {
     return this.data.messages[index];
   }
 
+  deleteMessage(id: string): boolean {
+    const before = this.data.messages.length;
+    this.data.messages = this.data.messages.filter(m => m.id !== id);
+    if (this.data.messages.length !== before) {
+      this.saveData();
+      return true;
+    }
+    return false;
+  }
+
+  // --- Research Papers & Studies ---
+  getResearch(): ResearchItem[] {
+    return this.data.research || [];
+  }
+
+  getResearchById(id: string): ResearchItem | undefined {
+    return (this.data.research || []).find(r => r.id === id);
+  }
+
+  createResearch(item: Omit<ResearchItem, 'id' | 'createdAt' | 'updatedAt'>): ResearchItem {
+    const newItem: ResearchItem = {
+      ...item,
+      id: `res-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    if (!this.data.research) this.data.research = [];
+    this.data.research.unshift(newItem);
+    this.saveData();
+    return newItem;
+  }
+
+  updateResearch(id: string, updates: Partial<ResearchItem>): ResearchItem | null {
+    if (!this.data.research) this.data.research = [];
+    const index = this.data.research.findIndex(r => r.id === id);
+    if (index === -1) return null;
+    this.data.research[index] = {
+      ...this.data.research[index],
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    this.saveData();
+    return this.data.research[index];
+  }
+
+  deleteResearch(id: string): boolean {
+    if (!this.data.research) return false;
+    const before = this.data.research.length;
+    this.data.research = this.data.research.filter(r => r.id !== id);
+    if (this.data.research.length !== before) {
+      this.saveData();
+      return true;
+    }
+    return false;
+  }
+
   // --- Dashboard Stats ---
   getStats(): DashboardStats {
     return {
       totalInvestigations: this.data.investigations.length,
+      researchCount: (this.data.research || []).length,
       galleryImages: this.data.gallery.length,
       mediaCoverage: this.data.media.length,
       vaultCases: this.data.vault.length,
