@@ -107,32 +107,61 @@ h1, h2, h3, h4, h5, h6, .font-cinzel {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
-  gap: 20px;
+  height: 76px;
+  gap: 12px;
+  max-width: 100%;
 }
 
 .nav-brand {
   display: flex;
   align-items: center;
+  gap: 8px;
   cursor: pointer;
-  margin-right: 28px;
+  margin-right: 6px;
   flex-shrink: 0;
 }
 
 .nav-logo-badge {
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   background: #000;
   border: 1.5px solid rgba(220, 38, 38, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 0 16px rgba(220, 38, 38, 0.4);
   overflow: hidden;
   padding: 0;
   flex-shrink: 0;
   transition: all 0.3s ease;
+}
+
+.nav-brand-title {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-cinzel);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #f3f4f6;
+  line-height: 1.05;
+  white-space: nowrap;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.nav-brand-title .nav-sub {
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  color: #f3f4f6;
+  font-weight: 700;
+  line-height: 1.0;
+}
+
+.nav-brand:hover .nav-brand-title {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
 }
 
 .nav-brand:hover .nav-logo-badge {
@@ -171,21 +200,23 @@ h1, h2, h3, h4, h5, h6, .font-cinzel {
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
   list-style: none;
+  flex-shrink: 1;
 }
 
 .nav-item-btn {
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-muted);
-  padding: 8px 14px;
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
   font-family: var(--font-cinzel);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -208,22 +239,24 @@ h1, h2, h3, h4, h5, h6, .font-cinzel {
   background: rgba(18, 20, 29, 0.9);
   border: 1px solid rgba(220, 38, 38, 0.4);
   color: var(--text-muted);
-  padding: 7px 14px;
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav-audio-btn::before {
@@ -304,25 +337,29 @@ h1, h2, h3, h4, h5, h6, .font-cinzel {
 
 .nav-emergency-btn {
   background: var(--red-primary);
-  border: 1px solid #ef4444;
+  border: 1.5px solid #000000;
   color: #fff;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
   font-family: var(--font-cinzel);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
   box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
   transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav-emergency-btn:hover {
   background: #b91c1c;
+  border-color: #000000;
   transform: translateY(-1px);
   box-shadow: 0 0 20px rgba(220, 38, 38, 0.6);
 }
@@ -1064,7 +1101,7 @@ textarea.form-control {
 }
 
 /* Responsive Media Queries */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .nav-menu, .nav-emergency-btn {
     display: none;
   }
