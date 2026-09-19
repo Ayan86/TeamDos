@@ -25,16 +25,208 @@ function safeRemoveStorage(key) {
   } catch (_) {}
 }
 
+// Default Initial Data (ensures site renders instantly even on static hosting or before backend loads)
+const DEFAULT_SITE_DATA = {
+  settings: {
+    siteName: "Detectives of Supernatural",
+    tagline: "RISE ABOVE FEAR",
+    foundedYear: "2010",
+    contactPhone: "+91 98300 00000",
+    contactEmail: "investigations@dos-india.org",
+    contactLocation: "Kolkata, West Bengal, India"
+  },
+  team: [
+    {
+      id: "tm-1",
+      name: "Debraj Sanyal",
+      role: "Founder",
+      photoUrl: "/Debraj_Sanyal.jpg",
+      biography: "Debraj Sanyal is the Founder and Lead Investigator of Detectives of Supernatural (DOS), one of India's prominent paranormal research teams. Since 2010, he has dedicated himself to investigating unexplained phenomena through scientific methods, field research, and modern investigative equipment.",
+      expertise: "Lead Investigator & Technical Strategy",
+      displayOrder: 1
+    },
+    {
+      id: "tm-2",
+      name: "Ishita Das Sanyal",
+      role: "Director & Lead Investigator",
+      photoUrl: "/Ishita_Das_Sanyal.jpg",
+      biography: "Ishita Das Sanyal is the Director and Lead Investigator of DOS. Recognized for her contributions to paranormal research and advocacy of the message \"Rise Above Fear,\" she leads investigations and public outreach programs focused on rational inquiry.",
+      expertise: "Historical Research & Case Management",
+      displayOrder: 2
+    },
+    {
+      id: "tm-3",
+      name: "Anirban Das",
+      role: "Technical Head",
+      photoUrl: "/Anirban_Das.jpg",
+      biography: "Anirban Das is the Technical Head of DOS. He specializes in investigation technology and evidence analysis, utilizing scientific instruments to examine reports of unexplained phenomena with high technical precision.",
+      expertise: "Sensory Instrumentation & Audio Engineering",
+      displayOrder: 3
+    },
+    {
+      id: "tm-4",
+      name: "Ayush Majumder",
+      role: "Field Investigator",
+      photoUrl: "/Ayush_Majumder.jpg",
+      biography: "Ayush Majumder is a Field Investigator at DOS, specializing in on-site evidence collection and field research. He supports the organization's mission to promote critical thinking through modern investigative techniques.",
+      expertise: "Site Scouting & Environmental Telemetry",
+      displayOrder: 4
+    }
+  ],
+  investigations: [
+    {
+      id: "inv-1",
+      caseNumber: "DOS-INV-2025-09",
+      title: "Dow Hill Forest Infrasonic Anomaly",
+      location: "Kurseong, Darjeeling, West Bengal",
+      investigationDate: "2025-11-14",
+      status: "DOCUMENTED",
+      shortDescription: "Nighttime multi-sensor surveillance inside the pine ridges of Dow Hill documenting localized 18.9Hz infrasonic peaks and concurrent temperature plunges.",
+      fullReport: "Over a 72-hour controlled deployment, the team deployed directional microphones, full-spectrum cameras, and tri-field electromagnetic sensors along the historic cart road. Acoustic analysis isolated low-frequency ambient pulses correlating with localized sudden drafts.",
+      heroImage: "/horror_background_wide.jpg",
+      isFeatured: true,
+      evidenceCount: 14,
+      findings: "Localized micro-climate barometric anomalies and low-frequency wind resonance; two unverified acoustic waveforms under forensic spectrographic review."
+    },
+    {
+      id: "inv-2",
+      caseNumber: "DOS-INV-2025-06",
+      title: "Hastings House Midnight Footstep Audit",
+      location: "Alipore, Kolkata, West Bengal",
+      investigationDate: "2025-08-22",
+      status: "DOCUMENTED",
+      shortDescription: "Acoustic baseline and seismic accelerometer study at Warren Hastings' 18th-century governor's mansion following repetitive nighttime cadence reports.",
+      fullReport: "Dual-channel piezoceramic vibration sensors mounted on original teak rafters recorded synchronized percussive floor impulses without corresponding human entry.",
+      heroImage: "/horror_background_wide.jpg",
+      isFeatured: true,
+      evidenceCount: 8,
+      findings: "Structural acoustic transference ruled out for 3 distinct audio signatures occurring at 02:44 AM."
+    },
+    {
+      id: "inv-3",
+      caseNumber: "DOS-INV-2025-03",
+      title: "South Park Street Cemetery Sepulchral Mapping",
+      location: "Park Street, Kolkata",
+      investigationDate: "2025-05-19",
+      status: "CLOSED",
+      shortDescription: "Thermal imaging sweep across 19th-century gothic mausoleums to measure reported cold spot vortexes amidst summer humidity.",
+      fullReport: "Utilizing FLIR E8 thermal imaging units and laser thermometers, ambient differential thermal analysis revealed sandstone chimney evaporative effects that accounted for 80% of reported cold spots, with one unresolved thermal drop of -7.2°C at tomb 412.",
+      heroImage: "/horror_background_wide.jpg",
+      isFeatured: true,
+      evidenceCount: 19,
+      findings: "Comprehensive thermal baseline established; natural thermal dissipation documented alongside single isolated unverified anomaly."
+    }
+  ],
+  vault: [
+    {
+      id: "vlt-1",
+      caseId: "DOS-VLT-042",
+      title: "Dow Hill Acoustic Anomalies & Sub-Audible Waveforms",
+      location: "Victoria Boys' School Ridgeway, Kurseong",
+      investigationDate: "2025-11-14",
+      status: "DOCUMENTED",
+      category: "EVP",
+      description: "Multi-channel electronic voice phenomena (EVP) captured during silent monitoring sessions inside the misty pine ridge corridor.",
+      findings: "Isolated 3 distinct phoneme-like modulations at 410Hz in total ambient silence. Spectrogram demonstrates abnormal resonant harmonic overtone.",
+      classificationLevel: "RESTRICTED EVIDENCE",
+      evidenceItems: []
+    },
+    {
+      id: "vlt-2",
+      caseId: "DOS-VLT-038",
+      title: "Hastings Colonial Residence Floor Transduction Analysis",
+      location: "Alipore, Kolkata",
+      investigationDate: "2025-08-22",
+      status: "DOCUMENTED",
+      category: "Audio Analysis",
+      description: "Seismic accelerometer telemetry isolating nocturnal rhythmic mechanical shocks from subterranean municipal vibrations.",
+      findings: "The recurring footsteps reported by caretakers matched an asymmetric bipedal cadence of 108 BPM with zero ambient displacement of dust particles.",
+      classificationLevel: "PUBLIC ARCHIVE",
+      evidenceItems: []
+    }
+  ],
+  equipment: [
+    {
+      id: "eq-1",
+      name: "TriField TF2 EMF Multi-Field Meter",
+      category: "EMF & Magnetic",
+      status: "CALIBRATED",
+      tag: "STANDARD ISSUE",
+      description: "Measures AC magnetic, AC electric, and RF/microwave radiation with omnidirectional 3-axis sensors.",
+      specifications: "AC Magnetic: 0.1 - 100.0 mG; RF: 0.001 - 19.999 mW/m²; Peak Hold response < 5ms",
+      serialNumber: "DOS-EMF-2018-09"
+    },
+    {
+      id: "eq-2",
+      name: "FLIR E8 Infrared Thermal Imager",
+      category: "Thermal Imaging",
+      status: "ACTIVE",
+      tag: "PRIMARY OPTICS",
+      description: "High-resolution thermal camera for detecting instantaneous cold spots and localized thermal differentials.",
+      specifications: "320 × 240 IR Resolution; <0.05°C Thermal Sensitivity; MSX Multi-Spectral Dynamic Imaging",
+      serialNumber: "DOS-FLIR-04"
+    },
+    {
+      id: "eq-3",
+      name: "Zoom H6 Six-Track Ultra-Low Noise Audio Recorder",
+      category: "Audio & EVP",
+      status: "CALIBRATED",
+      tag: "EVP LOGGING",
+      description: "Studio-grade field recorder with interchangeable XY and shotgun capsules for capturing high-fidelity EVP acoustic anomalies.",
+      specifications: "24-bit / 96kHz recording; -120 dBu EIN low-noise preamps; Dual stereo directional arrays",
+      serialNumber: "DOS-AUD-012"
+    }
+  ],
+  media: [
+    {
+      id: "med-1",
+      title: "Anandabazar Patrika: 'Science Behind the Unexplained - DOS Investigation Team'",
+      outletName: "Anandabazar Patrika",
+      coverageType: "PRESS",
+      publishDate: "2024-11-02",
+      shortSummary: "Front-page feature highlighting DOS's scientific, non-superstitious approach to paranormal field investigations in West Bengal.",
+      linkUrl: "https://anandabazar.com"
+    },
+    {
+      id: "med-2",
+      title: "Television Feature: Mysteries of Bengal on National Media",
+      outletName: "Zee 24 Ghanta / ABP Ananda",
+      coverageType: "TV",
+      publishDate: "2024-05-18",
+      shortSummary: "Special broadcast profiling Debraj Sanyal, Ishita Das Sanyal, and team exploring historic heritage anomalies.",
+      linkUrl: "https://youtube.com/@DetectivesOfSupernatural"
+    }
+  ],
+  gallery: [
+    {
+      id: "gal-1",
+      title: "Dow Hill Ridge Expedition Setup",
+      location: "Kurseong Pine Forest",
+      category: "EXPEDITION",
+      imageUrl: "/horror_background_wide.jpg",
+      caption: "Nighttime sensory array setup along the Kurseong ridge."
+    },
+    {
+      id: "gal-2",
+      title: "Hastings Colonial Mansion Floor Mapping",
+      location: "Alipore, Kolkata",
+      category: "INVESTIGATION",
+      imageUrl: "/horror_background.jpg",
+      caption: "Accelerometer and vibration probe placement on historic floorboards."
+    }
+  ]
+};
+
 // Global App State
 const state = {
   currentPage: 'home',
-  settings: {},
-  team: [],
-  investigations: [],
-  vault: [],
-  equipment: [],
-  media: [],
-  gallery: [],
+  settings: DEFAULT_SITE_DATA.settings,
+  team: DEFAULT_SITE_DATA.team,
+  investigations: DEFAULT_SITE_DATA.investigations,
+  vault: DEFAULT_SITE_DATA.vault,
+  equipment: DEFAULT_SITE_DATA.equipment,
+  media: DEFAULT_SITE_DATA.media,
+  gallery: DEFAULT_SITE_DATA.gallery,
   reports: [],
   messages: [],
   stats: {},
@@ -206,13 +398,13 @@ async function loadPublicData() {
       safeFetchJson('/api/gallery', [])
     ]);
 
-    state.settings = settingsRes || {};
-    state.team = Array.isArray(teamRes) ? teamRes : [];
-    state.investigations = Array.isArray(invRes) ? invRes : [];
-    state.vault = Array.isArray(vaultRes) ? vaultRes : [];
-    state.equipment = Array.isArray(eqRes) ? eqRes : [];
-    state.media = Array.isArray(mediaRes) ? mediaRes : [];
-    state.gallery = Array.isArray(galRes) ? galRes : [];
+    if (settingsRes && Object.keys(settingsRes).length > 0) state.settings = settingsRes;
+    if (Array.isArray(teamRes) && teamRes.length > 0) state.team = teamRes;
+    if (Array.isArray(invRes) && invRes.length > 0) state.investigations = invRes;
+    if (Array.isArray(vaultRes) && vaultRes.length > 0) state.vault = vaultRes;
+    if (Array.isArray(eqRes) && eqRes.length > 0) state.equipment = eqRes;
+    if (Array.isArray(mediaRes) && mediaRes.length > 0) state.media = mediaRes;
+    if (Array.isArray(galRes) && galRes.length > 0) state.gallery = galRes;
 
     // Render all public components defensively
     try { renderSiteInfo(); } catch (e) { console.warn(e); }
