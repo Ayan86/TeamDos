@@ -129,6 +129,12 @@ app.post('/api/upload', (req, res) => {
     if (files && files.length > 0) {
       const file = files[0];
       const fileUrl = `/uploads/${file.filename}`;
+      const distUploads = path.join(process.cwd(), 'dist', 'uploads');
+      if (fs.existsSync(distUploads)) {
+        try {
+          fs.copyFileSync(path.join(uploadsDir, file.filename), path.join(distUploads, file.filename));
+        } catch (copyErr) {}
+      }
       return res.json({
         url: fileUrl,
         filename: file.filename,
@@ -153,7 +159,16 @@ app.post('/api/upload', (req, res) => {
           else if (mime.includes('svg')) ext = '.svg';
           
           const filename = `upload-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
-          fs.writeFileSync(path.join(uploadsDir, filename), buffer);
+          const filePath = path.join(uploadsDir, filename);
+          fs.writeFileSync(filePath, buffer);
+
+          const distUploads = path.join(process.cwd(), 'dist', 'uploads');
+          if (fs.existsSync(distUploads)) {
+            try {
+              fs.copyFileSync(filePath, path.join(distUploads, filename));
+            } catch (copyErr) {}
+          }
+
           return res.json({
             url: `/uploads/${filename}`,
             filename,

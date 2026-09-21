@@ -688,42 +688,143 @@ function renderInvestigations() {
   `).join('');
 }
 
-// Render Evidence Vault
+// Safe helper to extract photo URL from vault entity
+function getVaultPhoto(v) {
+  if (!v) return '/horror_background_wide.jpg';
+  if (v.evidenceImage && typeof v.evidenceImage === 'string' && v.evidenceImage.trim() !== '') return v.evidenceImage;
+  if (v.imageUrl && typeof v.imageUrl === 'string' && v.imageUrl.trim() !== '') return v.imageUrl;
+  if (v.photoUrl && typeof v.photoUrl === 'string' && v.photoUrl.trim() !== '') return v.photoUrl;
+  if (v.image && typeof v.image === 'string' && v.image.trim() !== '') return v.image;
+  if (v.thumbnail && typeof v.thumbnail === 'string' && v.thumbnail.trim() !== '') return v.thumbnail;
+  if (Array.isArray(v.evidenceItems) && v.evidenceItems.length > 0) {
+    const photoItem = v.evidenceItems.find(e => (e.type === 'photo' || e.type === 'image') && e.fileUrl);
+    if (photoItem && photoItem.fileUrl) return photoItem.fileUrl;
+    const anyItem = v.evidenceItems.find(e => e.fileUrl);
+    if (anyItem && anyItem.fileUrl) return anyItem.fileUrl;
+  }
+  return '/horror_background_wide.jpg';
+}
+
+// Render Dos Vault (Gallery View)
 function renderVault() {
   const container = document.getElementById('vaultGrid');
   if (!container) return;
 
-  const currentFilter = state.filters.vault;
-  const filtered = state.vault.filter(item => {
+  // Toggle admin action button if authenticated
+  const adminBtnWrap = document.getElementById('vaultAdminActionContainer');
+  if (adminBtnWrap) {
+    adminBtnWrap.style.display = (state.currentUser && state.authToken) ? 'block' : 'none';
+  }
+
+  const currentFilter = (state.filters.vault || 'ALL').toUpperCase();
+  const filtered = (state.vault || []).filter(item => {
     if (currentFilter === 'ALL') return true;
-    return item.category.toUpperCase().includes(currentFilter);
+    const cat = String(item.category || item.classification || '').toUpperCase();
+    const status = String(item.status || '').toUpperCase();
+    const threat = String(item.threatLevel || '').toUpperCase();
+    const title = String(item.title || '').toUpperCase();
+    return cat.includes(currentFilter) || status.includes(currentFilter) || threat.includes(currentFilter) || title.includes(currentFilter);
   });
 
-  container.innerHTML = filtered.map(v => `
-    <div class="dos-card" style="padding:22px;">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-        <span class="status-badge documented">${v.category}</span>
-        <span style="font-family:var(--font-mono); font-size:0.7rem; color:var(--red-primary); border:1px solid var(--border-color); padding:2px 6px; border-radius:3px;">
-          ${v.caseId}
-        </span>
+  if (!filtered || filtered.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align:center; padding:50px 20px; background:#06070a; border:1px dashed var(--border-subtle); border-radius:8px;">
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:12px;">No classified vault evidence matching this category filter.</p>
+        <button onclick="setFilter('vault', 'ALL')" class="btn-secondary" style="padding:6px 14px; font-size:0.8rem;">
+          <span>RESET TO ALL VAULT EVIDENCE</span>
+        </button>
       </div>
-      <h3 style="font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:8px;">${v.title}</h3>
-      <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim); margin-bottom:12px;">
-        Recorded: ${v.recordedDate} • Location: ${v.location}
-      </div>
-      <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:16px;">
-        ${v.description}
-      </p>
-      <div style="background:#050508; border:1px solid var(--border-subtle); border-radius:4px; padding:12px; margin-top:auto;">
-        <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--red-primary); text-transform:uppercase; margin-bottom:4px;">
-          Forensic Telemetry Analysis:
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(v => {
+    const photo = getVaultPhoto(v);
+    const catText = v.category || v.classification || 'CLASSIFIED';
+    const caseIdText = v.caseId || v.caseNumber || 'DOS-VLT';
+    const locationText = v.location || 'Undisclosed Coordinates';
+    const dateText = v.recordedDate || v.date || v.investigationDate || 'Archived Date';
+    const descText = v.synopsis || v.description || v.summary || 'Classified anomalous evidence preserved in the DOS Vault archives.';
+    const analysisText = v.analysisNotes || v.analysis || v.findings || v.fullFindings || '';
+    const threatLevel = String(v.threatLevel || v.status || 'Standard').toUpperCase();
+    
+    let threatColor = '#94a3b8';
+    let threatBorder = 'rgba(148, 163, 184, 0.25)';
+    if (threatLevel.includes('ELEVATED') || threatLevel.includes('RESTRICTED')) {
+      threatColor = '#fbbf24';
+      threatBorder = 'rgba(251, 191, 36, 0.4)';
+    } else if (threatLevel.includes('CRITICAL') || threatLevel.includes('DEMONIC') || threatLevel.includes('EXTREME')) {
+      threatColor = '#ef4444';
+      threatBorder = 'rgba(239, 68, 68, 0.5)';
+    }
+
+    return `
+      <div class="dos-card" style="cursor:pointer; display:flex; flex-direction:column; overflow:hidden;" onclick="openVaultModal('${v.id}')">
+        <!-- Gallery Photo Area -->
+        <div style="position:relative; aspect-ratio: 16/10; background:#000; overflow:hidden;">
+          <img src="${photo}" alt="${escapeHtml(v.title)}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.45s ease;" onerror="this.src='/horror_background_wide.jpg'" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 40%, rgba(6,7,12,0.94) 100%); pointer-events:none;"></div>
+          
+          <!-- Top Badges -->
+          <div style="position:absolute; top:12px; left:12px; right:12px; display:flex; justify-content:space-between; align-items:center; pointer-events:none;">
+            <span class="status-badge documented" style="font-size:0.65rem; padding:3px 8px; backdrop-filter:blur(6px); letter-spacing:0.04em;">
+              ${escapeHtml(catText)}
+            </span>
+            <span style="font-family:var(--font-mono); font-size:0.7rem; color:var(--red-primary); background:rgba(0,0,0,0.82); border:1px solid rgba(220,38,38,0.4); padding:2px 8px; border-radius:3px; backdrop-filter:blur(6px);">
+              ${escapeHtml(caseIdText)}
+            </span>
+          </div>
+
+          <!-- Bottom Badges on Image: Threat & Enlarge Button -->
+          <div style="position:absolute; bottom:10px; left:12px; right:12px; display:flex; justify-content:space-between; align-items:flex-end;">
+            <span style="font-family:var(--font-mono); font-size:0.65rem; color:${threatColor}; background:rgba(8,9,14,0.88); border:1px solid ${threatBorder}; padding:2px 8px; border-radius:3px; backdrop-filter:blur(4px);">
+              THREAT: ${escapeHtml(threatLevel)}
+            </span>
+            <button onclick="event.stopPropagation(); openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')" class="btn-secondary" style="padding:4px 8px; font-size:0.68rem; background:rgba(0,0,0,0.82); border:1px solid rgba(255,255,255,0.25); color:#fff; display:flex; align-items:center; gap:4px; cursor:pointer;" title="Enlarge Photograph">
+              <span>🔍 ENLARGE</span>
+            </button>
+          </div>
         </div>
-        <div style="font-size:0.8rem; color:#d1d5db; font-style:italic;">
-          "${v.analysisNotes}"
+
+        <!-- Gallery Details Area -->
+        <div style="padding:18px; display:flex; flex-direction:column; flex:1;">
+          <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--red-primary); margin-bottom:6px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <span>📍 ${escapeHtml(locationText)}</span>
+            <span style="color:var(--text-dim);">•</span>
+            <span>📅 ${escapeHtml(dateText)}</span>
+          </div>
+
+          <h3 style="font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:8px; line-height:1.35;">
+            ${escapeHtml(v.title)}
+          </h3>
+
+          <p style="font-size:0.83rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px; flex:1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+            ${escapeHtml(descText)}
+          </p>
+
+          ${analysisText ? `
+            <div style="background:#050508; border:1px solid var(--border-subtle); border-radius:4px; padding:10px 12px; margin-bottom:14px;">
+              <div style="font-family:var(--font-mono); font-size:0.65rem; color:var(--red-primary); text-transform:uppercase; margin-bottom:3px; letter-spacing:0.04em;">
+                Forensic Telemetry:
+              </div>
+              <div style="font-size:0.78rem; color:#cbd5e1; font-style:italic; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                "${escapeHtml(analysisText)}"
+              </div>
+            </div>
+          ` : ''}
+
+          <div style="display:flex; gap:8px; align-items:center; margin-top:auto; padding-top:4px;">
+            <button onclick="event.stopPropagation(); openVaultModal('${v.id}')" class="btn-secondary" style="padding:8px 14px; font-size:0.75rem; flex:1; justify-content:center;">
+              <span>READ CASE DOSSIER</span>
+            </button>
+            <button onclick="event.stopPropagation(); openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')" class="btn-secondary" style="padding:8px 12px; font-size:0.75rem; color:#e2e8f0;" title="View Evidence Lightbox">
+              <span>👁 VIEW</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // Render Equipment Arsenal
@@ -1182,6 +1283,124 @@ function openInvestigationModal(invId) {
         <div><strong>Infrasound Frequency:</strong> 18.9 Hz</div>
         <div><strong>Acoustic EVP Class:</strong> Class-A Verified</div>
       </div>
+    </div>
+  `;
+
+  modal.classList.add('active');
+}
+
+// DOS Vault Dossier Modal
+function openVaultModal(vaultId) {
+  const v = (state.vault || []).find(x => x.id === vaultId || x.caseId === vaultId);
+  if (!v) return;
+
+  const modal = document.getElementById('vaultModal');
+  const body = document.getElementById('vaultModalBody');
+  if (!modal || !body) return;
+
+  const photo = getVaultPhoto(v);
+  const catText = v.category || v.classification || 'CLASSIFIED EVIDENCE';
+  const caseIdText = v.caseId || v.caseNumber || 'DOS-VLT';
+  const locationText = v.location || 'Undisclosed Site';
+  const dateText = v.recordedDate || v.date || v.investigationDate || 'Archived Date';
+  const descText = v.fullDescription || v.description || v.synopsis || v.summary || 'Classified anomalous evidence preserved in the DOS Vault archives.';
+  const analysisText = v.analysisNotes || v.analysis || v.findings || v.fullFindings || '';
+  const threatLevel = String(v.threatLevel || v.status || 'Standard').toUpperCase();
+
+  let threatColor = '#94a3b8';
+  let threatBorder = 'rgba(148, 163, 184, 0.25)';
+  if (threatLevel.includes('ELEVATED') || threatLevel.includes('RESTRICTED')) {
+    threatColor = '#fbbf24';
+    threatBorder = 'rgba(251, 191, 36, 0.4)';
+  } else if (threatLevel.includes('CRITICAL') || threatLevel.includes('DEMONIC') || threatLevel.includes('EXTREME')) {
+    threatColor = '#ef4444';
+    threatBorder = 'rgba(239, 68, 68, 0.5)';
+  }
+
+  // Check if there are audio or video evidence items
+  const audioItem = Array.isArray(v.evidenceItems) ? v.evidenceItems.find(e => e.type === 'audio' && e.fileUrl) : null;
+  const videoItem = Array.isArray(v.evidenceItems) ? v.evidenceItems.find(e => e.type === 'video' && e.fileUrl) : null;
+
+  body.innerHTML = `
+    <div style="position:relative; aspect-ratio: 16/9; background:#000; border-radius:6px; overflow:hidden; margin-bottom:20px; cursor:pointer;" onclick="openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')">
+      <img src="${photo}" alt="${escapeHtml(v.title)}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onerror="this.src='/horror_background_wide.jpg'" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+      <span class="status-badge documented" style="position:absolute; top:14px; left:14px; font-size:0.75rem;">
+        ${escapeHtml(catText)}
+      </span>
+      <span style="position:absolute; top:14px; right:14px; font-family:var(--font-mono); font-size:0.75rem; background:rgba(0,0,0,0.85); color:var(--red-primary); border:1px solid rgba(220,38,38,0.5); padding:3px 10px; border-radius:4px;">
+        ${escapeHtml(caseIdText)}
+      </span>
+      <div style="position:absolute; bottom:12px; right:12px; background:rgba(0,0,0,0.82); border:1px solid rgba(255,255,255,0.25); color:#fff; padding:5px 10px; border-radius:4px; font-size:0.75rem; display:flex; align-items:center; gap:6px;">
+        <span>🔍 CLICK TO ENLARGE PHOTO</span>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+      <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--red-primary);">
+        RECORDED: ${escapeHtml(dateText)} • LOCATION: ${escapeHtml(locationText)}
+      </div>
+      <div style="font-family:var(--font-mono); font-size:0.75rem; color:${threatColor}; border:1px solid ${threatBorder}; padding:2px 8px; border-radius:3px; background:rgba(0,0,0,0.4);">
+        THREAT LEVEL: ${escapeHtml(threatLevel)}
+      </div>
+    </div>
+
+    <h2 style="font-size:1.6rem; font-weight:800; color:#fff; margin-bottom:16px;">${escapeHtml(v.title)}</h2>
+
+    <div style="font-size:0.92rem; color:#d1d5db; line-height:1.65; margin-bottom:20px; white-space:pre-line;">
+      ${escapeHtml(descText)}
+    </div>
+
+    ${analysisText ? `
+      <div style="background:#050508; border:1px solid var(--border-subtle); border-radius:6px; padding:16px; margin-bottom:20px;">
+        <h4 style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary); text-transform:uppercase; margin-bottom:8px; letter-spacing:0.04em;">
+          Forensic Telemetry & Containment Protocol:
+        </h4>
+        <div style="font-size:0.85rem; color:#e2e8f0; font-style:italic; line-height:1.6;">
+          "${escapeHtml(analysisText)}"
+        </div>
+      </div>
+    ` : ''}
+
+    ${audioItem ? `
+      <div style="background:#06080e; border:1px solid var(--border-subtle); border-radius:6px; padding:16px; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+          <h4 style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary); text-transform:uppercase;">
+            Sub-Audible Acoustic / EVP Capture:
+          </h4>
+          <span style="font-size:0.75rem; color:var(--text-dim);">${escapeHtml(audioItem.title || 'Audio Recording')}</span>
+        </div>
+        <audio controls style="width:100%; outline:none; filter:invert(0.9) hue-rotate(180deg);" src="${audioItem.fileUrl}"></audio>
+      </div>
+    ` : ''}
+
+    ${videoItem ? `
+      <div style="background:#06080e; border:1px solid var(--border-subtle); border-radius:6px; padding:16px; margin-bottom:20px;">
+        <h4 style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary); text-transform:uppercase; margin-bottom:8px;">
+          Optical Video Telemetry:
+        </h4>
+        <video controls style="width:100%; border-radius:4px; max-height:360px; background:#000;" src="${videoItem.fileUrl}"></video>
+      </div>
+    ` : ''}
+
+    <div style="background:#06070b; border:1px solid var(--border-subtle); border-radius:6px; padding:16px; margin-bottom:20px;">
+      <h4 style="font-family:var(--font-mono); font-size:0.75rem; color:var(--red-primary); text-transform:uppercase; margin-bottom:8px;">
+        Classified Sensor Telemetry Breakdown:
+      </h4>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; font-size:0.8rem; color:var(--text-muted);">
+        <div><strong>Electromagnetic:</strong> Calibrated Multi-Axis Spike</div>
+        <div><strong>Infrared Gradient:</strong> Δ -6.8°C Delta</div>
+        <div><strong>Acoustic Range:</strong> Infrasound 16–22 Hz</div>
+        <div><strong>Containment Status:</strong> Archive Preserved</div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button onclick="openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')" class="btn-primary" style="padding:8px 18px; font-size:0.8rem;">
+        <span>ENLARGE EVIDENCE PHOTO</span>
+      </button>
+      <button onclick="closeModal('vaultModal')" class="btn-secondary" style="padding:8px 16px; font-size:0.8rem;">
+        <span>CLOSE DOSSIER</span>
+      </button>
     </div>
   `;
 
@@ -1763,34 +1982,58 @@ function renderAdminVaultList(filteredList) {
   if (!container) return;
 
   const items = filteredList || state.vault;
-  if (items.length === 0) {
-    container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">No classified vault cases found.</div>`;
+  if (!items || items.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:30px; background:#06070a; border:1px dashed var(--border-subtle); border-radius:6px;">
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:12px;">No classified vault cases found.</p>
+        <button onclick="openAdminEntityModal('vault')" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
+          <span>+ RECORD FIRST VAULT ARTIFACT</span>
+        </button>
+      </div>
+    `;
     return;
   }
 
-  container.innerHTML = items.map(v => `
-    <div style="background:#08090d; border:1px solid var(--border-subtle); border-radius:6px; padding:16px; display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
-      <div style="display:flex; gap:16px; align-items:center; flex:1; min-width:280px;">
-        <img src="${v.evidenceImage}" alt="${escapeHtml(v.title)}" style="width:90px; aspect-ratio:16/9; object-fit:cover; border-radius:4px;" onerror="this.src='/horror_background_wide.jpg'">
-        <div>
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:3px;">
-            <span class="status-badge documented" style="font-size:0.65rem; padding:2px 6px;">${escapeHtml(v.classification)}</span>
-            <span style="font-family:var(--font-mono); font-size:0.75rem; color:#ef4444;">Threat Level: ${escapeHtml(v.threatLevel || 'Standard')}</span>
+  container.innerHTML = items.map(v => {
+    const photo = getVaultPhoto(v);
+    const cat = v.category || v.classification || 'Spectral';
+    const threat = v.threatLevel || 'Standard';
+
+    return `
+      <div style="background:#08090d; border:1px solid var(--border-subtle); border-radius:6px; padding:16px; display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+        <div style="display:flex; gap:16px; align-items:center; flex:1; min-width:280px;">
+          <div style="position:relative; width:95px; aspect-ratio:16/10; background:#000; border-radius:4px; overflow:hidden; flex-shrink:0; cursor:pointer;" onclick="openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(v.synopsis || v.description || '')}')">
+            <img src="${photo}" alt="${escapeHtml(v.title)}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/horror_background_wide.jpg'">
+            <span style="position:absolute; bottom:2px; right:2px; font-size:0.55rem; background:rgba(0,0,0,0.85); color:#fff; padding:1px 4px; border-radius:2px; font-family:var(--font-mono);">🔍</span>
           </div>
-          <h4 style="font-size:0.95rem; font-weight:700; color:#fff;">${escapeHtml(v.title)}</h4>
-          <p style="font-size:0.78rem; color:var(--text-muted);">${escapeHtml((v.synopsis || '').slice(0, 100))}...</p>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:3px; flex-wrap:wrap;">
+              <span class="status-badge documented" style="font-size:0.65rem; padding:2px 6px;">${escapeHtml(cat)}</span>
+              <span style="font-family:var(--font-mono); font-size:0.75rem; color:#ef4444;">Threat: ${escapeHtml(threat)}</span>
+              <span style="font-family:var(--font-mono); font-size:0.72rem; color:var(--red-primary);">${escapeHtml(v.caseId || 'DOS-VLT')}</span>
+            </div>
+            <h4 style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:2px;">${escapeHtml(v.title)}</h4>
+            <div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:3px;">
+              ${escapeHtml(v.location || 'Site Classified')} • ${escapeHtml(v.recordedDate || v.date || 'Archived Date')}
+            </div>
+            <p style="font-size:0.78rem; color:var(--text-muted);">${escapeHtml((v.synopsis || v.description || '').slice(0, 100))}...</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <label class="btn-secondary" style="padding:6px 12px; font-size:0.75rem; cursor:pointer;" title="Upload or replace artifact photograph">
+            <span>📷 UPLOAD PHOTO</span>
+            <input type="file" accept="image/*,.jfif" style="display:none;" onchange="uploadVaultPhoto('${v.id}', this.files[0])">
+          </label>
+          <button onclick="openAdminEntityModal('vault', '${v.id}')" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem; color:#38bdf8;">
+            <span>✎ EDIT</span>
+          </button>
+          <button type="button" onclick="deleteAdminItem('vault', '${v.id}')" title="Delete Vault Case" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem; color:#f87171; border-color:rgba(239,68,68,0.3);">
+            <span>🗑 DELETE</span>
+          </button>
         </div>
       </div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button onclick="openAdminEntityModal('vault', '${v.id}')" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem; color:#38bdf8;">
-          <span>✎ EDIT</span>
-        </button>
-        <button type="button" onclick="deleteAdminItem('vault', '${v.id}')" title="Delete Vault Case" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem; color:#f87171; border-color:rgba(239,68,68,0.3);">
-          <span>🗑 DELETE</span>
-        </button>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // Admin: Equipment List
@@ -2224,11 +2467,14 @@ function openAdminEntityModal(section, editId = null) {
     vault: {
       title: editId ? 'EDIT DOS VAULT CLASSIFIED ARTIFACT' : 'RECORD NEW CLASSIFIED VAULT ARTIFACT',
       desc: 'Catalog anomalous evidence, historical relics, and occult artifacts in the secure DOS Vault.',
-      lblTitle: 'ARTIFACT / ENTITY NAME',
-      lblCat: 'CLASSIFICATION (e.g. Spectral, Demonic, Cursed Relic)',
-      lblSummary: 'HISTORICAL SYNOPSIS',
-      lblFull: 'FORENSIC ANALYSIS & CONTAINMENT PROCEDURE',
-      showAuthor: false, showDate: false, showLocation: false, showStatus: false,
+      lblTitle: 'ARTIFACT / EVIDENCE TITLE *',
+      lblCat: 'CLASSIFICATION / CATEGORY (e.g. Spectral, EVP, Thermal, Relic, Documented)',
+      lblLocation: 'ACQUISITION / DISPATCH LOCATION',
+      lblDate: 'RECORDED DATE',
+      lblThreat: 'THREAT / CONTAINMENT LEVEL (e.g. Standard, Elevated, Critical, Demonic)',
+      lblSummary: 'ARTIFACT SYNOPSIS / DESCRIPTION *',
+      lblFull: 'FORENSIC TELEMETRY ANALYSIS & CONTAINMENT PROTOCOL',
+      showAuthor: false, showDate: true, showLocation: true, showStatus: false,
       showRole: false, showExpertise: false, showThreat: true, showCitations: false,
       showSpecs: false, showExtUrl: false, showFull: true, showVideo: false, showImage: true
     },
@@ -2314,11 +2560,11 @@ function openAdminEntityModal(section, editId = null) {
       safeSetVal('entityTitle', item.title || item.name || '');
       safeSetVal('entityCategory', item.category || item.classification || item.caseNumber || '');
       safeSetVal('entityAuthor', item.author || item.publication || '');
-      safeSetVal('entityDate', item.date || '');
+      safeSetVal('entityDate', item.date || item.recordedDate || item.investigationDate || '');
       safeSetVal('entityLocation', item.location || '');
       safeSetVal('entityStatus', item.status || 'Active');
       safeSetVal('entitySummary', item.summary || item.description || item.synopsis || item.usage || item.caption || item.biography || '');
-      safeSetVal('entityFullContent', item.fullFindings || item.fullDescription || item.analysis || item.specs || '');
+      safeSetVal('entityFullContent', item.fullFindings || item.fullDescription || item.analysisNotes || item.analysis || item.findings || item.specs || '');
       safeSetVal('entityRole', item.role || '');
       safeSetVal('entityExpertise', item.expertise || '');
       safeSetVal('entityThreatLevel', item.threatLevel || 'Standard');
@@ -2326,7 +2572,7 @@ function openAdminEntityModal(section, editId = null) {
       safeSetVal('entitySpecs', item.specs || '');
       safeSetVal('entityExternalUrl', item.externalUrl || '');
 
-      const photoVal = item.photoUrl || item.imageUrl || item.heroImage || item.evidenceImage || item.thumbnail || '';
+      const photoVal = (section === 'vault' ? getVaultPhoto(item) : '') || item.photoUrl || item.imageUrl || item.heroImage || item.evidenceImage || item.thumbnail || '';
       safeSetVal('entityImageUrl', photoVal);
       updateEntityImagePreview(photoVal);
 
@@ -2572,12 +2818,24 @@ function initAdminEntityForm() {
           title,
           caseId: category || `DOS-VLT-${Math.floor(100 + Math.random() * 900)}`,
           classification: category || 'Spectral',
+          category: category || 'Spectral',
+          location: location || 'Classified Site Coordinates',
+          date: date || new Date().toISOString().slice(0, 10),
+          recordedDate: date || new Date().toISOString().slice(0, 10),
+          investigationDate: date || new Date().toISOString().slice(0, 10),
           threatLevel: threatLevel || 'Standard',
           synopsis: summary || title,
           description: summary || title,
+          fullDescription: fullContent || summary || title,
           analysis: fullContent || summary || title,
           findings: fullContent || summary || title,
-          evidenceImage: finalPhotoUrl || '/horror_background_wide.jpg'
+          analysisNotes: fullContent || summary || title,
+          evidenceImage: finalPhotoUrl || '/horror_background_wide.jpg',
+          imageUrl: finalPhotoUrl || '/horror_background_wide.jpg',
+          photoUrl: finalPhotoUrl || '/horror_background_wide.jpg',
+          image: finalPhotoUrl || '/horror_background_wide.jpg',
+          thumbnail: finalPhotoUrl || '/horror_background_wide.jpg',
+          isPublic: true
         };
       } else if (section === 'equipment') {
         payload = {
@@ -2886,6 +3144,51 @@ async function uploadEquipmentPhoto(eqId, file) {
     }
   } catch (err) {
     alert('Failed to upload equipment photo.');
+  }
+}
+
+// Handle Direct Dos Vault Photo Upload
+async function uploadVaultPhoto(vaultId, file) {
+  if (!file) return;
+
+  try {
+    const fileInputWrapper = { files: [file] };
+    const uploadedUrl = await safeUploadFile(fileInputWrapper);
+
+    if (uploadedUrl) {
+      await safeApiFetch(`/api/vault/${vaultId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.authToken}`
+        },
+        body: JSON.stringify({
+          evidenceImage: uploadedUrl,
+          imageUrl: uploadedUrl,
+          photoUrl: uploadedUrl,
+          image: uploadedUrl,
+          thumbnail: uploadedUrl
+        })
+      });
+
+      // Update in local state
+      const item = (state.vault || []).find(v => v.id === vaultId);
+      if (item) {
+        item.evidenceImage = uploadedUrl;
+        item.imageUrl = uploadedUrl;
+        item.photoUrl = uploadedUrl;
+        item.image = uploadedUrl;
+        item.thumbnail = uploadedUrl;
+      }
+
+      await loadPublicData();
+      renderAdminVaultList();
+      renderVault();
+      alert('Dos Vault artifact photo updated and published successfully!');
+    }
+  } catch (err) {
+    console.error('Vault photo upload error:', err);
+    alert('Failed to upload vault photo.');
   }
 }
 
@@ -3330,4 +3633,10 @@ function initHorrorAudio() {
     window.addEventListener('keydown', resumeOnInteraction, { once: true });
   }
 }
+
+// Global window bindings for inline HTML handlers
+window.openVaultModal = openVaultModal;
+window.uploadVaultPhoto = uploadVaultPhoto;
+window.getVaultPhoto = getVaultPhoto;
+
 
