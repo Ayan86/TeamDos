@@ -1251,14 +1251,7 @@ function initReportForm() {
       submitBtn.innerText = 'TRANSMITTING INCIDENT DOSSIER...';
     }
 
-    const fileInput = document.getElementById('reportEvidenceFile');
-    let attachmentUrl = null;
-
     try {
-      if (fileInput && fileInput.files && fileInput.files.length > 0) {
-        attachmentUrl = await safeUploadFile(fileInput);
-      }
-
       const payload = {
         witnessName: safeGetVal('witnessName'),
         contactEmail: safeGetVal('witnessEmail'),
@@ -1266,8 +1259,7 @@ function initReportForm() {
         location: safeGetVal('incidentLocation'),
         incidentDate: safeGetVal('incidentDate'),
         activityType: safeGetVal('incidentType'),
-        description: safeGetVal('incidentDescription'),
-        attachmentUrl: attachmentUrl
+        description: safeGetVal('incidentDescription')
       };
 
       const mailSubject = encodeURIComponent(`[DOS Case Report] ${payload.activityType} at ${payload.location}`);
@@ -1291,6 +1283,7 @@ function initReportForm() {
         `=======================================================`
       );
       const mailtoLink = `mailto:${recipientEmail}?subject=${mailSubject}&body=${mailBody}`;
+      const gmailWebLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipientEmail)}&su=${mailSubject}&body=${mailBody}`;
 
       const res = await safeApiFetch('/api/reports', {
         method: 'POST',
@@ -1303,18 +1296,25 @@ function initReportForm() {
         if (msgBox) {
           msgBox.innerHTML = `
             <div style="background:rgba(16,185,129,0.12); border:1px solid #10b981; color:#34d399; padding:20px; border-radius:6px; margin-top:20px;">
-              <h4 style="font-weight:700; margin-bottom:6px; color:#34d399;">✓ INCIDENT LOGGED & DISPATCHED</h4>
+              <h4 style="font-weight:700; margin-bottom:6px; color:#34d399;">✓ INCIDENT LOGGED & ROUTED TO GMAIL</h4>
               <p style="font-size:0.85rem; color:var(--text-main); margin-bottom:6px;">Case Reference: <strong>${res.caseId || 'DOS-INCIDENT'}</strong></p>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">This incident report is routed to the DOS investigation desk at <strong style="color:var(--red-primary);">${recipientEmail}</strong>. If your email application did not launch automatically, click below to confirm:</p>
-              <a href="${mailtoLink}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
-                <span>OPEN EMAIL APP (${recipientEmail})</span>
-              </a>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">This incident report is routed directly to <strong style="color:var(--red-primary);">${recipientEmail}</strong>. Click below to launch Gmail Web or your email app:</p>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a href="${gmailWebLink}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none; background:#ea4335; border-color:#ea4335;">
+                  <span>✉ SEND VIA GMAIL</span>
+                </a>
+                <a href="${mailtoLink}" class="btn-secondary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+                  <span>DEFAULT EMAIL APP</span>
+                </a>
+              </div>
             </div>
           `;
         }
         try {
-          window.location.href = mailtoLink;
-        } catch (_) {}
+          window.open(gmailWebLink, '_blank');
+        } catch (_) {
+          try { window.location.href = mailtoLink; } catch (__) {}
+        }
       } else {
         throw new Error(res ? res.error : 'Submission failed');
       }
@@ -1339,13 +1339,19 @@ function initReportForm() {
           `Description:\n${payload.description}`
         );
         const fallbackMailto = `mailto:${recipientEmail}?subject=${mailSubject}&body=${mailBody}`;
+        const fallbackGmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipientEmail)}&su=${mailSubject}&body=${mailBody}`;
 
         msgBox.innerHTML = `
           <div style="background:rgba(220,38,38,0.12); border:1px solid #dc2626; color:#f87171; padding:20px; border-radius:6px; margin-top:20px;">
             <p style="font-weight:700; margin-bottom:8px;">Please transmit your case directly to ${recipientEmail}:</p>
-            <a href="${fallbackMailto}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
-              <span>SEND EMAIL TO ${recipientEmail}</span>
-            </a>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a href="${fallbackGmail}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none; background:#ea4335; border-color:#ea4335;">
+                <span>SEND VIA GMAIL</span>
+              </a>
+              <a href="${fallbackMailto}" class="btn-secondary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+                <span>DEFAULT EMAIL APP</span>
+              </a>
+            </div>
           </div>
         `;
       }
@@ -1386,6 +1392,7 @@ function initContactForm() {
       `Name: ${payload.name}\nEmail: ${payload.email}\nSubject: ${payload.subject}\n\nMessage:\n${payload.message}`
     );
     const mailtoLink = `mailto:${recipientEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+    const gmailWebLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipientEmail)}&su=${mailtoSubject}&body=${mailtoBody}`;
 
     try {
       const res = await safeApiFetch('/api/contact', {
@@ -1398,29 +1405,42 @@ function initContactForm() {
         form.reset();
         if (msgBox) {
           msgBox.innerHTML = `
-            <div style="margin-top:16px; padding:16px; background:rgba(16, 185, 129, 0.08); border:1px solid #10b981; border-radius:6px;">
-              <p style="color:#34d399; font-weight:600; font-size:0.9rem; margin-bottom:8px;">✓ Message recorded for DOS Headquarters!</p>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Routing to <strong>${recipientEmail}</strong>. If your email application does not open automatically, click below:</p>
-              <a href="${mailtoLink}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
-                <span>OPEN EMAIL COMPOSER (${recipientEmail})</span>
-              </a>
+            <div style="margin-top:16px; padding:20px; background:rgba(16, 185, 129, 0.08); border:1px solid #10b981; border-radius:6px;">
+              <p style="color:#34d399; font-weight:600; font-size:0.95rem; margin-bottom:8px;">✓ Message recorded for DOS Headquarters!</p>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Routing to <strong style="color:var(--red-primary);">${recipientEmail}</strong>. Click below to launch Gmail Web or your default email client:</p>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a href="${gmailWebLink}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none; background:#ea4335; border-color:#ea4335;">
+                  <span>✉ SEND VIA GMAIL</span>
+                </a>
+                <a href="${mailtoLink}" class="btn-secondary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+                  <span>DEFAULT EMAIL APP</span>
+                </a>
+              </div>
             </div>
           `;
         }
         try {
-          window.location.href = mailtoLink;
-        } catch (_) {}
+          window.open(gmailWebLink, '_blank');
+        } catch (_) {
+          try { window.location.href = mailtoLink; } catch (__) {}
+        }
       } else {
         throw new Error(res ? res.error : 'Transmission failed');
       }
     } catch (err) {
       if (msgBox) {
+        const fallbackGmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipientEmail)}&su=${mailtoSubject}&body=${mailtoBody}`;
         msgBox.innerHTML = `
-          <div style="margin-top:16px; padding:16px; background:rgba(239, 68, 68, 0.08); border:1px solid #ef4444; border-radius:6px;">
-            <p style="color:#f87171; font-size:0.85rem; margin-bottom:10px;">Please click below to transmit directly to team.dos.mail@gmail.com:</p>
-            <a href="${mailtoLink}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
-              <span>SEND EMAIL TO ${recipientEmail}</span>
-            </a>
+          <div style="margin-top:16px; padding:20px; background:rgba(239, 68, 68, 0.08); border:1px solid #ef4444; border-radius:6px;">
+            <p style="color:#f87171; font-size:0.85rem; margin-bottom:12px; font-weight:600;">Transmit inquiry directly to ${recipientEmail}:</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a href="${fallbackGmail}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none; background:#ea4335; border-color:#ea4335;">
+                <span>SEND VIA GMAIL</span>
+              </a>
+              <a href="${mailtoLink}" class="btn-secondary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+                <span>DEFAULT EMAIL APP</span>
+              </a>
+            </div>
           </div>
         `;
       }

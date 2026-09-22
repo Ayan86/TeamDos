@@ -22,16 +22,23 @@ interface ReportEmailParams {
 }
 
 function getTransporter() {
-  const host = process.env.SMTP_HOST || 'smtp.gmail.com';
-  const port = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
-  const user = process.env.GMAIL_USER || process.env.SMTP_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD || process.env.SMTP_PASS;
+  const user = process.env.GMAIL_USER || process.env.SMTP_USER || process.env.EMAIL_USER || process.env.SENDER_EMAIL;
+  const pass = process.env.GMAIL_APP_PASSWORD || process.env.GMAIL_APP_PASS || process.env.GMAIL_PASS || process.env.GMAIL_PASSWORD || process.env.SMTP_PASS || process.env.EMAIL_PASS;
 
   if (user && pass) {
+    if (process.env.SMTP_HOST) {
+      const port = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : 587;
+      return nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port,
+        secure: port === 465,
+        auth: { user, pass }
+      });
+    }
+
+    // Native Gmail transport
     return nodemailer.createTransport({
-      host,
-      port,
-      secure: port === 465,
+      service: 'gmail',
       auth: { user, pass }
     });
   }

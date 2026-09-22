@@ -793,6 +793,30 @@
   ],
   "reports": [
     {
+      "id": "rep-1790097203313-774",
+      "caseId": "DOS-2026-000004",
+      "fullName": "ayan sarkar",
+      "email": "ayan.sit@gmail.com",
+      "phone": "08017935663",
+      "location": "serampore",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "dateOfActivity": "2026-09-22",
+      "approximateTime": "Night hours",
+      "activityType": "Auditory / Footsteps / Voices",
+      "description": "i want to know about  paranormal",
+      "numberOfWitnesses": 1,
+      "previousInvestigation": false,
+      "attachments": [
+        "/uploads/upload-1790097203016-284945038.jpg"
+      ],
+      "additionalInfo": "",
+      "status": "Pending",
+      "internalNotes": "",
+      "createdAt": "2026-09-22T17:13:23.313Z",
+      "updatedAt": "2026-09-22T17:13:23.313Z"
+    },
+    {
       "fullName": "Arjun Mukherjee",
       "email": "arjun@example.com",
       "phone": "+91 98301 23456",
@@ -856,6 +880,16 @@
     }
   ],
   "messages": [
+    {
+      "id": "msg-1790096809098-959",
+      "name": "ayan sarkar",
+      "email": "ayan.sit@gmail.com",
+      "phone": "",
+      "subject": "para enquiry 2",
+      "message": "i want to know what paranormal is",
+      "status": "unread",
+      "createdAt": "2026-09-22T17:06:49.098Z"
+    },
     {
       "id": "msg-1",
       "name": "Dr. Arindam Ghosh",
