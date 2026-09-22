@@ -1,702 +1,734 @@
-import { 
-  TeamMember, 
-  SiteSettings, 
-  Investigation, 
-  GalleryImage, 
-  MediaItem, 
-  VaultCase, 
-  EquipmentItem, 
-  ActivityReport, 
-  ContactMessage,
-  ResearchItem
-} from '../types';
+import { DatabaseSchema } from "../types";
 
-export const initialSiteSettings: SiteSettings = {
-  organizationName: "Detectives of Supernatural",
-  shortName: "DOS",
-  tagline: "RISE ABOVE FEAR",
-  foundedYear: "2010",
-  heroHeading: "DETECTIVES OF SUPERNATURAL",
-  heroSubheading: "Rise Above Fear",
-  heroDescription: "Founded in 2010, Detectives of Supernatural (DOS) is India's leading paranormal research organization. We bridge the gap between science and the unexplained through rigorous technical investigation and empirical evidence collection.",
-  heroBgUrl: "/horror_background_wide.jpg",
-  whoWeAreTitle: "WHO WE ARE",
-  whoWeAreDescription: "Detectives of Supernatural (DOS) is India's pioneer technical paranormal research collective, founded in 2010. Rather than sensationalism or superstition, DOS operates with empirical discipline — investigating unexplained experiences through evidence-based documentation and technical analysis.",
-  whoWeArePoints: [
-    "Paranormal Research & Empirical Methodology",
-    "Multi-Frequency Environmental Monitoring",
-    "Calibrated Audio (EVP) & Acoustic Spectrogram Analysis",
-    "Full-Spectrum, Thermal & Night Vision Video Documentation",
-    "Rigorous Historical & Architectural Research",
-    "Public Awareness, Education & Debunking of Natural Anomalies"
+export const initialData: DatabaseSchema = {
+  "settings": {
+    "organizationName": "Detectives of Supernatural",
+    "shortName": "DOS",
+    "tagline": "RISE ABOVE FEAR",
+    "foundedYear": "2010",
+    "heroHeading": "DETECTIVES OF SUPERNATURAL",
+    "heroSubheading": "Rise Above Fear",
+    "heroDescription": "Founded in 2010, Detectives of Supernatural (DOS) is India's leading paranormal research organization. We bridge the gap between science and the unexplained through rigorous technical investigation and empirical evidence collection.",
+    "heroBgUrl": "/horror_background_wide.jpg",
+    "whoWeAreTitle": "WHO WE ARE",
+    "whoWeAreDescription": "Detectives of Supernatural (DOS) is India's pioneer technical paranormal research collective, founded in 2010. Rather than sensationalism or superstition, DOS operates with empirical discipline — investigating unexplained experiences through evidence-based documentation and technical analysis.",
+    "whoWeArePoints": [
+      "Paranormal Research & Empirical Methodology",
+      "Multi-Frequency Environmental Monitoring",
+      "Calibrated Audio (EVP) & Acoustic Spectrogram Analysis",
+      "Full-Spectrum, Thermal & Night Vision Video Documentation",
+      "Rigorous Historical & Architectural Research",
+      "Public Awareness, Education & Debunking of Natural Anomalies"
+    ],
+    "missionHeading": "OUR MISSION",
+    "missionStatement": "To investigate the unexplained through evidence, technology and disciplined research.",
+    "contactEmail": "team.dos.mail@gmail.com",
+    "contactPhone": "98514 24977 / 7003031775",
+    "contactLocation": "Kolkata, West Bengal, India",
+    "socialLinks": {
+      "youtube": "https://youtube.com/@DetectivesOfSupernatural",
+      "facebook": "https://facebook.com/DetectivesOfSupernatural",
+      "instagram": "https://instagram.com/dos_paranormal",
+      "twitter": "https://twitter.com/DOS_India"
+    }
+  },
+  "team": [
+    {
+      "id": "tm-1",
+      "name": "Debraj Sanyal",
+      "role": "Founder",
+      "photoUrl": "/uploads/Debraj_Sanyal.jpg",
+      "biography": "Devraj Sanyal is the Founder and Lead Investigator of Detectives of Supernatural (DOS), one of India's prominent paranormal research teams. Since 2010, he has dedicated himself to investigating unexplained phenomena through scientific methods, field research, and modern investigative equipment.",
+      "expertise": "Lead Investigator & Technical Strategy",
+      "displayOrder": 1,
+      "isActive": true,
+      "createdAt": "2010-06-01T00:00:00Z",
+      "updatedAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": "tm-2",
+      "name": "Ishita Das Sanyal",
+      "role": "Director & Lead Investigator",
+      "photoUrl": "/uploads/Ishita_Das_Sanyal.jpg",
+      "biography": "Ishita Das Sanyal is the Director and Lead Investigator of DOS. Recognized for her contributions to paranormal research and advocacy of the message \"Rise Above Fear,\" she leads investigations and public outreach programs focused on rational inquiry.",
+      "expertise": "Historical Research & Case Management",
+      "displayOrder": 2,
+      "isActive": true,
+      "createdAt": "2010-06-01T00:00:00Z",
+      "updatedAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": "tm-3",
+      "name": "Anirban Das",
+      "role": "Technical Head",
+      "photoUrl": "/uploads/Anirban_Das.jpg",
+      "biography": "Anirban Das is the Technical Head of DOS. He specializes in investigation technology and evidence analysis, utilizing scientific instruments to examine reports of unexplained phenomena with high technical precision.",
+      "expertise": "Sensory Instrumentation & Audio Engineering",
+      "displayOrder": 3,
+      "isActive": true,
+      "createdAt": "2012-03-15T00:00:00Z",
+      "updatedAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": "tm-4",
+      "name": "Ayush Majumder",
+      "role": "Field Investigator",
+      "photoUrl": "/uploads/Ayush_Majumder.jpg",
+      "biography": "Ayush Majumder is a Field Investigator at DOS, specializing in on-site evidence collection and field research. He supports the organization's mission to promote critical thinking through modern investigative techniques.",
+      "expertise": "Site Scouting & Environmental Telemetry",
+      "displayOrder": 4,
+      "isActive": true,
+      "createdAt": "2015-08-20T00:00:00Z",
+      "updatedAt": "2026-01-01T00:00:00Z"
+    }
   ],
-  missionHeading: "OUR MISSION",
-  missionStatement: "To investigate the unexplained through evidence, technology and disciplined research.",
-  contactEmail: "investigations@dos-india.org",
-  contactPhone: "+91 98300 00000",
-  contactLocation: "Kolkata, West Bengal, India",
-  socialLinks: {
-    youtube: "https://youtube.com/@DetectivesOfSupernatural",
-    facebook: "https://facebook.com/DetectivesOfSupernatural",
-    instagram: "https://instagram.com/dos_paranormal",
-    twitter: "https://twitter.com/DOS_India"
-  }
-};
-
-export const initialTeamMembers: TeamMember[] = [
-  {
-    id: "tm-1",
-    name: "Debraj Sanyal",
-    role: "Founder",
-    photoUrl: "/uploads/Debraj_Sanyal.jpg",
-    biography: "Devraj Sanyal is the Founder and Lead Investigator of Detectives of Supernatural (DOS), one of India's prominent paranormal research teams. Since 2010, he has dedicated himself to investigating unexplained phenomena through scientific methods, field research, and modern investigative equipment.",
-    expertise: "Lead Investigator & Technical Strategy",
-    displayOrder: 1,
-    isActive: true,
-    createdAt: "2010-06-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
-  },
-  {
-    id: "tm-2",
-    name: "Ishita Das Sanyal",
-    role: "Director & Lead Investigator",
-    photoUrl: "/uploads/Ishita_Das_Sanyal.jpg",
-    biography: "Ishita Das Sanyal is the Director and Lead Investigator of DOS. Recognized for her contributions to paranormal research and advocacy of the message \"Rise Above Fear,\" she leads investigations and public outreach programs focused on rational inquiry.",
-    expertise: "Historical Research & Case Management",
-    displayOrder: 2,
-    isActive: true,
-    createdAt: "2010-06-01T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
-  },
-  {
-    id: "tm-3",
-    name: "Anirban Das",
-    role: "Technical Head",
-    photoUrl: "/uploads/Anirban_Das.jpg",
-    biography: "Anirban Das is the Technical Head of DOS. He specializes in investigation technology and evidence analysis, utilizing scientific instruments to examine reports of unexplained phenomena with high technical precision.",
-    expertise: "Sensory Instrumentation & Audio Engineering",
-    displayOrder: 3,
-    isActive: true,
-    createdAt: "2012-03-15T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
-  },
-  {
-    id: "tm-4",
-    name: "Ayush Majumder",
-    role: "Field Investigator",
-    photoUrl: "/uploads/Ayush_Majumder.jpg",
-    biography: "Ayush Majumder is a Field Investigator at DOS, specializing in on-site evidence collection and field research. He supports the organization's mission to promote critical thinking through modern investigative techniques.",
-    expertise: "Site Scouting & Environmental Telemetry",
-    displayOrder: 4,
-    isActive: true,
-    createdAt: "2015-08-20T00:00:00Z",
-    updatedAt: "2026-01-01T00:00:00Z"
-  }
-];
-
-export const initialInvestigations: Investigation[] = [
-  {
-    id: "inv-1",
-    title: "Dow Hill Forest Infrasonic Anomaly",
-    location: "Kurseong, Darjeeling, West Bengal",
-    investigationDate: "2025-11-14",
-    status: "DOCUMENTED",
-    shortDescription: "Nighttime multi-sensor surveillance inside the pine ridges of Dow Hill documenting localized 18.9Hz infrasonic peaks and concurrent temperature plunges.",
-    fullReport: "Over a 72-hour controlled deployment, the team deployed directional microphones, full-spectrum cameras, and tri-field electromagnetic sensors along the historic cart road. Acoustic analysis isolated low-frequency ambient pulses correlating with localized sudden drafts.",
-    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-    isFeatured: true,
-    evidenceCount: 14,
-    findings: "Localized micro-climate barometric anomalies and low-frequency wind resonance; two unverified acoustic waveforms under forensic spectrographic review.",
-    createdAt: "2025-11-20T10:00:00Z",
-    updatedAt: "2026-01-10T14:30:00Z"
-  },
-  {
-    id: "inv-2",
-    title: "Hastings House Midnight Footstep Audit",
-    location: "Alipore, Kolkata, West Bengal",
-    investigationDate: "2025-08-22",
-    status: "DOCUMENTED",
-    shortDescription: "Acoustic baseline and seismic accelerometer study at Warren Hastings' 18th-century governor's mansion following repetitive nighttime cadence reports.",
-    fullReport: "Dual-channel piezoceramic vibration sensors mounted on original teak rafters recorded synchronized percussive floor impulses without corresponding human entry.",
-    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-    isFeatured: true,
-    evidenceCount: 8,
-    findings: "Structural acoustic transference ruled out for 3 distinct audio signatures occurring at 02:44 AM.",
-    createdAt: "2025-08-30T12:00:00Z",
-    updatedAt: "2025-12-05T09:15:00Z"
-  },
-  {
-    id: "inv-3",
-    title: "South Park Street Cemetery Sepulchral Mapping",
-    location: "Park Street, Kolkata",
-    investigationDate: "2025-05-19",
-    status: "CLOSED",
-    shortDescription: "Thermal imaging sweep across 19th-century gothic mausoleums to measure reported cold spot vortexes amidst summer humidity.",
-    fullReport: "Utilizing FLIR E8 thermal imaging units and laser thermometers, ambient differential thermal analysis revealed sandstone chimney evaporative effects that accounted for 80% of reported cold spots, with one unresolved thermal drop of -7.2°C at tomb 412.",
-    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-    isFeatured: true,
-    evidenceCount: 19,
-    findings: "Comprehensive thermal baseline established; natural thermal dissipation documented alongside single isolated unverified anomaly.",
-    createdAt: "2025-06-01T15:00:00Z",
-    updatedAt: "2025-10-12T11:00:00Z"
-  },
-  {
-    id: "inv-4",
-    title: "Kuldhara Abandoned Enclosure Telemetry",
-    location: "Jaisalmer Desert, Rajasthan",
-    investigationDate: "2025-02-10",
-    status: "UNDER_INVESTIGATION",
-    shortDescription: "Stationary RF sensor grid and magnetometry inside the abandoned 13th-century Paliwal Brahmin settlement.",
-    fullReport: "Continuous 96-hour data logging within the central temple precinct monitoring anomalous static electricity charges and radio frequency sweeps.",
-    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-    isFeatured: true,
-    evidenceCount: 22,
-    findings: "Unusual localized magnetic field deviations pending mineralogical soil core analysis.",
-    createdAt: "2025-02-18T09:00:00Z",
-    updatedAt: "2026-02-01T16:45:00Z"
-  },
-  {
-    id: "inv-5",
-    title: "Putulbari Riverfront Gothic Mansion Echoes",
-    location: "Sovabazar, Kolkata, West Bengal",
-    investigationDate: "2024-10-31",
-    status: "ARCHIVED",
-    shortDescription: "Ultrasonic and RF frequency scanning of the dilapidated warehouse complex known as the House of Dolls.",
-    fullReport: "Conducted during low-traffic night hours; environmental audio loggers deployed across three levels. Structural dampening and wind tunnel acoustics verified.",
-    heroImage: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-    isFeatured: false,
-    evidenceCount: 11,
-    findings: "Atmospheric acoustics verified; debunked 4 popular urban legends while isolating 1 unexplained metallic resonance.",
-    createdAt: "2024-11-05T14:00:00Z",
-    updatedAt: "2025-03-20T10:30:00Z"
-  }
-];
-
-export const initialVaultCases: VaultCase[] = [
-  {
-    id: "vlt-1",
-    caseId: "DOS-VLT-042",
-    title: "Dow Hill Acoustic Anomalies & Sub-Audible Waveforms",
-    location: "Victoria Boys' School Ridgeway, Kurseong",
-    investigationDate: "2025-11-14",
-    status: "DOCUMENTED",
-    category: "EVP",
-    description: "Multi-channel electronic voice phenomena (EVP) captured during silent monitoring sessions inside the misty pine ridge corridor.",
-    findings: "Isolated 3 distinct phoneme-like modulations at 410Hz in total ambient silence. Spectrogram demonstrates abnormal resonant harmonic overtone.",
-    classificationLevel: "RESTRICTED EVIDENCE",
-    redactedSummary: "During sweep [REDACTED], audio recorder unit #3 positioned 20m from [REDACTED] recorded a 4.2 second cadence consistent with vocal tract resonance.",
-    evidenceItems: [
-      {
-        id: "ev-1",
-        caseId: "vlt-1",
-        title: "Audio Clip: 03:14 AM Sub-Audible Resonance",
-        type: "audio",
-        fileUrl: "https://assets.mixkit.co/active_storage/sfx/2874/2874-preview.mp3",
-        audioWaveform: [15, 30, 45, 80, 65, 90, 40, 20, 75, 95, 35, 10, 50, 85, 60, 25],
-        description: "Filtered high-pass isolation of acoustic capture at station Alpha.",
-        timestamp: "2025-11-14 03:14:22",
-        classified: false
+  "investigations": [
+    {
+      "id": "inv-1",
+      "title": "Dow Hill Forest Infrasonic Anomaly",
+      "location": "Kurseong, Darjeeling, West Bengal",
+      "investigationDate": "2025-11-14",
+      "status": "DOCUMENTED",
+      "shortDescription": "Nighttime multi-sensor surveillance inside the pine ridges of Dow Hill documenting localized 18.9Hz infrasonic peaks and concurrent temperature plunges.",
+      "fullReport": "Over a 72-hour controlled deployment, the team deployed directional microphones, full-spectrum cameras, and tri-field electromagnetic sensors along the historic cart road. Acoustic analysis isolated low-frequency ambient pulses correlating with localized sudden drafts.",
+      "heroImage": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
+      "isFeatured": true,
+      "evidenceCount": 14,
+      "findings": "Localized micro-climate barometric anomalies and low-frequency wind resonance; two unverified acoustic waveforms under forensic spectrographic review.",
+      "createdAt": "2025-11-20T10:00:00Z",
+      "updatedAt": "2026-01-10T14:30:00Z"
+    },
+    {
+      "id": "inv-2",
+      "title": "Hastings House Midnight Footstep Audit",
+      "location": "Alipore, Kolkata, West Bengal",
+      "investigationDate": "2025-08-22",
+      "status": "DOCUMENTED",
+      "shortDescription": "Acoustic baseline and seismic accelerometer study at Warren Hastings' 18th-century governor's mansion following repetitive nighttime cadence reports.",
+      "fullReport": "Dual-channel piezoceramic vibration sensors mounted on original teak rafters recorded synchronized percussive floor impulses without corresponding human entry.",
+      "heroImage": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
+      "isFeatured": true,
+      "evidenceCount": 8,
+      "findings": "Structural acoustic transference ruled out for 3 distinct audio signatures occurring at 02:44 AM.",
+      "createdAt": "2025-08-30T12:00:00Z",
+      "updatedAt": "2025-12-05T09:15:00Z"
+    },
+    {
+      "id": "inv-3",
+      "title": "South Park Street Cemetery Sepulchral Mapping",
+      "location": "Park Street, Kolkata",
+      "investigationDate": "2025-05-19",
+      "status": "CLOSED",
+      "shortDescription": "Thermal imaging sweep across 19th-century gothic mausoleums to measure reported cold spot vortexes amidst summer humidity.",
+      "fullReport": "Utilizing FLIR E8 thermal imaging units and laser thermometers, ambient differential thermal analysis revealed sandstone chimney evaporative effects that accounted for 80% of reported cold spots, with one unresolved thermal drop of -7.2°C at tomb 412.",
+      "heroImage": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
+      "isFeatured": true,
+      "evidenceCount": 19,
+      "findings": "Comprehensive thermal baseline established; natural thermal dissipation documented alongside single isolated unverified anomaly.",
+      "createdAt": "2025-06-01T15:00:00Z",
+      "updatedAt": "2025-10-12T11:00:00Z"
+    },
+    {
+      "id": "inv-4",
+      "title": "Kuldhara Abandoned Enclosure Telemetry",
+      "location": "Jaisalmer Desert, Rajasthan",
+      "investigationDate": "2025-02-10",
+      "status": "UNDER_INVESTIGATION",
+      "shortDescription": "Stationary RF sensor grid and magnetometry inside the abandoned 13th-century Paliwal Brahmin settlement.",
+      "fullReport": "Continuous 96-hour data logging within the central temple precinct monitoring anomalous static electricity charges and radio frequency sweeps.",
+      "heroImage": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
+      "isFeatured": true,
+      "evidenceCount": 22,
+      "findings": "Unusual localized magnetic field deviations pending mineralogical soil core analysis.",
+      "createdAt": "2025-02-18T09:00:00Z",
+      "updatedAt": "2026-02-01T16:45:00Z"
+    },
+    {
+      "id": "inv-5",
+      "title": "Putulbari Riverfront Gothic Mansion Echoes",
+      "location": "Sovabazar, Kolkata, West Bengal",
+      "investigationDate": "2024-10-31",
+      "status": "ARCHIVED",
+      "shortDescription": "Ultrasonic and RF frequency scanning of the dilapidated warehouse complex known as the House of Dolls.",
+      "fullReport": "Conducted during low-traffic night hours; environmental audio loggers deployed across three levels. Structural dampening and wind tunnel acoustics verified.",
+      "heroImage": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
+      "isFeatured": false,
+      "evidenceCount": 11,
+      "findings": "Atmospheric acoustics verified; debunked 4 popular urban legends while isolating 1 unexplained metallic resonance.",
+      "createdAt": "2024-11-05T14:00:00Z",
+      "updatedAt": "2025-03-20T10:30:00Z"
+    }
+  ],
+  "vault": [
+    {
+      "id": "vlt-1",
+      "caseId": "DOS-VLT-042",
+      "title": "Dow Hill Acoustic Anomalies & Sub-Audible Waveforms",
+      "location": "Victoria Boys' School Ridgeway, Kurseong",
+      "investigationDate": "2025-11-14",
+      "status": "DOCUMENTED",
+      "category": "EVP",
+      "description": "Multi-channel electronic voice phenomena (EVP) captured during silent monitoring sessions inside the misty pine ridge corridor.",
+      "findings": "Isolated 3 distinct phoneme-like modulations at 410Hz in total ambient silence. Spectrogram demonstrates abnormal resonant harmonic overtone.",
+      "classificationLevel": "RESTRICTED EVIDENCE",
+      "redactedSummary": "During sweep [REDACTED], audio recorder unit #3 positioned 20m from [REDACTED] recorded a 4.2 second cadence consistent with vocal tract resonance.",
+      "evidenceItems": [
+        {
+          "id": "ev-1",
+          "caseId": "vlt-1",
+          "title": "Audio Clip: 03:14 AM Sub-Audible Resonance",
+          "type": "audio",
+          "fileUrl": "https://assets.mixkit.co/active_storage/sfx/2874/2874-preview.mp3",
+          "audioWaveform": [
+            15,
+            30,
+            45,
+            80,
+            65,
+            90,
+            40,
+            20,
+            75,
+            95,
+            35,
+            10,
+            50,
+            85,
+            60,
+            25
+          ],
+          "description": "Filtered high-pass isolation of acoustic capture at station Alpha.",
+          "timestamp": "2025-11-14 03:14:22",
+          "classified": false
+        },
+        {
+          "id": "ev-2",
+          "caseId": "vlt-1",
+          "title": "Full-Spectrum Infrared Snapshot: Ridge Tree Line",
+          "type": "photo",
+          "fileUrl": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
+          "description": "IR wavelength 850nm capture depicting micro-thermal chimney variation.",
+          "timestamp": "2025-11-14 03:15:00",
+          "classified": false
+        }
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-20T10:00:00Z",
+      "updatedAt": "2026-01-10T14:30:00Z"
+    },
+    {
+      "id": "vlt-2",
+      "caseId": "DOS-VLT-038",
+      "title": "Hastings Colonial Residence Floor Transduction Analysis",
+      "location": "Alipore, Kolkata",
+      "investigationDate": "2025-08-22",
+      "status": "DOCUMENTED",
+      "category": "Audio Analysis",
+      "description": "Seismic accelerometer telemetry isolating nocturnal rhythmic mechanical shocks from subterranean municipal vibrations.",
+      "findings": "The recurring footsteps reported by caretakers matched an asymmetric bipedal cadence of 108 BPM with zero ambient displacement of dust particles.",
+      "classificationLevel": "PUBLIC ARCHIVE",
+      "redactedSummary": "Controlled acoustic dampening of the grand central stairway eliminated external traffic rumble from [REDACTED] Street.",
+      "evidenceItems": [
+        {
+          "id": "ev-3",
+          "caseId": "vlt-2",
+          "title": "Spectrogram & Vibration Trace File 08A",
+          "type": "document",
+          "fileUrl": "/assets/reports/hastings-accelerometer-trace.pdf",
+          "description": "Complete FFT frequency breakdown from geophone and microphone arrays.",
+          "timestamp": "2025-08-22 02:44:11",
+          "classified": false
+        }
+      ],
+      "isPublic": true,
+      "createdAt": "2025-08-30T12:00:00Z",
+      "updatedAt": "2025-12-05T09:15:00Z"
+    },
+    {
+      "id": "vlt-3",
+      "caseId": "DOS-VLT-029",
+      "title": "Park Street Crypt Thermal Gradient Inversion",
+      "location": "Park Street South Cemetery, Kolkata",
+      "investigationDate": "2025-05-19",
+      "status": "CLOSED",
+      "category": "Photographic Evidence",
+      "description": "Thermal video mapping of sudden localized freezing anomalies around 19th-century brick obelisks.",
+      "findings": "Differential thermal imagery revealed persistent -7.2°C localized anomaly occurring strictly at base of tomb 412.",
+      "classificationLevel": "PUBLIC ARCHIVE",
+      "evidenceItems": [
+        {
+          "id": "ev-4",
+          "caseId": "vlt-3",
+          "title": "Thermal Signature: Tomb 412 Thermal Drop",
+          "type": "photo",
+          "fileUrl": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
+          "description": "FLIR thermal capture displaying steep gradient difference between ambient night air (29°C) and focal point (21.8°C).",
+          "timestamp": "2025-05-19 01:28:45",
+          "classified": false
+        }
+      ],
+      "isPublic": true,
+      "createdAt": "2025-06-01T15:00:00Z",
+      "updatedAt": "2025-10-12T11:00:00Z"
+    },
+    {
+      "id": "vlt-4",
+      "caseId": "DOS-VLT-017",
+      "title": "Kuldhara Ghost Village Electrostatic Pulse Record",
+      "location": "Kuldhara Ruins, Jaisalmer, Rajasthan",
+      "investigationDate": "2025-02-10",
+      "status": "UNDER_INVESTIGATION",
+      "category": "Evidence",
+      "description": "Synchronous pulse electromagnetic field (EMF) spikes exceeding 50 milligauss with zero overhead electrical lines within 15 km.",
+      "findings": "Natural geomagnetic fault line or residual static induction currently undergoing geological testing.",
+      "classificationLevel": "CLASSIFIED RESEARCH",
+      "redactedSummary": "Team recorded synchronized EMF spikes across 6 independent meters placed in a hexagonal perimeter around [REDACTED].",
+      "evidenceItems": [],
+      "isPublic": true,
+      "createdAt": "2025-02-18T09:00:00Z",
+      "updatedAt": "2026-02-01T16:45:00Z"
+    }
+  ],
+  "equipment": [
+    {
+      "id": "eq-1",
+      "name": "TriField Natural EM Meter TF2",
+      "category": "Detection Equipment",
+      "modelNumber": "TF2-PRO",
+      "manufacturer": "AlphaLab Inc.",
+      "description": "Calibrated broadband electromagnetic field meter measuring AC magnetic, AC electric, and RF/microwave radiation simultaneously with rapid 3-axis response.",
+      "specs": {
+        "Frequency Range": "40 Hz – 100 kHz (AC Magnetic)",
+        "Sampling Rate": "12 ms digital update",
+        "Sensitivity": "0.1 milligauss resolution",
+        "Field Axes": "3-axis true RMS detection"
       },
-      {
-        id: "ev-2",
-        caseId: "vlt-1",
-        title: "Full-Spectrum Infrared Snapshot: Ridge Tree Line",
-        type: "photo",
-        fileUrl: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-        description: "IR wavelength 850nm capture depicting micro-thermal chimney variation.",
-        timestamp: "2025-11-14 03:15:00",
-        classified: false
-      }
-    ],
-    isPublic: true,
-    createdAt: "2025-11-20T10:00:00Z",
-    updatedAt: "2026-01-10T14:30:00Z"
-  },
-  {
-    id: "vlt-2",
-    caseId: "DOS-VLT-038",
-    title: "Hastings Colonial Residence Floor Transduction Analysis",
-    location: "Alipore, Kolkata",
-    investigationDate: "2025-08-22",
-    status: "DOCUMENTED",
-    category: "Audio Analysis",
-    description: "Seismic accelerometer telemetry isolating nocturnal rhythmic mechanical shocks from subterranean municipal vibrations.",
-    findings: "The recurring footsteps reported by caretakers matched an asymmetric bipedal cadence of 108 BPM with zero ambient displacement of dust particles.",
-    classificationLevel: "PUBLIC ARCHIVE",
-    redactedSummary: "Controlled acoustic dampening of the grand central stairway eliminated external traffic rumble from [REDACTED] Street.",
-    evidenceItems: [
-      {
-        id: "ev-3",
-        caseId: "vlt-2",
-        title: "Spectrogram & Vibration Trace File 08A",
-        type: "document",
-        fileUrl: "/assets/reports/hastings-accelerometer-trace.pdf",
-        description: "Complete FFT frequency breakdown from geophone and microphone arrays.",
-        timestamp: "2025-08-22 02:44:11",
-        classified: false
-      }
-    ],
-    isPublic: true,
-    createdAt: "2025-08-30T12:00:00Z",
-    updatedAt: "2025-12-05T09:15:00Z"
-  },
-  {
-    id: "vlt-3",
-    caseId: "DOS-VLT-029",
-    title: "Park Street Crypt Thermal Gradient Inversion",
-    location: "Park Street South Cemetery, Kolkata",
-    investigationDate: "2025-05-19",
-    status: "CLOSED",
-    category: "Photographic Evidence",
-    description: "Thermal video mapping of sudden localized freezing anomalies around 19th-century brick obelisks.",
-    findings: "Differential thermal imagery revealed persistent -7.2°C localized anomaly occurring strictly at base of tomb 412.",
-    classificationLevel: "PUBLIC ARCHIVE",
-    evidenceItems: [
-      {
-        id: "ev-4",
-        caseId: "vlt-3",
-        title: "Thermal Signature: Tomb 412 Thermal Drop",
-        type: "photo",
-        fileUrl: "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-        description: "FLIR thermal capture displaying steep gradient difference between ambient night air (29°C) and focal point (21.8°C).",
-        timestamp: "2025-05-19 01:28:45",
-        classified: false
-      }
-    ],
-    isPublic: true,
-    createdAt: "2025-06-01T15:00:00Z",
-    updatedAt: "2025-10-12T11:00:00Z"
-  },
-  {
-    id: "vlt-4",
-    caseId: "DOS-VLT-017",
-    title: "Kuldhara Ghost Village Electrostatic Pulse Record",
-    location: "Kuldhara Ruins, Jaisalmer, Rajasthan",
-    investigationDate: "2025-02-10",
-    status: "UNDER_INVESTIGATION",
-    category: "Evidence",
-    description: "Synchronous pulse electromagnetic field (EMF) spikes exceeding 50 milligauss with zero overhead electrical lines within 15 km.",
-    findings: "Natural geomagnetic fault line or residual static induction currently undergoing geological testing.",
-    classificationLevel: "CLASSIFIED RESEARCH",
-    redactedSummary: "Team recorded synchronized EMF spikes across 6 independent meters placed in a hexagonal perimeter around [REDACTED].",
-    evidenceItems: [],
-    isPublic: true,
-    createdAt: "2025-02-18T09:00:00Z",
-    updatedAt: "2026-02-01T16:45:00Z"
-  }
-];
-
-export const initialEquipment: EquipmentItem[] = [
-  {
-    id: "eq-1",
-    name: "TriField Natural EM Meter TF2",
-    category: "Detection Equipment",
-    modelNumber: "TF2-PRO",
-    manufacturer: "AlphaLab Inc.",
-    description: "Calibrated broadband electromagnetic field meter measuring AC magnetic, AC electric, and RF/microwave radiation simultaneously with rapid 3-axis response.",
-    specs: {
-      "Frequency Range": "40 Hz – 100 kHz (AC Magnetic)",
-      "Sampling Rate": "12 ms digital update",
-      "Sensitivity": "0.1 milligauss resolution",
-      "Field Axes": "3-axis true RMS detection"
+      "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "status": "Operational",
+      "detectionMethod": "Tri-axial electromagnetic induction",
+      "createdAt": "2020-01-10T00:00:00Z"
     },
-    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    status: "Operational",
-    detectionMethod: "Tri-axial electromagnetic induction",
-    createdAt: "2020-01-10T00:00:00Z"
-  },
-  {
-    id: "eq-2",
-    name: "K-II Deluxe Safe Range EMF Meter",
-    category: "Detection Equipment",
-    modelNumber: "K-II-9V",
-    manufacturer: "K-II Enterprises",
-    description: "Industry-standard rapid-response milligauss meter with instantaneous 5-LED multi-level indicators used for detecting instantaneous magnetic spikes in field investigations.",
-    specs: {
-      "Detection Band": "50 to 60 Hz / 50 to 1,000 Hz",
-      "Scale Levels": "Green (0-1.5mG) to Red (20+ mG)",
-      "Reaction Time": "Instantaneous (<50ms)"
+    {
+      "id": "eq-2",
+      "name": "K-II Deluxe Safe Range EMF Meter",
+      "category": "Detection Equipment",
+      "modelNumber": "K-II-9V",
+      "manufacturer": "K-II Enterprises",
+      "description": "Industry-standard rapid-response milligauss meter with instantaneous 5-LED multi-level indicators used for detecting instantaneous magnetic spikes in field investigations.",
+      "specs": {
+        "Detection Band": "50 to 60 Hz / 50 to 1,000 Hz",
+        "Scale Levels": "Green (0-1.5mG) to Red (20+ mG)",
+        "Reaction Time": "Instantaneous (<50ms)"
+      },
+      "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "status": "Operational",
+      "detectionMethod": "Single-axis rapid electromagnetic detection",
+      "createdAt": "2019-05-12T00:00:00Z"
     },
-    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    status: "Operational",
-    detectionMethod: "Single-axis rapid electromagnetic detection",
-    createdAt: "2019-05-12T00:00:00Z"
-  },
-  {
-    id: "eq-3",
-    name: "FLIR E8-XT High-Res Infrared Thermal Camera",
-    category: "Video Equipment",
-    modelNumber: "E8-XT Pro",
-    manufacturer: "FLIR Systems",
-    description: "Precision thermal imaging diagnostic system with 320x240 IR resolution and MSX enhancement for mapping subtle thermal dissipation and ambient cold spots.",
-    specs: {
-      "Thermal Sensitivity": "<0.05°C (50 mK)",
-      "Spectral Range": "7.5 - 13 µm",
-      "Temperature Range": "-20°C to 550°C",
-      "Frame Rate": "9 Hz calibrated"
+    {
+      "id": "eq-3",
+      "name": "FLIR E8-XT High-Res Infrared Thermal Camera",
+      "category": "Video Equipment",
+      "modelNumber": "E8-XT Pro",
+      "manufacturer": "FLIR Systems",
+      "description": "Precision thermal imaging diagnostic system with 320x240 IR resolution and MSX enhancement for mapping subtle thermal dissipation and ambient cold spots.",
+      "specs": {
+        "Thermal Sensitivity": "<0.05°C (50 mK)",
+        "Spectral Range": "7.5 - 13 µm",
+        "Temperature Range": "-20°C to 550°C",
+        "Frame Rate": "9 Hz calibrated"
+      },
+      "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "status": "Operational",
+      "detectionMethod": "Uncooled Microbolometer LWIR",
+      "createdAt": "2021-08-14T00:00:00Z"
     },
-    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    status: "Operational",
-    detectionMethod: "Uncooled Microbolometer LWIR",
-    createdAt: "2021-08-14T00:00:00Z"
-  },
-  {
-    id: "eq-4",
-    name: "Full Spectrum & 850nm IR 4K Camcorder Array",
-    category: "Video Equipment",
-    modelNumber: "FS-4K-ULTRA",
-    manufacturer: "Sony / Custom DOS Modified",
-    description: "Sensor optical filter removed to capture complete ultraviolet, visible, and infrared light spectrums up to 1050nm in total darkness.",
-    specs: {
-      "Spectrum Covered": "350nm (UV) to 1100nm (Infrared)",
-      "Resolution": "4K Ultra HD at 60fps",
-      "Illumination": "High-output 850nm & 940nm IR Array"
+    {
+      "id": "eq-4",
+      "name": "Full Spectrum & 850nm IR 4K Camcorder Array",
+      "category": "Video Equipment",
+      "modelNumber": "FS-4K-ULTRA",
+      "manufacturer": "Sony / Custom DOS Modified",
+      "description": "Sensor optical filter removed to capture complete ultraviolet, visible, and infrared light spectrums up to 1050nm in total darkness.",
+      "specs": {
+        "Spectrum Covered": "350nm (UV) to 1100nm (Infrared)",
+        "Resolution": "4K Ultra HD at 60fps",
+        "Illumination": "High-output 850nm & 940nm IR Array"
+      },
+      "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "status": "Operational",
+      "detectionMethod": "Direct CMOS multi-spectrum light absorption",
+      "createdAt": "2022-04-10T00:00:00Z"
     },
-    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    status: "Operational",
-    detectionMethod: "Direct CMOS multi-spectrum light absorption",
-    createdAt: "2022-04-10T00:00:00Z"
-  },
-  {
-    id: "eq-5",
-    name: "Zoom H6 6-Track Acoustic EVP Field Recorder",
-    category: "Audio Equipment",
-    modelNumber: "H6-BLK",
-    manufacturer: "Zoom Corporation",
-    description: "Studio-grade low-noise microphone preamplifiers (-120dB EIN) paired with high-sensitivity XY and shotgun capsule mics for pristine audio forensic isolation.",
-    specs: {
-      "Sampling Quality": "24-bit / 96 kHz uncompressed WAV",
-      "Noise Floor": "-120 dB EIN",
-      "Input Channels": "4 XLR combo + interchangeable capsule"
+    {
+      "id": "eq-5",
+      "name": "Zoom H6 6-Track Acoustic EVP Field Recorder",
+      "category": "Audio Equipment",
+      "modelNumber": "H6-BLK",
+      "manufacturer": "Zoom Corporation",
+      "description": "Studio-grade low-noise microphone preamplifiers (-120dB EIN) paired with high-sensitivity XY and shotgun capsule mics for pristine audio forensic isolation.",
+      "specs": {
+        "Sampling Quality": "24-bit / 96 kHz uncompressed WAV",
+        "Noise Floor": "-120 dB EIN",
+        "Input Channels": "4 XLR combo + interchangeable capsule"
+      },
+      "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "status": "Operational",
+      "detectionMethod": "Ultra-low noise condenser transducing",
+      "createdAt": "2020-11-05T00:00:00Z"
     },
-    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    status: "Operational",
-    detectionMethod: "Ultra-low noise condenser transducing",
-    createdAt: "2020-11-05T00:00:00Z"
-  },
-  {
-    id: "eq-6",
-    name: "Laser Grid Matrix Illuminator",
-    category: "Investigation Tools",
-    modelNumber: "LGM-532",
-    manufacturer: "DOS Engineering Lab",
-    description: "Coherent 532nm emerald laser beam splitter producing a 100-point calibrated grid across rooms to detect minute optical shadow disruptions and 3D volume breaks.",
-    specs: {
-      "Wavelength": "532nm High Visibility Green",
-      "Grid Density": "100+ precision dispersion points",
-      "Coverage": "120-degree cone projection"
+    {
+      "id": "eq-6",
+      "name": "Laser Grid Matrix Illuminator",
+      "category": "Investigation Tools",
+      "modelNumber": "LGM-532",
+      "manufacturer": "DOS Engineering Lab",
+      "description": "Coherent 532nm emerald laser beam splitter producing a 100-point calibrated grid across rooms to detect minute optical shadow disruptions and 3D volume breaks.",
+      "specs": {
+        "Wavelength": "532nm High Visibility Green",
+        "Grid Density": "100+ precision dispersion points",
+        "Coverage": "120-degree cone projection"
+      },
+      "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "status": "Operational",
+      "detectionMethod": "Spatial disruption occlusion mapping",
+      "createdAt": "2023-03-01T00:00:00Z"
     },
-    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    status: "Operational",
-    detectionMethod: "Spatial disruption occlusion mapping",
-    createdAt: "2023-03-01T00:00:00Z"
-  },
-  {
-    id: "eq-7",
-    name: "Multi-Sensor Environmental Telemetry Hub (EDI+)",
-    category: "Environmental Equipment",
-    modelNumber: "EDI-PLUS-MK2",
-    manufacturer: "DAS Distribution",
-    description: "Compact environmental logger logging continuous barometric pressure, ambient temperature, humidity, vibration accelerometer, and electromagnetic shifts.",
-    specs: {
-      "Sensors": "Temp, Pressure, Humidity, Vibration, EMF",
-      "Datalogging Interval": "1 second continuous flash storage",
-      "Display": "Digital backlit multi-parameter LCD"
+    {
+      "id": "eq-7",
+      "name": "Multi-Sensor Environmental Telemetry Hub (EDI+)",
+      "category": "Environmental Equipment",
+      "modelNumber": "EDI-PLUS-MK2",
+      "manufacturer": "DAS Distribution",
+      "description": "Compact environmental logger logging continuous barometric pressure, ambient temperature, humidity, vibration accelerometer, and electromagnetic shifts.",
+      "specs": {
+        "Sensors": "Temp, Pressure, Humidity, Vibration, EMF",
+        "Datalogging Interval": "1 second continuous flash storage",
+        "Display": "Digital backlit multi-parameter LCD"
+      },
+      "imageUrl": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "status": "Field Deployed",
+      "detectionMethod": "Integrated solid-state sensor fusion",
+      "createdAt": "2023-09-18T00:00:00Z"
+    }
+  ],
+  "media": [
+    {
+      "id": "med-1",
+      "title": "Midnight In Kurseong: India's Paranormal Scientists",
+      "publication": "The Telegraph India",
+      "date": "2025-12-02",
+      "category": "Newspapers",
+      "description": "Front-page investigative feature exploring how Debraj Sanyal and the DOS team apply thermal imaging, acoustic engineering, and empirical discipline to historic Bengal mysteries.",
+      "externalUrl": "https://telegraphindia.com",
+      "thumbnail": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "isPublished": true,
+      "createdAt": "2025-12-03T10:00:00Z"
     },
-    imageUrl: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    status: "Field Deployed",
-    detectionMethod: "Integrated solid-state sensor fusion",
-    createdAt: "2023-09-18T00:00:00Z"
-  }
-];
-
-export const initialMediaCoverage: MediaItem[] = [
-  {
-    id: "med-1",
-    title: "Midnight In Kurseong: India's Paranormal Scientists",
-    publication: "The Telegraph India",
-    date: "2025-12-02",
-    category: "Newspapers",
-    description: "Front-page investigative feature exploring how Debraj Sanyal and the DOS team apply thermal imaging, acoustic engineering, and empirical discipline to historic Bengal mysteries.",
-    externalUrl: "https://telegraphindia.com",
-    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    isPublished: true,
-    createdAt: "2025-12-03T10:00:00Z"
-  },
-  {
-    id: "med-2",
-    title: "Supernatural or Science? Inside DOS's Evidence Laboratory",
-    publication: "National Geographic Traveller / Discovery Special",
-    date: "2025-07-15",
-    category: "Documentaries",
-    description: "A 45-minute documentary following Technical Lead Anirban Das as he breaks down audio anomalies, debunking urban myths while analyzing unexplained EMF signatures.",
-    externalUrl: "https://nationalgeographic.com",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    isPublished: true,
-    createdAt: "2025-07-20T14:00:00Z"
-  },
-  {
-    id: "med-3",
-    title: "15 Years of Investigating Unexplained India: The DOS Story",
-    publication: "Times of India Metro Plus",
-    date: "2025-04-10",
-    category: "Newspapers",
-    description: "In-depth anniversary profile tracing the journey of founders Debraj Sanyal and Ishita Das Sanyal from early 2010 field investigations to pioneering modern paranormal research.",
-    externalUrl: "https://timesofindia.indiatimes.com",
-    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    isPublished: true,
-    createdAt: "2025-04-12T09:00:00Z"
-  },
-  {
-    id: "med-4",
-    title: "Episode 104: Demystifying Haunted Bengal with Debraj Sanyal",
-    publication: "The Ranveer Show / TRS Podcast",
-    date: "2024-11-28",
-    category: "Podcasts",
-    description: "Over 2 million viewers tuned into this 2.5 hour deep dive into empirical investigative methodologies, audio anomalies, and field encounters across India.",
-    externalUrl: "https://spotify.com",
-    videoUrl: "https://youtube.com",
-    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    isPublished: true,
-    createdAt: "2024-11-30T11:30:00Z"
-  },
-  {
-    id: "med-5",
-    title: "Live Prime Time: Ghost Hunters or Forensic Researchers?",
-    publication: "NDTV 24x7 Special Report",
-    date: "2024-08-16",
-    category: "Television",
-    description: "Debraj Sanyal live in studio demonstrating EMF meters and thermal cameras to explain why 95% of reported hauntings are natural physical occurrences.",
-    externalUrl: "https://ndtv.com",
-    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    isPublished: true,
-    createdAt: "2024-08-17T18:00:00Z"
-  },
-  {
-    id: "med-6",
-    title: "The Physics of the Unexplained: Interview with Technical Lead Anirban Das",
-    publication: "Anandabazar Patrika",
-    date: "2024-01-20",
-    category: "Interviews",
-    description: "Bengali print interview delving into calibrated sensor telemetry, electro-acoustic transduction, and the difference between belief and empirical data.",
-    externalUrl: "https://anandabazar.com",
-    thumbnail: "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
-    isPublished: true,
-    createdAt: "2024-01-22T08:00:00Z"
-  }
-];
-
-export const initialGalleryImages: GalleryImage[] = [
-  {
-    id: "gal-1",
-    title: "Midnight Setup at Dow Hill Ridge",
-    caption: "Field Investigator Ayush Majumder deploying full-spectrum cameras along the historic cart road under dense midnight fog.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Investigations",
-    location: "Kurseong, Darjeeling",
-    date: "2025-11-14",
-    featured: true,
-    createdAt: "2025-11-20T00:00:00Z"
-  },
-  {
-    id: "gal-2",
-    title: "Warren Hastings Mansion Facade",
-    caption: "Exterior colonial brickwork and archways of the Alipore mansion during ambient temperature profiling sweep.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Haunted Locations",
-    location: "Alipore, Kolkata",
-    date: "2025-08-22",
-    featured: true,
-    createdAt: "2025-08-30T00:00:00Z"
-  },
-  {
-    id: "gal-3",
-    title: "Tri-Field EMF Calibration Session",
-    caption: "Technical Lead Anirban Das tuning natural EM meters inside the mobile field lab prior to site perimeter sweep.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Equipment",
-    location: "Kolkata HQ Lab",
-    date: "2025-08-20",
-    featured: false,
-    createdAt: "2025-08-25T00:00:00Z"
-  },
-  {
-    id: "gal-4",
-    title: "Park Street Crypt 412 Thermal View",
-    caption: "High-contrast thermal sensor trace displaying isolated localized cold vortex at tomb base.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Evidence",
-    location: "Park Street Cemetery",
-    date: "2025-05-19",
-    featured: true,
-    createdAt: "2025-05-25T00:00:00Z"
-  },
-  {
-    id: "gal-5",
-    title: "Kuldhara Abandoned Street At Twilight",
-    caption: "The deserted sandstone corridors of the 13th-century settlement before zero-lux nighttime telemetry.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Haunted Locations",
-    location: "Jaisalmer, Rajasthan",
-    date: "2025-02-10",
-    featured: false,
-    createdAt: "2025-02-15T00:00:00Z"
-  },
-  {
-    id: "gal-6",
-    title: "Debraj Sanyal Briefing Investigation Team",
-    caption: "Founder Debraj Sanyal conducting the pre-investigation protocols briefing at base camp.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Team",
-    location: "Base Camp Alpha",
-    date: "2025-10-15",
-    featured: false,
-    createdAt: "2025-10-20T00:00:00Z"
-  },
-  {
-    id: "gal-7",
-    title: "Laser Grid Occlusion Setup",
-    caption: "532nm green laser dispersion matrix illuminating an enclosed 18th-century ballroom hallway.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Equipment",
-    location: "Sovabazar Estate",
-    date: "2024-10-31",
-    featured: false,
-    createdAt: "2024-11-02T00:00:00Z"
-  },
-  {
-    id: "gal-8",
-    title: "Behind The Scenes: Night Mobile Command",
-    caption: "Cofounder Ishita Das Sanyal cross-referencing colonial land registry records against realtime audio inputs.",
-    imageUrl: "/horror_background_wide.jpg?q=80&w=1200&auto=format&fit=crop",
-    category: "Behind The Scenes",
-    location: "Mobile Command Unit",
-    date: "2025-08-22",
-    featured: false,
-    createdAt: "2025-08-28T00:00:00Z"
-  }
-];
-
-export const initialActivityReports: ActivityReport[] = [
-  {
-    id: "rep-1",
-    caseId: "DOS-2026-000001",
-    fullName: "Siddhartha Mukherjee",
-    email: "siddhartha.m@gmail.com",
-    phone: "+91 98311 44552",
-    location: "Rajarhat Heritage Homestead",
-    city: "Kolkata",
-    state: "West Bengal",
-    dateOfActivity: "2026-09-12",
-    approximateTime: "02:30 AM",
-    activityType: "Unexplained Sounds",
-    description: "Repeated mechanical tapping and localized temperature drops occurring precisely at 2:30 AM every Thursday night in the second-floor study room. Windows remain sealed, and no electrical mains pass near that wall.",
-    numberOfWitnesses: 3,
-    previousInvestigation: false,
-    attachments: [],
-    additionalInfo: "The structure was built in 1928 by our grandfather. Family members have confirmed hearing heavy footsteps ascending the wooden staircase.",
-    status: "Reviewing",
-    internalNotes: "Assigned to Ayush Majumder for initial telephone intake and historical deed cross-examination.",
-    createdAt: "2026-09-14T08:30:00Z",
-    updatedAt: "2026-09-15T11:00:00Z"
-  },
-  {
-    id: "rep-2",
-    caseId: "DOS-2026-000002",
-    fullName: "Priyanka Sen",
-    email: "priyanka.sen88@yahoo.com",
-    phone: "+91 94330 12890",
-    location: "Ballygunge Circular Road Apartment",
-    city: "Kolkata",
-    state: "West Bengal",
-    dateOfActivity: "2026-08-29",
-    approximateTime: "11:45 PM",
-    activityType: "Electronic Disturbance",
-    description: "Smart bulbs, Wi-Fi router, and wall clocks consistently resetting at 23:45. Sudden electrostatic sensation in the corridor.",
-    numberOfWitnesses: 2,
-    previousInvestigation: false,
-    attachments: [],
-    additionalInfo: "CESC electric company inspected and found no grounding fault.",
-    status: "Contacted",
-    internalNotes: "Phone consultation completed. Suggested environmental EMF logger deployment next month.",
-    createdAt: "2026-08-30T14:15:00Z",
-    updatedAt: "2026-09-02T16:20:00Z"
-  }
-];
-
-export const initialContactMessages: ContactMessage[] = [
-  {
-    id: "msg-1",
-    name: "Dr. Arindam Ghosh",
-    email: "arindam.ghosh@phys.univ.ac.in",
-    phone: "+91 98305 99881",
-    subject: "Academic Collaboration on Infrasound Acoustic Logging",
-    message: "Greetings to the DOS team. I am a researcher at the department of acoustics. We have observed your methodology regarding sub-20Hz recordings and would like to propose a joint empirical review.",
-    status: "read",
-    createdAt: "2026-09-10T14:20:00Z"
-  }
-];
-
-export const initialResearchItems: ResearchItem[] = [
-  {
-    id: "res-1",
-    title: "18.9 Hz Infrasound Resonance & Human Ocular Vibration in Heritage Structures",
-    category: "Infrasound & Acoustics",
-    author: "Debraj Sanyal & DOS Technical Division",
-    publicationDate: "2026-05-18",
-    abstract: "An empirical investigation into standing acoustic waves between 17 Hz and 19 Hz generated by architectural air corridors. Correlating sub-audible air vibrations with peripheral vision distortions and sensations of dread in pre-independence colonial mansions.",
-    fullContent: "### Introduction & Experimental Hypothesis\nMany historical estates reported as 'haunted' exhibit specific spatial geometry that acts as a Helmholtz acoustic resonator. When ambient outdoor wind velocities exceed 18 km/h, these long corridors generate low-frequency acoustic standing waves.\n\n### Methodology\n1. Multi-point infrasonic barometer array deployed along corridors.\n2. Ultrasonic microphone capture sampled at 192 kHz / 32-bit float.\n3. Continuous participant physiological monitoring (galvanic skin response and pupil dilation).\n\n### Findings\nIn 34% of documented heritage case files, an 18.9 Hz infrasonic peak was recorded. This frequency coincides with the human eyeball's resonant optical frequency, inducing subtle mechanical oscillations of the vitreous humor and triggering illusory peripheral shadow shapes.\n\n### Conclusion\nDemystifying natural environmental triggers is paramount. By mapping standing acoustic waves, DOS distinguishes between legitimate unexplained anomalies and architectural bio-acoustic phenomena.",
-    findings: "Demonstrated direct correlation between corridor wind resonance (18.9 Hz) and peripheral visual artifacts across 6 historical estates.",
-    imageUrl: "/uploads/heritage_estate.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    tags: ["Infrasound", "Bio-Acoustics", "Debunking", "Helmholtz Resonance"],
-    isFeatured: true,
-    createdAt: "2026-05-18T10:00:00Z"
-  },
-  {
-    id: "res-2",
-    title: "Fast Fourier Transform (FFT) Spectral Analysis of Electronic Voice Phenomena (EVP)",
-    category: "Audio & EVP Analysis",
-    author: "Ishita Das Sanyal & DOS Audio Lab",
-    publicationDate: "2026-03-22",
-    abstract: "Comparative spectral density study distinguishing radio frequency bleed-through, microphone diaphragm thermal noise, and anomalous structured vocal formants captured in electrically isolated Faraday environments.",
-    fullContent: "### Objective\nElectronic Voice Phenomena (EVP) remains one of the most widely documented yet easily corrupted categories of evidence. This paper presents a standardized signal verification protocol.\n\n### Test Environment\nField recordings conducted in custom double-layered mu-metal and copper RF shielded Faraday enclosures to eliminate cell tower, AM/FM radio, and emergency frequency cross-talk.\n\n### Spectrographic Identification\nLegitimate anomalous recordings exhibit formant characteristics (F1, F2 peaks) without the carrier wave harmonics typical of commercial RF transmissions.\n\n### Protocol Guidelines\n- Minimum 96 kHz 24-bit PCM capture.\n- Dual-recorder differential noise cancellation.\n- Blind panel voice articulation grading.",
-    findings: "Established mathematical threshold for distinguishing background radio frequency bleed from unexplainable acoustic harmonic clusters.",
-    imageUrl: "/uploads/evp_analysis.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    tags: ["EVP", "Spectrogram", "FFT", "Faraday Shielding", "Signal Processing"],
-    isFeatured: true,
-    createdAt: "2026-03-22T14:30:00Z"
-  },
-  {
-    id: "res-3",
-    title: "Tri-Axis Geomagnetic Field Deviations & Localized Temperature Gradient Inversions",
-    category: "EMF & Geomagnetism",
-    author: "Anirban Das & Debraj Sanyal",
-    publicationDate: "2025-11-14",
-    abstract: "Correlating multi-axis milligauss fluctuations with rapid thermodynamic drops during nocturnal field investigations using calibrated micro-bolometers and fluxgate magnetometers.",
-    fullContent: "### Overview\nDuring intense paranormal activity claims, investigators frequently observe sudden temperature drops of 5°C to 12°C within a localized volume of less than 1 cubic meter. This paper examines whether electromagnetic field induction is physically responsible for thermodynamic absorption.\n\n### Telemetry Equipment\n- Tri-axis ELF/VLF Gaussmeter (0.1 mG resolution)\n- Forward Looking Infrared (FLIR) radiometric thermal imaging\n- Precision platinum RTD temperature probes\n\n### Analytical Summary\nData collected across 48 investigative nights reveals that in 7 cases, acute magnetic spikes (>25 mG) occurred precisely simultaneously with 8°C localized drops in ambient temperature without any corresponding drafts or HVAC air currents.",
-    findings: "Documented 7 statistically significant events exhibiting simultaneous EMF flux (>25 mG) and non-convective thermal inversions (>8°C drop).",
-    imageUrl: "/uploads/thermal_camera.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    tags: ["EMF", "FLIR Thermal", "Thermodynamics", "Geomagnetic Flux"],
-    isFeatured: false,
-    createdAt: "2025-11-14T09:00:00Z"
-  },
-  {
-    id: "res-4",
-    title: "The Standardized Paranormal Investigation Protocol (SPIP-v4) for Indian Heritage Sites",
-    category: "Methodology & Protocols",
-    author: "Ayush Majumder & Debraj Sanyal",
-    publicationDate: "2025-08-05",
-    abstract: "Comprehensive 12-stage operational blueprint for ethical, non-destructive, and scientifically calibrated investigations in archaeological and historical monuments across India.",
-    fullContent: "### Protocol Mandates\n1. **Pre-Investigation Triage**: Historical deed verification, architectural structural survey, environmental hazard check.\n2. **Baseline Calibration**: 2-hour multi-sensor background logging before human team deployment.\n3. **Controlled Isolation**: Elimination of all mobile devices, smart watches, and synthetic interference sources.\n4. **Peer Review & Debunking Stage**: Minimum 72-hour review period where 3 independent analysts attempt natural refutation.\n5. **Secure Archival**: Immutable cryptographic hashing of raw audio/video files.",
-    findings: "Reduced false-positive paranormal claims by 68% through systematic baseline environmental logging and historical background auditing.",
-    imageUrl: "/uploads/investigation_protocol.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    tags: ["Methodology", "Ethics", "Debunking", "Scientific Rigor"],
-    isFeatured: false,
-    createdAt: "2025-08-05T16:00:00Z"
-  }
-];
+    {
+      "id": "med-2",
+      "title": "Supernatural or Science? Inside DOS's Evidence Laboratory",
+      "publication": "National Geographic Traveller / Discovery Special",
+      "date": "2025-07-15",
+      "category": "Documentaries",
+      "description": "A 45-minute documentary following Technical Lead Anirban Das as he breaks down audio anomalies, debunking urban myths while analyzing unexplained EMF signatures.",
+      "externalUrl": "https://nationalgeographic.com",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "isPublished": true,
+      "createdAt": "2025-07-20T14:00:00Z"
+    },
+    {
+      "id": "med-3",
+      "title": "15 Years of Investigating Unexplained India: The DOS Story",
+      "publication": "Times of India Metro Plus",
+      "date": "2025-04-10",
+      "category": "Newspapers",
+      "description": "In-depth anniversary profile tracing the journey of founders Debraj Sanyal and Ishita Das Sanyal from early 2010 field investigations to pioneering modern paranormal research.",
+      "externalUrl": "https://timesofindia.indiatimes.com",
+      "thumbnail": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "isPublished": true,
+      "createdAt": "2025-04-12T09:00:00Z"
+    },
+    {
+      "id": "med-4",
+      "title": "Episode 104: Demystifying Haunted Bengal with Debraj Sanyal",
+      "publication": "The Ranveer Show / TRS Podcast",
+      "date": "2024-11-28",
+      "category": "Podcasts",
+      "description": "Over 2 million viewers tuned into this 2.5 hour deep dive into empirical investigative methodologies, audio anomalies, and field encounters across India.",
+      "externalUrl": "https://spotify.com",
+      "videoUrl": "https://youtube.com",
+      "thumbnail": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "isPublished": true,
+      "createdAt": "2024-11-30T11:30:00Z"
+    },
+    {
+      "id": "med-5",
+      "title": "Live Prime Time: Ghost Hunters or Forensic Researchers?",
+      "publication": "NDTV 24x7 Special Report",
+      "date": "2024-08-16",
+      "category": "Television",
+      "description": "Debraj Sanyal live in studio demonstrating EMF meters and thermal cameras to explain why 95% of reported hauntings are natural physical occurrences.",
+      "externalUrl": "https://ndtv.com",
+      "thumbnail": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "isPublished": true,
+      "createdAt": "2024-08-17T18:00:00Z"
+    },
+    {
+      "id": "med-6",
+      "title": "The Physics of the Unexplained: Interview with Technical Lead Anirban Das",
+      "publication": "Anandabazar Patrika",
+      "date": "2024-01-20",
+      "category": "Interviews",
+      "description": "Bengali print interview delving into calibrated sensor telemetry, electro-acoustic transduction, and the difference between belief and empirical data.",
+      "externalUrl": "https://anandabazar.com",
+      "thumbnail": "/horror_background_wide.jpg?q=80&w=800&auto=format&fit=crop",
+      "isPublished": true,
+      "createdAt": "2024-01-22T08:00:00Z"
+    }
+  ],
+  "gallery": [
+    {
+      "title": "Didi No.1",
+      "category": "Optical",
+      "location": "Kolkata",
+      "date": "2026-09-21",
+      "caption": "Ishita Das Sanyal",
+      "imageUrl": "/uploads/file-1790024755379-13823450.jpg",
+      "id": "gal-1790024755441",
+      "featured": true,
+      "createdAt": "2026-09-21T21:05:55.441Z"
+    },
+    {
+      "id": "gal-1",
+      "title": "In an Investigation",
+      "caption": "Ayush Majumder",
+      "imageUrl": "/uploads/file-1790023310764-198067039.jpg",
+      "category": "Investigations",
+      "location": "Field Location",
+      "date": "2025-11-14",
+      "featured": true,
+      "createdAt": "2025-11-20T00:00:00Z"
+    },
+    {
+      "id": "gal-2",
+      "title": "In an Investigation",
+      "caption": "Team DOS",
+      "imageUrl": "/uploads/file-1790023846696-2764748.jpg",
+      "category": "Haunted Locations",
+      "location": "Kolkata",
+      "date": "2025-08-22",
+      "featured": true,
+      "createdAt": "2025-08-30T00:00:00Z"
+    },
+    {
+      "id": "gal-3",
+      "title": "In an Investigation",
+      "caption": "Team DOS",
+      "imageUrl": "/uploads/file-1790023918447-701445997.jpg",
+      "category": "Haunted Location",
+      "location": "Kolkata ",
+      "date": "2025-08-20",
+      "featured": false,
+      "createdAt": "2025-08-25T00:00:00Z"
+    },
+    {
+      "id": "gal-4",
+      "title": "In an Investigation",
+      "caption": "Devraj Sanyal, Ishita Das Sanyal , Anirban Das & Ayush Majumder",
+      "imageUrl": "/uploads/file-1790024137833-962828907.png",
+      "category": "haunted Location",
+      "location": "kolkata",
+      "date": "2025-05-19",
+      "featured": true,
+      "createdAt": "2025-05-25T00:00:00Z"
+    },
+    {
+      "id": "gal-5",
+      "title": "A haunted Trip To Benagram",
+      "caption": "Team DOS",
+      "imageUrl": "/uploads/file-1790024233346-166976861.jpg",
+      "category": "Haunted Locations",
+      "location": "Assansol",
+      "date": "2025-02-10",
+      "featured": false,
+      "createdAt": "2025-02-15T00:00:00Z"
+    },
+    {
+      "id": "gal-6",
+      "title": "Promotion",
+      "caption": "Team DOS",
+      "imageUrl": "/uploads/file-1790024399578-99231812.jpg",
+      "category": "Movie",
+      "location": "Kolkata",
+      "date": "2025-10-15",
+      "featured": false,
+      "createdAt": "2025-10-20T00:00:00Z"
+    },
+    {
+      "id": "gal-7",
+      "title": "Promotion",
+      "caption": "Team DOS",
+      "imageUrl": "/uploads/file-1790024473615-548013419.jpg",
+      "category": "Movie",
+      "location": "Kolkata",
+      "date": "2024-10-31",
+      "featured": false,
+      "createdAt": "2024-11-02T00:00:00Z"
+    },
+    {
+      "id": "gal-8",
+      "title": "Promotion",
+      "caption": "Team DOS",
+      "imageUrl": "/uploads/file-1790024559485-56923581.jpg",
+      "category": "Promotion",
+      "location": "Kolkata",
+      "date": "2025-08-22",
+      "featured": false,
+      "createdAt": "2025-08-28T00:00:00Z"
+    }
+  ],
+  "research": [
+    {
+      "id": "res-1",
+      "title": "18.9 Hz Infrasound Resonance & Human Ocular Vibration in Heritage Structures",
+      "category": "Infrasound & Acoustics",
+      "author": "Debraj Sanyal & DOS Technical Division",
+      "publicationDate": "2026-05-18",
+      "abstract": "An empirical investigation into standing acoustic waves between 17 Hz and 19 Hz generated by architectural air corridors. Correlating sub-audible air vibrations with peripheral vision distortions and sensations of dread in pre-independence colonial mansions.",
+      "fullContent": "### Introduction & Experimental Hypothesis\nMany historical estates reported as 'haunted' exhibit specific spatial geometry that acts as a Helmholtz acoustic resonator. When ambient outdoor wind velocities exceed 18 km/h, these long corridors generate low-frequency acoustic standing waves.\n\n### Methodology\n1. Multi-point infrasonic barometer array deployed along corridors.\n2. Ultrasonic microphone capture sampled at 192 kHz / 32-bit float.\n3. Continuous participant physiological monitoring (galvanic skin response and pupil dilation).\n\n### Findings\nIn 34% of documented heritage case files, an 18.9 Hz infrasonic peak was recorded. This frequency coincides with the human eyeball's resonant optical frequency, inducing subtle mechanical oscillations of the vitreous humor and triggering illusory peripheral shadow shapes.\n\n### Conclusion\nDemystifying natural environmental triggers is paramount. By mapping standing acoustic waves, DOS distinguishes between legitimate unexplained anomalies and architectural bio-acoustic phenomena.",
+      "findings": "Demonstrated direct correlation between corridor wind resonance (18.9 Hz) and peripheral visual artifacts across 6 historical estates.",
+      "imageUrl": "/uploads/heritage_estate.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "Infrasound",
+        "Bio-Acoustics",
+        "Debunking",
+        "Helmholtz Resonance"
+      ],
+      "isFeatured": true,
+      "createdAt": "2026-05-18T10:00:00Z"
+    },
+    {
+      "id": "res-2",
+      "title": "Fast Fourier Transform (FFT) Spectral Analysis of Electronic Voice Phenomena (EVP)",
+      "category": "Audio & EVP Analysis",
+      "author": "Ishita Das Sanyal & DOS Audio Lab",
+      "publicationDate": "2026-03-22",
+      "abstract": "Comparative spectral density study distinguishing radio frequency bleed-through, microphone diaphragm thermal noise, and anomalous structured vocal formants captured in electrically isolated Faraday environments.",
+      "fullContent": "### Objective\nElectronic Voice Phenomena (EVP) remains one of the most widely documented yet easily corrupted categories of evidence. This paper presents a standardized signal verification protocol.\n\n### Test Environment\nField recordings conducted in custom double-layered mu-metal and copper RF shielded Faraday enclosures to eliminate cell tower, AM/FM radio, and emergency frequency cross-talk.\n\n### Spectrographic Identification\nLegitimate anomalous recordings exhibit formant characteristics (F1, F2 peaks) without the carrier wave harmonics typical of commercial RF transmissions.\n\n### Protocol Guidelines\n- Minimum 96 kHz 24-bit PCM capture.\n- Dual-recorder differential noise cancellation.\n- Blind panel voice articulation grading.",
+      "findings": "Established mathematical threshold for distinguishing background radio frequency bleed from unexplainable acoustic harmonic clusters.",
+      "imageUrl": "/uploads/evp_analysis.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "EVP",
+        "Spectrogram",
+        "FFT",
+        "Faraday Shielding",
+        "Signal Processing"
+      ],
+      "isFeatured": true,
+      "createdAt": "2026-03-22T14:30:00Z"
+    },
+    {
+      "id": "res-3",
+      "title": "Tri-Axis Geomagnetic Field Deviations & Localized Temperature Gradient Inversions",
+      "category": "EMF & Geomagnetism",
+      "author": "Anirban Das & Debraj Sanyal",
+      "publicationDate": "2025-11-14",
+      "abstract": "Correlating multi-axis milligauss fluctuations with rapid thermodynamic drops during nocturnal field investigations using calibrated micro-bolometers and fluxgate magnetometers.",
+      "fullContent": "### Overview\nDuring intense paranormal activity claims, investigators frequently observe sudden temperature drops of 5°C to 12°C within a localized volume of less than 1 cubic meter. This paper examines whether electromagnetic field induction is physically responsible for thermodynamic absorption.\n\n### Telemetry Equipment\n- Tri-axis ELF/VLF Gaussmeter (0.1 mG resolution)\n- Forward Looking Infrared (FLIR) radiometric thermal imaging\n- Precision platinum RTD temperature probes\n\n### Analytical Summary\nData collected across 48 investigative nights reveals that in 7 cases, acute magnetic spikes (>25 mG) occurred precisely simultaneously with 8°C localized drops in ambient temperature without any corresponding drafts or HVAC air currents.",
+      "findings": "Documented 7 statistically significant events exhibiting simultaneous EMF flux (>25 mG) and non-convective thermal inversions (>8°C drop).",
+      "imageUrl": "/uploads/thermal_camera.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "EMF",
+        "FLIR Thermal",
+        "Thermodynamics",
+        "Geomagnetic Flux"
+      ],
+      "isFeatured": false,
+      "createdAt": "2025-11-14T09:00:00Z"
+    },
+    {
+      "id": "res-4",
+      "title": "The Standardized Paranormal Investigation Protocol (SPIP-v4) for Indian Heritage Sites",
+      "category": "Methodology & Protocols",
+      "author": "Ayush Majumder & Debraj Sanyal",
+      "publicationDate": "2025-08-05",
+      "abstract": "Comprehensive 12-stage operational blueprint for ethical, non-destructive, and scientifically calibrated investigations in archaeological and historical monuments across India.",
+      "fullContent": "### Protocol Mandates\n1. **Pre-Investigation Triage**: Historical deed verification, architectural structural survey, environmental hazard check.\n2. **Baseline Calibration**: 2-hour multi-sensor background logging before human team deployment.\n3. **Controlled Isolation**: Elimination of all mobile devices, smart watches, and synthetic interference sources.\n4. **Peer Review & Debunking Stage**: Minimum 72-hour review period where 3 independent analysts attempt natural refutation.\n5. **Secure Archival**: Immutable cryptographic hashing of raw audio/video files.",
+      "findings": "Reduced false-positive paranormal claims by 68% through systematic baseline environmental logging and historical background auditing.",
+      "imageUrl": "/uploads/investigation_protocol.jpg",
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "tags": [
+        "Methodology",
+        "Ethics",
+        "Debunking",
+        "Scientific Rigor"
+      ],
+      "isFeatured": false,
+      "createdAt": "2025-08-05T16:00:00Z"
+    }
+  ],
+  "reports": [
+    {
+      "id": "rep-1",
+      "caseId": "DOS-2026-000001",
+      "fullName": "Siddhartha Mukherjee",
+      "email": "siddhartha.m@gmail.com",
+      "phone": "+91 98311 44552",
+      "location": "Rajarhat Heritage Homestead",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "dateOfActivity": "2026-09-12",
+      "approximateTime": "02:30 AM",
+      "activityType": "Unexplained Sounds",
+      "description": "Repeated mechanical tapping and localized temperature drops occurring precisely at 2:30 AM every Thursday night in the second-floor study room. Windows remain sealed, and no electrical mains pass near that wall.",
+      "numberOfWitnesses": 3,
+      "previousInvestigation": false,
+      "attachments": [],
+      "additionalInfo": "The structure was built in 1928 by our grandfather. Family members have confirmed hearing heavy footsteps ascending the wooden staircase.",
+      "status": "Reviewing",
+      "internalNotes": "Assigned to Ayush Majumder for initial telephone intake and historical deed cross-examination.",
+      "createdAt": "2026-09-14T08:30:00Z",
+      "updatedAt": "2026-09-15T11:00:00Z"
+    },
+    {
+      "id": "rep-2",
+      "caseId": "DOS-2026-000002",
+      "fullName": "Priyanka Sen",
+      "email": "priyanka.sen88@yahoo.com",
+      "phone": "+91 94330 12890",
+      "location": "Ballygunge Circular Road Apartment",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "dateOfActivity": "2026-08-29",
+      "approximateTime": "11:45 PM",
+      "activityType": "Electronic Disturbance",
+      "description": "Smart bulbs, Wi-Fi router, and wall clocks consistently resetting at 23:45. Sudden electrostatic sensation in the corridor.",
+      "numberOfWitnesses": 2,
+      "previousInvestigation": false,
+      "attachments": [],
+      "additionalInfo": "CESC electric company inspected and found no grounding fault.",
+      "status": "Contacted",
+      "internalNotes": "Phone consultation completed. Suggested environmental EMF logger deployment next month.",
+      "createdAt": "2026-08-30T14:15:00Z",
+      "updatedAt": "2026-09-02T16:20:00Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg-1",
+      "name": "Dr. Arindam Ghosh",
+      "email": "arindam.ghosh@phys.univ.ac.in",
+      "phone": "+91 98305 99881",
+      "subject": "Academic Collaboration on Infrasound Acoustic Logging",
+      "message": "Greetings to the DOS team. I am a researcher at the department of acoustics. We have observed your methodology regarding sub-20Hz recordings and would like to propose a joint empirical review.",
+      "status": "read",
+      "createdAt": "2026-09-10T14:20:00Z"
+    }
+  ],
+  "reportCounter": 2
+};

@@ -4,6 +4,7 @@ import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import multer from 'multer';
 import { storage } from './src/server/storage';
+import { sendContactEmail, sendReportEmail, DOS_OFFICIAL_EMAIL } from './src/server/emailService';
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -536,13 +537,29 @@ app.get('/api/reports', requireAuth, (req, res) => {
   res.json(storage.getReports());
 });
 
-app.post('/api/reports', (req, res) => {
+app.post('/api/reports', async (req, res) => {
   try {
     const report = storage.createReport(req.body);
+    
+    // Dispatch notification email to team.dos.mail@gmail.com
+    const emailResult = await sendReportEmail({
+      caseId: report.caseId,
+      witnessName: report.fullName,
+      contactEmail: report.email,
+      contactPhone: report.phone,
+      location: report.location,
+      incidentDate: report.dateOfActivity,
+      activityType: report.activityType,
+      description: report.description,
+      attachmentUrl: report.attachments && report.attachments.length > 0 ? report.attachments[0] : null
+    });
+
     res.status(201).json({
       success: true,
       caseId: report.caseId,
-      message: 'Your report has been received. Our investigation team will review the information provided.',
+      dispatchedEmailTo: DOS_OFFICIAL_EMAIL,
+      emailDeliveredVia: emailResult.deliveredVia,
+      message: `Your report has been received and routed to ${DOS_OFFICIAL_EMAIL}. Our investigation team will review the information provided.`,
       report
     });
   } catch (error) {
@@ -569,9 +586,28 @@ app.get('/api/contact', requireAuth, (req, res) => {
   res.json(storage.getMessages());
 });
 
-app.post('/api/contact', (req, res) => {
-  const item = storage.createMessage(req.body);
-  res.status(201).json({ success: true, message: 'Message transmitted to DOS communications desk.', item });
+app.post('/api/contact', async (req, res) => {
+  try {
+    const item = storage.createMessage(req.body);
+
+    // Dispatch email notification to team.dos.mail@gmail.com
+    const emailResult = await sendContactEmail({
+      name: item.name,
+      email: item.email,
+      subject: item.subject,
+      message: item.message
+    });
+
+    res.status(201).json({
+      success: true,
+      dispatchedEmailTo: DOS_OFFICIAL_EMAIL,
+      emailDeliveredVia: emailResult.deliveredVia,
+      message: `Message transmitted and routed to ${DOS_OFFICIAL_EMAIL}.`,
+      item
+    });
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to process contact message.' });
+  }
 });
 
 app.put('/api/contact/:id', requireAuth, (req, res) => {

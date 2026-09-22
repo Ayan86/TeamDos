@@ -6,7 +6,7 @@ export default defineConfig(() => {
     plugins: [],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(process.cwd(), '.'),
       },
     },
     server: {

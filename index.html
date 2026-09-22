@@ -100,7 +100,7 @@
             <li><button class="nav-item-btn" data-nav="vault">Dos Vault</button></li>
             <li><button class="nav-item-btn" data-nav="equipment">Equipment</button></li>
             <li><button class="nav-item-btn" data-nav="media">Media Coverage</button></li>
-            <li><button class="nav-item-btn" data-nav="research">Research</button></li>
+            <li><button class="nav-item-btn" data-nav="research">Knowledge</button></li>
             <li><button class="nav-item-btn" data-nav="gallery">Gallery</button></li>
             <li><button class="nav-item-btn" data-nav="contact">Contact</button></li>
             <li><button class="nav-item-btn" data-nav="admin">Admin</button></li>
@@ -151,7 +151,7 @@
         <button class="nav-item-btn" data-nav="vault">Dos Vault</button>
         <button class="nav-item-btn" data-nav="equipment">Equipment</button>
         <button class="nav-item-btn" data-nav="media">Media Coverage</button>
-        <button class="nav-item-btn" data-nav="research">Research</button>
+        <button class="nav-item-btn" data-nav="research">Knowledge</button>
         <button class="nav-item-btn" data-nav="gallery">Gallery</button>
         <button class="nav-item-btn" data-nav="contact">Contact</button>
         <button class="nav-item-btn" data-nav="report">Report An Incident</button>
@@ -291,19 +291,12 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
         <div class="section-header">
           <div class="section-tag">CLASSIFIED TELEMETRY & ARTIFACTS</div>
           <h2 class="section-title">DOS VAULT</h2>
-          <p class="section-desc">
-            Classified photographic records, anomalous field captures, and forensic telemetry dossiers.
-          </p>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom: 24px;">
           <div class="filter-bar" style="margin-bottom:0; justify-content:flex-start;">
             <button class="filter-btn active" onclick="setFilter('vault', 'ALL')">ALL VAULT EVIDENCE</button>
-            <button class="filter-btn" onclick="setFilter('vault', 'SPECTRAL')">SPECTRAL</button>
-            <button class="filter-btn" onclick="setFilter('vault', 'EVP')">EVP & ACOUSTICS</button>
-            <button class="filter-btn" onclick="setFilter('vault', 'THERMAL')">THERMAL & OPTICAL</button>
-            <button class="filter-btn" onclick="setFilter('vault', 'RELIC')">CURSED RELICS</button>
-            <button class="filter-btn" onclick="setFilter('vault', 'DOCUMENTED')">DOCUMENTED</button>
+            <button class="filter-btn" onclick="setFilter('vault', 'CURSED RELICS')">CURSED RELICS</button>
           </div>
           <div id="vaultAdminActionContainer" style="display:none;">
             <button onclick="navigateTo('admin'); setTimeout(() => switchAdminTab('vault'), 100);" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
@@ -324,9 +317,6 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
         <div class="section-header">
           <div class="section-tag">SCIENTIFIC INSTRUMENTATION</div>
           <h2 class="section-title">EQUIPMENT ARSENAL</h2>
-          <p class="section-desc">
-            The calibrated sensors, thermal cameras, and acoustic hardware used in zero-lux investigations.
-          </p>
         </div>
 
         <div id="equipmentGrid" class="grid-3"></div>
@@ -341,18 +331,13 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
         <div class="section-header">
           <div class="section-tag">PRESS & BROADCASTS</div>
           <h2 class="section-title">MEDIA COVERAGE & DOCUMENTARIES</h2>
-          <p class="section-desc">
-            National television specials, investigative print features, podcasts, and video reports.
-          </p>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom: 24px;">
           <div class="filter-bar" style="margin-bottom:0; justify-content:flex-start;">
             <button class="filter-btn active" onclick="setFilter('media', 'ALL')">ALL MEDIA COVERAGE</button>
             <button class="filter-btn" onclick="setFilter('media', 'VIDEOS')">VIDEOS & DOCUMENTARIES</button>
-            <button class="filter-btn" onclick="setFilter('media', 'TELEVISION')">TELEVISION</button>
             <button class="filter-btn" onclick="setFilter('media', 'NEWSPAPERS')">NEWSPAPERS</button>
-            <button class="filter-btn" onclick="setFilter('media', 'PODCASTS')">PODCASTS</button>
           </div>
           <div id="mediaAdminActionContainer" style="display:none;">
             <button onclick="navigateTo('admin'); setTimeout(() => openAdminVideoUploadModal(), 100);" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
@@ -373,18 +358,11 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
         <div class="section-header">
           <div class="section-tag">EMPIRICAL METHODOLOGY & PARANORMAL SCIENCE</div>
           <h2 class="section-title">SCIENTIFIC RESEARCH & STUDIES</h2>
-          <p class="section-desc">
-            Empirical whitepapers, bio-acoustic resonance models, frequency analyses, and investigative methodologies developed by Detectives of Supernatural.
-          </p>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom: 24px;">
           <div class="filter-bar" style="margin-bottom:0; justify-content:flex-start;">
             <button class="filter-btn active" onclick="setFilter('research', 'ALL')">ALL RESEARCH</button>
-            <button class="filter-btn" onclick="setFilter('research', 'ACOUSTICS')">ACOUSTICS & EVP</button>
-            <button class="filter-btn" onclick="setFilter('research', 'EMF')">EMF & GEOMAGNETIC</button>
-            <button class="filter-btn" onclick="setFilter('research', 'THERMAL')">THERMAL & OPTICAL</button>
-            <button class="filter-btn" onclick="setFilter('research', 'METHODOLOGY')">METHODOLOGY</button>
           </div>
           <div id="researchAdminActionContainer" style="display:none;">
             <button onclick="navigateTo('admin'); setTimeout(() => switchAdminTab('research'), 100);" class="btn-primary" style="padding:8px 16px; font-size:0.8rem;">
@@ -405,9 +383,14 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
         <div class="section-header">
           <div class="section-tag">PHOTOGRAPHIC RECORDS</div>
           <h2 class="section-title">EVIDENCE GALLERY</h2>
-          <p class="section-desc">
-            Zero-lux field photography, team deployments, and forensic location scans.
-          </p>
+        </div>
+
+        <div class="filter-bar" style="margin-bottom: 30px;">
+          <button class="filter-btn active" onclick="setFilter('gallery', 'ALL')">ALL PHOTOS</button>
+          <button class="filter-btn" onclick="setFilter('gallery', 'INVESTIGATIONS')">INVESTIGATIONS</button>
+          <button class="filter-btn" onclick="setFilter('gallery', 'HAUNTED LOCATIONS')">HAUNTED LOCATIONS</button>
+          <button class="filter-btn" onclick="setFilter('gallery', 'MOVIE')">MOVIE & PROMOTION</button>
+          <button class="filter-btn" onclick="setFilter('gallery', 'OPTICAL')">OPTICAL & MEDIA</button>
         </div>
 
         <div id="galleryGrid" class="grid-4"></div>
@@ -428,6 +411,9 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
         </div>
 
         <form id="caseReportForm" class="dos-card" style="padding:32px;">
+          <div style="margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--border-color); font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
+            TRIAGE DESK RECIPIENT: <strong style="color:var(--red-primary);">team.dos.mail@gmail.com</strong>
+          </div>
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
             <div class="form-group">
               <label class="form-label" for="witnessName">Full Name *</label>
@@ -435,7 +421,7 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
             </div>
             <div class="form-group">
               <label class="form-label" for="witnessPhone">Phone Number *</label>
-              <input type="tel" id="witnessPhone" class="form-control" required placeholder="+91 98300 00000" />
+              <input type="tel" id="witnessPhone" class="form-control" required placeholder="e.g., 98514 24977" />
             </div>
           </div>
 
@@ -478,7 +464,7 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
           </div>
 
           <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:10px;">
-            <span>TRANSMIT CASE REPORT FOR TRIAGE</span>
+            <span>TRANSMIT CASE REPORT TO TEAM.DOS.MAIL@GMAIL.COM</span>
           </button>
 
           <div id="reportFormStatus"></div>
@@ -495,29 +481,47 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
           <div class="section-tag">COMMUNICATIONS DESK</div>
           <h2 class="section-title">CONTACT DOS HEADQUARTERS</h2>
           <p class="section-desc">
-            For press inquiries, public lectures, workshops, or academic consultations.
+            For press inquiries, public lectures, workshops, or academic consultations. All correspondence is routed directly to <a href="mailto:team.dos.mail@gmail.com" style="color:var(--red-primary); font-weight:600; text-decoration:none;">team.dos.mail@gmail.com</a>.
           </p>
         </div>
 
+        <div style="margin-bottom:24px; padding:18px 24px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;">
+          <div>
+            <div style="font-size:0.75rem; letter-spacing:1px; color:var(--text-muted); font-family:var(--font-mono); text-transform:uppercase;">Direct Email Address</div>
+            <a href="mailto:team.dos.mail@gmail.com" style="color:var(--red-primary); font-size:1.05rem; font-weight:700; font-family:var(--font-mono); text-decoration:none; display:flex; align-items:center; gap:8px; margin-top:4px;">
+              <span>✉ team.dos.mail@gmail.com</span>
+            </a>
+          </div>
+          <div>
+            <div style="font-size:0.75rem; letter-spacing:1px; color:var(--text-muted); font-family:var(--font-mono); text-transform:uppercase;">Dispatch Mobile</div>
+            <div style="font-family:var(--font-mono); font-size:0.95rem; font-weight:600; color:var(--text-main); margin-top:4px;">
+              <a href="tel:9851424977" style="color:var(--text-main); text-decoration:none;">98514 24977</a> / <a href="tel:7003031775" style="color:var(--text-main); text-decoration:none;">7003031775</a>
+            </div>
+          </div>
+        </div>
+
         <form id="contactForm" class="dos-card" style="padding:32px;">
+          <div style="margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--border-color); font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
+            RECIPIENT: <strong style="color:var(--red-primary);">team.dos.mail@gmail.com</strong>
+          </div>
           <div class="form-group">
             <label class="form-label" for="contactName">Your Name</label>
-            <input type="text" id="contactName" class="form-control" required />
+            <input type="text" id="contactName" class="form-control" required placeholder="Full Name" />
           </div>
           <div class="form-group">
             <label class="form-label" for="contactEmail">Your Email</label>
-            <input type="email" id="contactEmail" class="form-control" required />
+            <input type="email" id="contactEmail" class="form-control" required placeholder="your.email@example.com" />
           </div>
           <div class="form-group">
             <label class="form-label" for="contactSubject">Subject</label>
-            <input type="text" id="contactSubject" class="form-control" required />
+            <input type="text" id="contactSubject" class="form-control" required placeholder="Subject / Inquiry Topic" />
           </div>
           <div class="form-group">
             <label class="form-label" for="contactMessage">Message</label>
-            <textarea id="contactMessage" class="form-control" required></textarea>
+            <textarea id="contactMessage" class="form-control" rows="5" required placeholder="Write your message here..."></textarea>
           </div>
           <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
-            <span>TRANSMIT MESSAGE</span>
+            <span>TRANSMIT MESSAGE TO TEAM.DOS.MAIL@GMAIL.COM</span>
           </button>
           <div id="contactFormStatus"></div>
         </form>
@@ -903,16 +907,19 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
             <li><a href="#vault" data-nav="vault">Dos Vault</a></li>
             <li><a href="#equipment" data-nav="equipment">Equipment</a></li>
             <li><a href="#media" data-nav="media">Media Coverage</a></li>
-            <li><a href="#research" data-nav="research">Research</a></li>
+            <li><a href="#research" data-nav="research">Knowledge</a></li>
             <li><a href="#gallery" data-nav="gallery">Gallery</a></li>
             <li><a href="#report" data-nav="report">Report Incident</a></li>
           </ul>
         </div>
-        <div class="footer-col">
+        <div class="footer-col" id="emergencyResponseCol">
           <h4>EMERGENCY RESPONSE</h4>
-          <p style="margin-bottom:8px;">24/7 Incident Dispatch Desk:</p>
-          <div style="font-family:var(--font-mono); font-size:1.1rem; color:var(--red-primary); font-weight:700;" id="emergencyPhoneDisplay">+91 98300 00000</div>
-          <p style="font-size:0.8rem; margin-top:8px;">Kolkata, West Bengal, India</p>
+          <div style="font-family:var(--font-mono); font-size:0.95rem; display:flex; flex-direction:column; gap:8px; margin:10px 0;">
+            <div style="color:var(--text-main);"><span style="color:var(--text-muted);">Mobile :- </span> <a href="tel:9851424977" style="color:var(--red-primary); font-weight:700; text-decoration:none;">98514 24977</a></div>
+            <div style="color:var(--text-main);"><span style="color:var(--text-muted);">Mobile :- </span> <a href="tel:7003031775" style="color:var(--red-primary); font-weight:700; text-decoration:none;">7003031775</a></div>
+            <div style="color:var(--text-main); word-break:break-all;"><span style="color:var(--text-muted);">Mail Id :- </span> <a href="mailto:team.dos.mail@gmail.com" style="color:var(--red-primary); font-weight:600; text-decoration:none;">team.dos.mail@gmail.com</a></div>
+          </div>
+          <p style="font-size:0.8rem; margin-top:8px; color:var(--text-muted);">Kolkata, West Bengal, India</p>
         </div>
       </div>
       <div class="container footer-bottom">

@@ -9,7 +9,7 @@
     "heroDescription": "Founded in 2010, Detectives of Supernatural (DOS) is India's leading paranormal research organization. We bridge the gap between science and the unexplained through rigorous technical investigation and empirical evidence collection.",
     "heroBgUrl": "/horror_background_wide.jpg",
     "whoWeAreTitle": "WHO WE ARE",
-    "whoWeAreDescription": "Detectives of Supernatural (DOS) is India's pioneer technical paranormal research collective, founded in 2010. Rather than sensationalism or superstition, DOS operates with empirical discipline \u2014 investigating unexplained experiences through evidence-based documentation and technical analysis.",
+    "whoWeAreDescription": "Detectives of Supernatural (DOS) is India's pioneer technical paranormal research collective, founded in 2010. Rather than sensationalism or superstition, DOS operates with empirical discipline — investigating unexplained experiences through evidence-based documentation and technical analysis.",
     "whoWeArePoints": [
       "Paranormal Research & Empirical Methodology",
       "Multi-Frequency Environmental Monitoring",
@@ -37,7 +37,7 @@
       "name": "Devraj Sanyal",
       "role": "Founder & Lead Investigator",
       "photoUrl": "/uploads/Debraj_Sanyal.jpg",
-      "biography": "The man who turned curiosity into a mission.\nDevraj Sanyal is the founder of Detectives of Supernatural and one of the central figures behind the team's investigative philosophy. His work has focused on examining reported paranormal experiences, questioning unexplained occurrences, and looking beyond fear to search for possible explanations.\nFor Devraj, the unknown is not simply something to fear\u2014it is something to investigate.\nHis question is simple: What really happened?\nHis approach has helped shape the identity of DOS and its enduring philosophy: Rise Above Fear.",
+      "biography": "The man who turned curiosity into a mission.\nDevraj Sanyal is the founder of Detectives of Supernatural and one of the central figures behind the team's investigative philosophy. His work has focused on examining reported paranormal experiences, questioning unexplained occurrences, and looking beyond fear to search for possible explanations.\nFor Devraj, the unknown is not simply something to fear—it is something to investigate.\nHis question is simple: What really happened?\nHis approach has helped shape the identity of DOS and its enduring philosophy: Rise Above Fear.",
       "expertise": "------------------------------",
       "displayOrder": 1,
       "isActive": true,
@@ -49,7 +49,7 @@
       "name": "Ishita Das Sanyal",
       "role": "Director & Lead Investigator",
       "photoUrl": "/uploads/Ishita_Das_Sanyal.jpg",
-      "biography": "The force that turns an investigation into a coordinated mission.\nAs Director of Detectives of Supernatural, Ishita Das Sanyal plays a key role in the team's field operations and overall direction. Her involvement combines organization, observation, and investigative discipline with the realities of working at locations where unexplained experiences have been reported.\nBehind every investigation lies preparation, patience, and the ability to remain focused when the environment becomes uncertain.\nShe doesn't just enter the unknown\u2014she helps the team navigate it.",
+      "biography": "The force that turns an investigation into a coordinated mission.\nAs Director of Detectives of Supernatural, Ishita Das Sanyal plays a key role in the team's field operations and overall direction. Her involvement combines organization, observation, and investigative discipline with the realities of working at locations where unexplained experiences have been reported.\nBehind every investigation lies preparation, patience, and the ability to remain focused when the environment becomes uncertain.\nShe doesn't just enter the unknown—she helps the team navigate it.",
       "expertise": "---------------------------------",
       "displayOrder": 2,
       "isActive": true,
@@ -119,7 +119,7 @@
       "investigationDate": "2025-05-19",
       "status": "CLOSED",
       "shortDescription": "Thermal imaging sweep across 19th-century gothic mausoleums to measure reported cold spot vortexes amidst summer humidity.",
-      "fullReport": "Utilizing FLIR E8 thermal imaging units and laser thermometers, ambient differential thermal analysis revealed sandstone chimney evaporative effects that accounted for 80% of reported cold spots, with one unresolved thermal drop of -7.2\u00b0C at tomb 412.",
+      "fullReport": "Utilizing FLIR E8 thermal imaging units and laser thermometers, ambient differential thermal analysis revealed sandstone chimney evaporative effects that accounted for 80% of reported cold spots, with one unresolved thermal drop of -7.2°C at tomb 412.",
       "heroImage": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
       "isFeatured": true,
       "evidenceCount": 19,
@@ -164,10 +164,10 @@
       "caseId": "Full Spectrum Camera",
       "classification": "Full Spectrum Camera",
       "threatLevel": "Standard",
-      "synopsis": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team\u2019s field documentation for further analysis and investigation into unexplained visual phenomena.\n                                                                                           - Team DOS",
-      "description": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team\u2019s field documentation for further analysis and investigation into unexplained visual phenomena.\n                                                                                           - Team DOS",
-      "analysis": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team\u2019s field documentation for further analysis and investigation into unexplained visual phenomena.",
-      "findings": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team\u2019s field documentation for further analysis and investigation into unexplained visual phenomena.",
+      "synopsis": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team’s field documentation for further analysis and investigation into unexplained visual phenomena.\n                                                                                           - Team DOS",
+      "description": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team’s field documentation for further analysis and investigation into unexplained visual phenomena.\n                                                                                           - Team DOS",
+      "analysis": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team’s field documentation for further analysis and investigation into unexplained visual phenomena.",
+      "findings": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team’s field documentation for further analysis and investigation into unexplained visual phenomena.",
       "evidenceImage": "/uploads/file-1790019331890-889947608.jpg",
       "id": "vlt-1789985981490",
       "createdAt": "2026-09-21T10:19:41.490Z",
@@ -181,8 +181,8 @@
       "date": "2026-09-20",
       "recordedDate": "2026-09-20",
       "investigationDate": "2026-09-20",
-      "fullDescription": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team\u2019s field documentation for further analysis and investigation into unexplained visual phenomena.",
-      "analysisNotes": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team\u2019s field documentation for further analysis and investigation into unexplained visual phenomena.",
+      "fullDescription": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team’s field documentation for further analysis and investigation into unexplained visual phenomena.",
+      "analysisNotes": "A mysterious black mist-like anomaly captured by Detectives of Supernatural using a full-spectrum camera during a paranormal investigation. The unexplained formation appears as a dense, shadow-like mist within the frame, contrasting sharply with the surrounding environment. The image has been preserved as part of the team’s field documentation for further analysis and investigation into unexplained visual phenomena.",
       "isPublic": true
     },
     {
@@ -214,7 +214,7 @@
     {
       "id": "vlt-1",
       "caseId": "Photograph",
-      "title": "Unexplained Scratches \u2014 Dow Hill Investigation",
+      "title": "Unexplained Scratches — Dow Hill Investigation",
       "location": "Dow Hill",
       "investigationDate": "2020-11-14",
       "status": "DOCUMENTED",
@@ -283,7 +283,7 @@
     {
       "id": "vlt-2",
       "caseId": "Full Spectrum Camera",
-      "title": "Unexplained Smoke-Like Mist \u2014 North Kolkata Investigation",
+      "title": "Unexplained Smoke-Like Mist — North Kolkata Investigation",
       "location": "North Kolkata",
       "investigationDate": "2025-08-22",
       "status": "DOCUMENTED",
@@ -324,13 +324,13 @@
     {
       "id": "vlt-3",
       "caseId": "Photographic Evidence",
-      "title": "Unexplained Black Figure \u2014 Tollygunge, Kolkata",
+      "title": "Unexplained Black Figure — Tollygunge, Kolkata",
       "location": "Tollygunge",
       "investigationDate": "2026-01-19",
       "status": "CLOSED",
       "category": "Photographic Evidence",
       "description": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.",
-      "findings": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team\u2019s field investigation records for further analysis and discussion.  -Team DOS",
+      "findings": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team’s field investigation records for further analysis and discussion.  -Team DOS",
       "classificationLevel": "PUBLIC ARCHIVE",
       "evidenceItems": [
         {
@@ -339,7 +339,7 @@
           "title": "Thermal Signature: Tomb 412 Thermal Drop",
           "type": "photo",
           "fileUrl": "/horror_background_wide.jpg?q=80&w=1000&auto=format&fit=crop",
-          "description": "FLIR thermal capture displaying steep gradient difference between ambient night air (29\u00b0C) and focal point (21.8\u00b0C).",
+          "description": "FLIR thermal capture displaying steep gradient difference between ambient night air (29°C) and focal point (21.8°C).",
           "timestamp": "2025-05-19 01:28:45",
           "classified": false
         }
@@ -357,14 +357,14 @@
       "recordedDate": "2026-01-19",
       "threatLevel": "Severe",
       "synopsis": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.",
-      "fullDescription": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team\u2019s field investigation records for further analysis and discussion.  -Team DOS",
-      "analysis": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team\u2019s field investigation records for further analysis and discussion.  -Team DOS",
-      "analysisNotes": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team\u2019s field investigation records for further analysis and discussion.  -Team DOS"
+      "fullDescription": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team’s field investigation records for further analysis and discussion.  -Team DOS",
+      "analysis": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team’s field investigation records for further analysis and discussion.  -Team DOS",
+      "analysisNotes": "During a paranormal investigation in Tollygunge, Kolkata, Detectives of Supernatural captured an unusual dark, human-like figure in a photograph taken under UV (ultraviolet) light. The figure was not clearly identifiable at the time the image was captured and appeared distinctly different from the surrounding environment.\nThe photograph remains an unexplained visual anomaly documented during the investigation. While its origin cannot be conclusively established from the image alone, the capture has been preserved as part of the team’s field investigation records for further analysis and discussion.  -Team DOS"
     },
     {
       "id": "vlt-4",
       "caseId": "Photograph",
-      "title": "UV-Captured Facial Overlap \u2014 Tollygunge, Kolkata",
+      "title": "UV-Captured Facial Overlap — Tollygunge, Kolkata",
       "location": "Tollygunge",
       "investigationDate": "2026-02-10",
       "status": "UNDER_INVESTIGATION",
@@ -535,7 +535,7 @@
       "publication": "Detectives Of Supernatural",
       "date": "2026-01-11",
       "category": "Youtube",
-      "description": "Step into the shadows with Detectives of Supernatural Investigation as we uncover the terrifying secrets of Benagram, known as the most haunted village of India, located in Asansol. \ud83d\ude31\nWith the support and permission of local police authorities, our team conducts a real, ground-level investigation into unexplained paranormal activities, chilling eyewitness accounts, and eerie locations that defy logic.",
+      "description": "Step into the shadows with Detectives of Supernatural Investigation as we uncover the terrifying secrets of Benagram, known as the most haunted village of India, located in Asansol. 😱\nWith the support and permission of local police authorities, our team conducts a real, ground-level investigation into unexplained paranormal activities, chilling eyewitness accounts, and eerie locations that defy logic.",
       "externalUrl": "https://www.youtube.com/watch?v=EvGQ6_PW-to",
       "thumbnail": "/uploads/file-1790004604084-946085926.jpg",
       "isPublished": true,
@@ -544,7 +544,7 @@
     },
     {
       "id": "med-2",
-      "title": "GHOSTS - ARE N\u0336O\u0336T\u0336 REAL | PART 1",
+      "title": "GHOSTS - ARE N̶O̶T̶ REAL | PART 1",
       "publication": "Detectives Of Supernatural",
       "date": "2026-03-11",
       "category": "Youtube",
@@ -557,7 +557,7 @@
     },
     {
       "id": "med-3",
-      "title": " GHOSTS - ARE N\u0336O\u0336T\u0336 REAL | PART 2",
+      "title": " GHOSTS - ARE N̶O̶T̶ REAL | PART 2",
       "publication": "Detectives Of Supernatural",
       "date": "2026-04-06",
       "category": "Youtube",
@@ -574,7 +574,7 @@
       "publication": "Detectives Of Supernatural",
       "date": "2025-06-05",
       "category": "Youtube",
-      "description": "What secrets lie within these walls?\nIs it the spirit of a restless soul\u2014or something much darker?",
+      "description": "What secrets lie within these walls?\nIs it the spirit of a restless soul—or something much darker?",
       "externalUrl": "https://www.youtube.com/watch?v=cBmoS4PT2Uo",
       "videoUrl": "https://www.youtube.com/watch?v=cBmoS4PT2Uo",
       "thumbnail": "/uploads/file-1790005135621-592179871.jpg",
@@ -757,8 +757,8 @@
       "author": "Anirban Das & Debraj Sanyal",
       "publicationDate": "2025-11-14",
       "abstract": "Correlating multi-axis milligauss fluctuations with rapid thermodynamic drops during nocturnal field investigations using calibrated micro-bolometers and fluxgate magnetometers.",
-      "fullContent": "### Overview\nDuring intense paranormal activity claims, investigators frequently observe sudden temperature drops of 5\u00b0C to 12\u00b0C within a localized volume of less than 1 cubic meter. This paper examines whether electromagnetic field induction is physically responsible for thermodynamic absorption.\n\n### Telemetry Equipment\n- Tri-axis ELF/VLF Gaussmeter (0.1 mG resolution)\n- Forward Looking Infrared (FLIR) radiometric thermal imaging\n- Precision platinum RTD temperature probes\n\n### Analytical Summary\nData collected across 48 investigative nights reveals that in 7 cases, acute magnetic spikes (>25 mG) occurred precisely simultaneously with 8\u00b0C localized drops in ambient temperature without any corresponding drafts or HVAC air currents.",
-      "findings": "Documented 7 statistically significant events exhibiting simultaneous EMF flux (>25 mG) and non-convective thermal inversions (>8\u00b0C drop).",
+      "fullContent": "### Overview\nDuring intense paranormal activity claims, investigators frequently observe sudden temperature drops of 5°C to 12°C within a localized volume of less than 1 cubic meter. This paper examines whether electromagnetic field induction is physically responsible for thermodynamic absorption.\n\n### Telemetry Equipment\n- Tri-axis ELF/VLF Gaussmeter (0.1 mG resolution)\n- Forward Looking Infrared (FLIR) radiometric thermal imaging\n- Precision platinum RTD temperature probes\n\n### Analytical Summary\nData collected across 48 investigative nights reveals that in 7 cases, acute magnetic spikes (>25 mG) occurred precisely simultaneously with 8°C localized drops in ambient temperature without any corresponding drafts or HVAC air currents.",
+      "findings": "Documented 7 statistically significant events exhibiting simultaneous EMF flux (>25 mG) and non-convective thermal inversions (>8°C drop).",
       "imageUrl": "/uploads/thermal_camera.jpg",
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "tags": [
@@ -856,6 +856,16 @@
     }
   ],
   "messages": [
+    {
+      "id": "msg-1790077186405-483",
+      "name": "Ayan Test",
+      "email": "test@example.com",
+      "phone": "",
+      "subject": "Investigation Inquiry",
+      "message": "Testing email dispatch to team.dos.mail@gmail.com",
+      "status": "unread",
+      "createdAt": "2026-09-22T11:39:46.405Z"
+    },
     {
       "id": "msg-1",
       "name": "Dr. Arindam Ghosh",

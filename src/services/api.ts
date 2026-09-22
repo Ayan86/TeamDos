@@ -1,397 +1,392 @@
-import { 
-  SiteSettings, 
-  TeamMember, 
-  Investigation, 
-  VaultCase, 
-  EquipmentItem, 
-  MediaItem, 
-  GalleryImage, 
-  ActivityReport, 
-  ContactMessage, 
-  DashboardStats 
+import {
+  SiteSettings,
+  TeamMember,
+  Investigation,
+  VaultCase,
+  Equipment,
+  MediaItem,
+  GalleryItem,
+  ResearchPaper,
+  ActivityReport,
+  ContactMessage,
+  DashboardStats
 } from '../types';
 
-const TOKEN_KEY = 'dos_investigator_token';
-
-export const authService = {
-  getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
-  },
-  setToken(token: string) {
-    localStorage.setItem(TOKEN_KEY, token);
-  },
-  logout() {
-    localStorage.removeItem(TOKEN_KEY);
-  },
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem(TOKEN_KEY);
-  }
-};
-
-function getHeaders() {
-  const headers: HeadersInit = {
+const getAuthHeaders = (): Record<string, string> => {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('dos_admin_token') : null;
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json'
   };
-  const token = authService.getToken();
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
   return headers;
+};
+
+async function handleResponse<T>(res: Response): Promise<T> {
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({ error: res.statusText }));
+    throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
+  }
+  return res.json();
 }
 
 export const api = {
+  // Authentication
+  async login(email: string, password: string): Promise<{ success: boolean; token: string; user: any }> {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await handleResponse<{ success: boolean; token: string; user: any }>(res);
+    if (data.token) {
+      localStorage.setItem('dos_admin_token', data.token);
+    }
+    return data;
+  },
+
+  async getMe(): Promise<{ user: any }> {
+    const res = await fetch('/api/auth/me', {
+      headers: getAuthHeaders()
+    });
+    return handleResponse<{ user: any }>(res);
+  },
+
+  logout(): void {
+    localStorage.removeItem('dos_admin_token');
+  },
+
   // Settings
   async getSettings(): Promise<SiteSettings> {
     const res = await fetch('/api/settings');
-    if (!res.ok) throw new Error('Failed to fetch settings');
-    return res.json();
+    return handleResponse<SiteSettings>(res);
   },
-  async updateSettings(settings: Partial<SiteSettings>): Promise<SiteSettings> {
+
+  async updateSettings(data: Partial<SiteSettings>): Promise<SiteSettings> {
     const res = await fetch('/api/settings', {
       method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(settings)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to update settings');
-    return res.json();
+    return handleResponse<SiteSettings>(res);
   },
 
   // Team
   async getTeam(): Promise<TeamMember[]> {
     const res = await fetch('/api/team');
-    if (!res.ok) throw new Error('Failed to fetch team');
-    return res.json();
+    return handleResponse<TeamMember[]>(res);
   },
-  async createTeamMember(member: Partial<TeamMember>): Promise<TeamMember> {
+
+  async createTeamMember(data: Partial<TeamMember>): Promise<TeamMember> {
     const res = await fetch('/api/team', {
       method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(member)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to create team member');
-    return res.json();
+    return handleResponse<TeamMember>(res);
   },
-  async updateTeamMember(id: string, member: Partial<TeamMember>): Promise<TeamMember> {
+
+  async updateTeamMember(id: string, data: Partial<TeamMember>): Promise<TeamMember> {
     const res = await fetch(`/api/team/${id}`, {
       method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(member)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to update team member');
-    return res.json();
+    return handleResponse<TeamMember>(res);
   },
-  async deleteTeamMember(id: string): Promise<boolean> {
+
+  async deleteTeamMember(id: string): Promise<{ success: boolean }> {
     const res = await fetch(`/api/team/${id}`, {
       method: 'DELETE',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
-    return res.ok;
+    return handleResponse<{ success: boolean }>(res);
+  },
+
+  async uploadMemberPhoto(formData: FormData): Promise<{ success: boolean; photoUrl: string; member?: TeamMember }> {
+    const res = await fetch('/api/team/upload-member-photo', {
+      method: 'POST',
+      body: formData
+    });
+    return handleResponse(res);
   },
 
   // Investigations
   async getInvestigations(): Promise<Investigation[]> {
     const res = await fetch('/api/investigations');
-    if (!res.ok) throw new Error('Failed to fetch investigations');
-    return res.json();
-  },
-  async createInvestigation(item: Partial<Investigation>): Promise<Investigation> {
-    const res = await fetch('/api/investigations', {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
-    });
-    if (!res.ok) throw new Error('Failed to create investigation');
-    return res.json();
-  },
-  async updateInvestigation(id: string, item: Partial<Investigation>): Promise<Investigation> {
-    const res = await fetch(`/api/investigations/${id}`, {
-      method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
-    });
-    if (!res.ok) throw new Error('Failed to update investigation');
-    return res.json();
-  },
-  async deleteInvestigation(id: string): Promise<boolean> {
-    const res = await fetch(`/api/investigations/${id}`, {
-      method: 'DELETE',
-      headers: getHeaders()
-    });
-    return res.ok;
+    return handleResponse<Investigation[]>(res);
   },
 
-  // Vault
+  async createInvestigation(data: Partial<Investigation>): Promise<Investigation> {
+    const res = await fetch('/api/investigations', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+    return handleResponse<Investigation>(res);
+  },
+
+  async updateInvestigation(id: string, data: Partial<Investigation>): Promise<Investigation> {
+    const res = await fetch(`/api/investigations/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+    return handleResponse<Investigation>(res);
+  },
+
+  async deleteInvestigation(id: string): Promise<{ success: boolean }> {
+    const res = await fetch(`/api/investigations/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return handleResponse<{ success: boolean }>(res);
+  },
+
+  // Vault Cases
   async getVaultCases(): Promise<VaultCase[]> {
     const res = await fetch('/api/vault');
-    if (!res.ok) throw new Error('Failed to fetch vault cases');
-    return res.json();
+    return handleResponse<VaultCase[]>(res);
   },
+
   async getVaultCase(id: string): Promise<VaultCase> {
     const res = await fetch(`/api/vault/${id}`);
-    if (!res.ok) throw new Error('Failed to fetch case');
-    return res.json();
+    return handleResponse<VaultCase>(res);
   },
-  async createVaultCase(item: Partial<VaultCase>): Promise<VaultCase> {
+
+  async createVaultCase(data: Partial<VaultCase>): Promise<VaultCase> {
     const res = await fetch('/api/vault', {
       method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to create vault case');
-    return res.json();
+    return handleResponse<VaultCase>(res);
   },
-  async updateVaultCase(id: string, item: Partial<VaultCase>): Promise<VaultCase> {
+
+  async updateVaultCase(id: string, data: Partial<VaultCase>): Promise<VaultCase> {
     const res = await fetch(`/api/vault/${id}`, {
       method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to update vault case');
-    return res.json();
+    return handleResponse<VaultCase>(res);
   },
-  async deleteVaultCase(id: string): Promise<boolean> {
+
+  async deleteVaultCase(id: string): Promise<{ success: boolean }> {
     const res = await fetch(`/api/vault/${id}`, {
       method: 'DELETE',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
-    return res.ok;
+    return handleResponse<{ success: boolean }>(res);
   },
 
   // Equipment
-  async getEquipment(): Promise<EquipmentItem[]> {
+  async getEquipment(): Promise<Equipment[]> {
     const res = await fetch('/api/equipment');
-    if (!res.ok) throw new Error('Failed to fetch equipment');
-    return res.json();
+    return handleResponse<Equipment[]>(res);
   },
-  async createEquipment(item: Partial<EquipmentItem>): Promise<EquipmentItem> {
+
+  async createEquipment(data: Partial<Equipment>): Promise<Equipment> {
     const res = await fetch('/api/equipment', {
       method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to create equipment');
-    return res.json();
+    return handleResponse<Equipment>(res);
   },
-  async updateEquipment(id: string, item: Partial<EquipmentItem>): Promise<EquipmentItem> {
+
+  async updateEquipment(id: string, data: Partial<Equipment>): Promise<Equipment> {
     const res = await fetch(`/api/equipment/${id}`, {
       method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to update equipment');
-    return res.json();
+    return handleResponse<Equipment>(res);
   },
-  async deleteEquipment(id: string): Promise<boolean> {
+
+  async deleteEquipment(id: string): Promise<{ success: boolean }> {
     const res = await fetch(`/api/equipment/${id}`, {
       method: 'DELETE',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
-    return res.ok;
+    return handleResponse<{ success: boolean }>(res);
   },
 
   // Media
   async getMedia(): Promise<MediaItem[]> {
     const res = await fetch('/api/media');
-    if (!res.ok) throw new Error('Failed to fetch media');
-    return res.json();
+    return handleResponse<MediaItem[]>(res);
   },
-  async createMedia(item: Partial<MediaItem>): Promise<MediaItem> {
+
+  async createMedia(data: Partial<MediaItem>): Promise<MediaItem> {
     const res = await fetch('/api/media', {
       method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to create media item');
-    return res.json();
+    return handleResponse<MediaItem>(res);
   },
-  async updateMedia(id: string, item: Partial<MediaItem>): Promise<MediaItem> {
+
+  async updateMedia(id: string, data: Partial<MediaItem>): Promise<MediaItem> {
     const res = await fetch(`/api/media/${id}`, {
       method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to update media item');
-    return res.json();
+    return handleResponse<MediaItem>(res);
   },
-  async deleteMedia(id: string): Promise<boolean> {
+
+  async deleteMedia(id: string): Promise<{ success: boolean }> {
     const res = await fetch(`/api/media/${id}`, {
       method: 'DELETE',
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
-    return res.ok;
+    return handleResponse<{ success: boolean }>(res);
   },
 
   // Gallery
-  async getGallery(): Promise<GalleryImage[]> {
+  async getGallery(): Promise<GalleryItem[]> {
     const res = await fetch('/api/gallery');
-    if (!res.ok) throw new Error('Failed to fetch gallery');
-    return res.json();
+    return handleResponse<GalleryItem[]>(res);
   },
-  async createGalleryImage(item: Partial<GalleryImage>): Promise<GalleryImage> {
+
+  async createGalleryImage(data: Partial<GalleryItem>): Promise<GalleryItem> {
     const res = await fetch('/api/gallery', {
       method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to create gallery image');
-    return res.json();
-  },
-  async updateGalleryImage(id: string, item: Partial<GalleryImage>): Promise<GalleryImage> {
-    const res = await fetch(`/api/gallery/${id}`, {
-      method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(item)
-    });
-    if (!res.ok) throw new Error('Failed to update gallery image');
-    return res.json();
-  },
-  async deleteGalleryImage(id: string): Promise<boolean> {
-    const res = await fetch(`/api/gallery/${id}`, {
-      method: 'DELETE',
-      headers: getHeaders()
-    });
-    return res.ok;
+    return handleResponse<GalleryItem>(res);
   },
 
-  // Activity Reports
+  async updateGalleryImage(id: string, data: Partial<GalleryItem>): Promise<GalleryItem> {
+    const res = await fetch(`/api/gallery/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+    return handleResponse<GalleryItem>(res);
+  },
+
+  async deleteGalleryImage(id: string): Promise<{ success: boolean }> {
+    const res = await fetch(`/api/gallery/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return handleResponse<{ success: boolean }>(res);
+  },
+
+  // Research
+  async getResearch(): Promise<ResearchPaper[]> {
+    const res = await fetch('/api/research');
+    return handleResponse<ResearchPaper[]>(res);
+  },
+
+  async getResearchById(id: string): Promise<ResearchPaper> {
+    const res = await fetch(`/api/research/${id}`);
+    return handleResponse<ResearchPaper>(res);
+  },
+
+  async createResearch(data: Partial<ResearchPaper>): Promise<ResearchPaper> {
+    const res = await fetch('/api/research', {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+    return handleResponse<ResearchPaper>(res);
+  },
+
+  async updateResearch(id: string, data: Partial<ResearchPaper>): Promise<ResearchPaper> {
+    const res = await fetch(`/api/research/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+    return handleResponse<ResearchPaper>(res);
+  },
+
+  async deleteResearch(id: string): Promise<{ success: boolean }> {
+    const res = await fetch(`/api/research/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return handleResponse<{ success: boolean }>(res);
+  },
+
+  // Reports
   async getReports(): Promise<ActivityReport[]> {
     const res = await fetch('/api/reports', {
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
-    if (!res.ok) throw new Error('Failed to fetch reports');
-    return res.json();
+    return handleResponse<ActivityReport[]>(res);
   },
-  async submitReport(report: Partial<ActivityReport>): Promise<{ success: boolean; caseId: string; message: string; report: ActivityReport }> {
+
+  async submitReport(data: Partial<ActivityReport>): Promise<{ success: boolean; caseId: string; message: string; report: ActivityReport }> {
     const res = await fetch('/api/reports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(report)
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to submit report');
-    return res.json();
-  },
-  async updateReport(id: string, updates: Partial<ActivityReport>): Promise<ActivityReport> {
-    const res = await fetch(`/api/reports/${id}`, {
-      method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(updates)
-    });
-    if (!res.ok) throw new Error('Failed to update report');
-    return res.json();
-  },
-  async deleteReport(id: string): Promise<boolean> {
-    const res = await fetch(`/api/reports/${id}`, {
-      method: 'DELETE',
-      headers: getHeaders()
-    });
-    return res.ok;
+    return handleResponse(res);
   },
 
-  // Contact
+  async updateReport(id: string, data: Partial<ActivityReport>): Promise<ActivityReport> {
+    const res = await fetch(`/api/reports/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
+    });
+    return handleResponse<ActivityReport>(res);
+  },
+
+  async deleteReport(id: string): Promise<{ success: boolean }> {
+    const res = await fetch(`/api/reports/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return handleResponse<{ success: boolean }>(res);
+  },
+
+  // Contact Messages
   async getContactMessages(): Promise<ContactMessage[]> {
     const res = await fetch('/api/contact', {
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
-    if (!res.ok) throw new Error('Failed to fetch messages');
-    return res.json();
+    return handleResponse<ContactMessage[]>(res);
   },
-  async sendContactMessage(msg: { name: string; email: string; phone?: string; subject: string; message: string }) {
+
+  async sendContactMessage(data: Partial<ContactMessage>): Promise<{ success: boolean; message: string; item: ContactMessage }> {
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(msg)
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to send contact message');
-    return res.json();
+    return handleResponse(res);
   },
-  async updateContactMessage(id: string, updates: Partial<ContactMessage>): Promise<ContactMessage> {
+
+  async updateContactMessage(id: string, data: Partial<ContactMessage>): Promise<ContactMessage> {
     const res = await fetch(`/api/contact/${id}`, {
       method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(updates)
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data)
     });
-    if (!res.ok) throw new Error('Failed to update message');
-    return res.json();
+    return handleResponse<ContactMessage>(res);
+  },
+
+  async deleteContactMessage(id: string): Promise<{ success: boolean }> {
+    const res = await fetch(`/api/contact/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    return handleResponse<{ success: boolean }>(res);
   },
 
   // Stats
   async getStats(): Promise<DashboardStats> {
     const res = await fetch('/api/stats', {
-      headers: getHeaders()
+      headers: getAuthHeaders()
     });
-    if (!res.ok) throw new Error('Failed to fetch stats');
-    return res.json();
-  },
-
-  // File Upload
-  async uploadFile(file: File): Promise<{ url: string; filename: string }> {
-    const formData = new FormData();
-    formData.append('file', file);
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-      });
-      const contentType = res.headers.get('content-type') || '';
-      if (!contentType.includes('application/json')) {
-        const text = await res.text();
-        throw new Error(`Upload server error (${res.status}): ${text.slice(0, 100)}`);
-      }
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to upload file');
-      return data;
-    } catch (err: any) {
-      console.error('uploadFile error:', err);
-      throw err;
-    }
-  },
-  async uploadMemberPhoto(file: File, memberId?: string, memberName?: string): Promise<{ success: boolean; photoUrl: string; member?: TeamMember }> {
-    const formData = new FormData();
-    formData.append('photo', file);
-    if (memberId) formData.append('memberId', memberId);
-    if (memberName) formData.append('memberName', memberName);
-    
-    try {
-      const res = await fetch('/api/team/upload-member-photo', {
-        method: 'POST',
-        body: formData
-      });
-      const contentType = res.headers.get('content-type') || '';
-      if (!contentType.includes('application/json')) {
-        const text = await res.text();
-        throw new Error(`Server returned non-JSON response (${res.status}): ${text.slice(0, 100)}`);
-      }
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to upload team member photo');
-      }
-      return data;
-    } catch (err: any) {
-      console.warn('Primary member photo upload failed, trying generic upload endpoint:', err);
-      // Fallback: try uploading to general /api/upload
-      try {
-        const fallbackForm = new FormData();
-        fallbackForm.append('file', file);
-        const fbRes = await fetch('/api/upload', { method: 'POST', body: fallbackForm });
-        const fbContentType = fbRes.headers.get('content-type') || '';
-        if (fbContentType.includes('application/json') && fbRes.ok) {
-          const fbData = await fbRes.json();
-          return {
-            success: true,
-            photoUrl: fbData.url,
-            member: memberId ? { id: memberId, name: memberName || '', role: '', photoUrl: fbData.url, biography: '', expertise: '', displayOrder: 1, isActive: true, createdAt: '', updatedAt: '' } : undefined
-          };
-        }
-      } catch (fbErr) {
-        console.warn('Fallback upload also failed:', fbErr);
-      }
-      throw err;
-    }
-  },
-  async getUploadedFiles(): Promise<{ filename: string; url: string; size: number; mtime: string }[]> {
-    const res = await fetch('/api/uploads');
-    if (!res.ok) throw new Error('Failed to fetch uploads');
-    const data = await res.json();
-    return data.files || [];
+    return handleResponse<DashboardStats>(res);
   }
 };

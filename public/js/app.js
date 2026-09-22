@@ -31,8 +31,8 @@ const DEFAULT_SITE_DATA = {
     siteName: "Detectives of Supernatural",
     tagline: "RISE ABOVE FEAR",
     foundedYear: "2010",
-    contactPhone: "+91 98300 00000",
-    contactEmail: "investigations@dos-india.org",
+    contactPhone: "98514 24977 / 7003031775",
+    contactEmail: "team.dos.mail@gmail.com",
     contactLocation: "Kolkata, West Bengal, India"
   },
   team: [
@@ -199,20 +199,85 @@ const DEFAULT_SITE_DATA = {
   ],
   gallery: [
     {
+      title: "Didi No.1",
+      category: "Optical",
+      location: "Kolkata",
+      date: "2026-09-21",
+      caption: "Ishita Das Sanyal",
+      imageUrl: "/uploads/file-1790024755379-13823450.jpg",
+      id: "gal-1790024755441"
+    },
+    {
       id: "gal-1",
-      title: "Dow Hill Ridge Expedition Setup",
-      location: "Kurseong Pine Forest",
-      category: "EXPEDITION",
-      imageUrl: "/horror_background_wide.jpg",
-      caption: "Nighttime sensory array setup along the Kurseong ridge."
+      title: "In an Investigation",
+      caption: "Ayush Majumder",
+      imageUrl: "/uploads/file-1790023310764-198067039.jpg",
+      category: "Investigations",
+      location: "Field Location",
+      date: "2025-11-14"
     },
     {
       id: "gal-2",
-      title: "Hastings Colonial Mansion Floor Mapping",
-      location: "Alipore, Kolkata",
-      category: "INVESTIGATION",
-      imageUrl: "/horror_background.jpg",
-      caption: "Accelerometer and vibration probe placement on historic floorboards."
+      title: "In an Investigation",
+      caption: "Team DOS",
+      imageUrl: "/uploads/file-1790023846696-2764748.jpg",
+      category: "Haunted Locations",
+      location: "Kolkata",
+      date: "2025-08-22"
+    },
+    {
+      id: "gal-3",
+      title: "In an Investigation",
+      caption: "Team DOS",
+      imageUrl: "/uploads/file-1790023918447-701445997.jpg",
+      category: "Haunted Location",
+      location: "Kolkata ",
+      date: "2025-08-20"
+    },
+    {
+      id: "gal-4",
+      title: "In an Investigation",
+      caption: "Devraj Sanyal, Ishita Das Sanyal , Anirban Das & Ayush Majumder",
+      imageUrl: "/uploads/file-1790024137833-962828907.png",
+      category: "haunted Location",
+      location: "kolkata",
+      date: "2025-05-19"
+    },
+    {
+      id: "gal-5",
+      title: "A haunted Trip To Benagram",
+      caption: "Team DOS",
+      imageUrl: "/uploads/file-1790024233346-166976861.jpg",
+      category: "Haunted Locations",
+      location: "Assansol",
+      date: "2025-02-10"
+    },
+    {
+      id: "gal-6",
+      title: "Promotion",
+      caption: "Team DOS",
+      imageUrl: "/uploads/file-1790024399578-99231812.jpg",
+      category: "Movie",
+      location: "Kolkata",
+      date: "2025-10-15"
+    },
+    {
+      id: "gal-7",
+      title: "Promotion",
+      caption: "Team DOS",
+      imageUrl: "/uploads/file-1790024473615-548013419.jpg",
+      category: "Movie",
+      location: "Kolkata",
+      date: "2024-10-31"
+    },
+    {
+      id: "gal-8",
+      title: "Promotion",
+      caption: "Team DOS",
+      imageUrl: "/uploads/file-1790024559485-56923581.jpg",
+      category: "Promotion",
+      location: "Kolkata",
+      date: "2025-08-22"
     }
   ],
   research: [
@@ -496,6 +561,10 @@ function navigateTo(pageId, updateHash = true) {
     // Trigger page-specific refresh if needed
     if (pageId === 'admin') {
       renderAdminPanel();
+    } else if (pageId === 'equipment') {
+      renderEquipment();
+    } else if (pageId === 'media') {
+      renderMedia();
     }
   }
 
@@ -531,13 +600,13 @@ async function loadPublicData() {
     ]);
 
     if (settingsRes && Object.keys(settingsRes).length > 0) state.settings = settingsRes;
-    if (Array.isArray(teamRes) && teamRes.length > 0) state.team = teamRes;
-    if (Array.isArray(invRes) && invRes.length > 0) state.investigations = invRes;
-    if (Array.isArray(vaultRes) && vaultRes.length > 0) state.vault = vaultRes;
-    if (Array.isArray(eqRes) && eqRes.length > 0) state.equipment = eqRes;
-    if (Array.isArray(mediaRes) && mediaRes.length > 0) state.media = mediaRes;
-    if (Array.isArray(galRes) && galRes.length > 0) state.gallery = galRes;
-    if (Array.isArray(resRes) && resRes.length > 0) state.research = resRes;
+    if (Array.isArray(teamRes)) state.team = teamRes;
+    if (Array.isArray(invRes)) state.investigations = invRes;
+    if (Array.isArray(vaultRes)) state.vault = vaultRes;
+    if (Array.isArray(eqRes)) state.equipment = eqRes;
+    if (Array.isArray(mediaRes)) state.media = mediaRes;
+    if (Array.isArray(galRes)) state.gallery = galRes;
+    if (Array.isArray(resRes)) state.research = resRes;
 
     // Render all public components defensively
     try { renderSiteInfo(); } catch (e) { console.warn(e); }
@@ -723,6 +792,15 @@ function renderVault() {
     const status = String(item.status || '').toUpperCase();
     const threat = String(item.threatLevel || '').toUpperCase();
     const title = String(item.title || '').toUpperCase();
+    const synopsis = String(item.synopsis || item.description || '').toUpperCase();
+
+    if (currentFilter === 'CURSED RELICS') {
+      return cat.includes('CURSED') || cat.includes('RELIC') || cat.includes('ARTIFACT') ||
+             title.includes('CURSED') || title.includes('RELIC') || title.includes('ARTIFACT') ||
+             synopsis.includes('CURSED') || synopsis.includes('RELIC') || synopsis.includes('ARTIFACT') ||
+             status.includes('DOCUMENTED') || cat.includes('DOCUMENTED');
+    }
+
     return cat.includes(currentFilter) || status.includes(currentFilter) || threat.includes(currentFilter) || title.includes(currentFilter);
   });
 
@@ -780,7 +858,7 @@ function renderVault() {
             <span style="font-family:var(--font-mono); font-size:0.65rem; color:${threatColor}; background:rgba(8,9,14,0.88); border:1px solid ${threatBorder}; padding:2px 8px; border-radius:3px; backdrop-filter:blur(4px);">
               THREAT: ${escapeHtml(threatLevel)}
             </span>
-            <button onclick="event.stopPropagation(); openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')" class="btn-secondary" style="padding:4px 8px; font-size:0.68rem; background:rgba(0,0,0,0.82); border:1px solid rgba(255,255,255,0.25); color:#fff; display:flex; align-items:center; gap:4px; cursor:pointer;" title="Enlarge Photograph">
+            <button onclick="event.stopPropagation(); openVaultLightbox('${v.id}')" class="btn-secondary" style="padding:4px 8px; font-size:0.68rem; background:rgba(0,0,0,0.82); border:1px solid rgba(255,255,255,0.25); color:#fff; display:flex; align-items:center; gap:4px; cursor:pointer;" title="Enlarge Photograph">
               <span>🔍 ENLARGE</span>
             </button>
           </div>
@@ -817,7 +895,7 @@ function renderVault() {
             <button onclick="event.stopPropagation(); openVaultModal('${v.id}')" class="btn-secondary" style="padding:8px 14px; font-size:0.75rem; flex:1; justify-content:center;">
               <span>READ CASE DOSSIER</span>
             </button>
-            <button onclick="event.stopPropagation(); openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')" class="btn-secondary" style="padding:8px 12px; font-size:0.75rem; color:#e2e8f0;" title="View Evidence Lightbox">
+            <button onclick="event.stopPropagation(); openVaultLightbox('${v.id}')" class="btn-secondary" style="padding:8px 12px; font-size:0.75rem; color:#e2e8f0;" title="View Evidence Lightbox">
               <span>👁 VIEW</span>
             </button>
           </div>
@@ -885,13 +963,24 @@ function renderMedia() {
     adminBtnWrap.style.display = (state.currentUser && state.authToken) ? 'block' : 'none';
   }
 
-  const currentFilter = state.filters.media || 'ALL';
+  const currentFilter = (state.filters.media || 'ALL').trim().toUpperCase();
   const filtered = state.media.filter(item => {
+    if (!item) return false;
     if (currentFilter === 'ALL') return true;
+    const cat = String(item.category || item.coverageType || '').trim().toUpperCase();
     if (currentFilter === 'VIDEOS') {
-      return Boolean(item.videoUrl) || item.category === 'Documentaries' || item.category === 'Television' || item.category === 'Podcasts' || item.category === 'Video Reports';
+      return Boolean(item.videoUrl) || cat.includes('VIDEO') || cat.includes('DOCUMENTAR') || cat.includes('TELEVISION') || cat.includes('PODCAST') || cat.includes('YOUTUBE') || cat.includes('TV');
     }
-    return item.category.toUpperCase() === currentFilter;
+    if (currentFilter === 'TELEVISION') {
+      return cat.includes('TELEVISION') || cat === 'TV' || cat.includes('BROADCAST');
+    }
+    if (currentFilter === 'NEWSPAPERS') {
+      return cat.includes('NEWSPAPER') || cat.includes('PRESS') || cat.includes('PRINT') || cat.includes('ARTICLE');
+    }
+    if (currentFilter === 'PODCASTS') {
+      return cat.includes('PODCAST') || cat.includes('AUDIO');
+    }
+    return cat === currentFilter;
   });
 
   if (filtered.length === 0) {
@@ -955,9 +1044,22 @@ function renderGallery() {
   const container = document.getElementById('galleryGrid');
   if (!container) return;
 
-  const filtered = state.filters.gallery === 'ALL'
+  const currentFilter = (state.filters.gallery || 'ALL').toUpperCase().trim();
+  const filtered = currentFilter === 'ALL'
     ? state.gallery
-    : state.gallery.filter(g => g.category.toUpperCase() === state.filters.gallery.toUpperCase());
+    : state.gallery.filter(g => {
+        const cat = (g.category || '').toUpperCase().trim();
+        if (currentFilter === 'HAUNTED LOCATIONS') {
+          return cat.includes('HAUNTED');
+        }
+        if (currentFilter === 'MOVIE') {
+          return cat.includes('MOVIE') || cat.includes('PROMOTION');
+        }
+        if (currentFilter === 'OPTICAL') {
+          return cat.includes('OPTICAL') || cat.includes('MEDIA');
+        }
+        return cat.includes(currentFilter);
+      });
 
   if (filtered.length === 0) {
     container.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; padding:40px; color:var(--text-muted);">No evidence gallery items in this category.</div>`;
@@ -965,17 +1067,17 @@ function renderGallery() {
   }
 
   container.innerHTML = filtered.map(img => `
-    <div class="dos-card" style="cursor:pointer;" onclick="openLightbox('${img.imageUrl}', '${escapeHtml(img.title)}', '${escapeHtml(img.caption)}')">
+    <div class="dos-card" style="cursor:pointer;" onclick="openGalleryLightbox('${img.id}')">
       <div style="position:relative; aspect-ratio: 4/3; background:#000; overflow:hidden;">
-        <img src="${img.imageUrl}" alt="${img.title}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onerror="this.src='/horror_background_wide.jpg'" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
-        <span class="status-badge open" style="position:absolute; top:12px; left:12px;">${escapeHtml(img.category)}</span>
+        <img src="${img.imageUrl}" alt="${escapeHtml(img.title || '')}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onerror="this.src='/horror_background_wide.jpg'" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+        <span class="status-badge open" style="position:absolute; top:12px; left:12px;">${escapeHtml(img.category || 'EVIDENCE')}</span>
       </div>
       <div style="padding:16px;">
         <div style="font-family:var(--font-mono); font-size:0.7rem; color:var(--red-primary); margin-bottom:4px;">
-          ${escapeHtml(img.location)} • ${escapeHtml(img.date)}
+          ${escapeHtml(img.location || 'Field Location')} • ${escapeHtml(img.date || '')}
         </div>
-        <h4 style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:4px;">${escapeHtml(img.title)}</h4>
-        <p style="font-size:0.8rem; color:var(--text-muted); line-height:1.4;">${escapeHtml(img.caption)}</p>
+        <h4 style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:4px;">${escapeHtml(img.title || '')}</h4>
+        <p style="font-size:0.8rem; color:var(--text-muted); line-height:1.4;">${escapeHtml(img.caption || '')}</p>
       </div>
     </div>
   `).join('');
@@ -1137,6 +1239,8 @@ function initReportForm() {
   const form = document.getElementById('caseReportForm');
   if (!form) return;
 
+  const recipientEmail = "team.dos.mail@gmail.com";
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -1166,6 +1270,28 @@ function initReportForm() {
         attachmentUrl: attachmentUrl
       };
 
+      const mailSubject = encodeURIComponent(`[DOS Case Report] ${payload.activityType} at ${payload.location}`);
+      const mailBody = encodeURIComponent(
+        `CONFIDENTIAL INCIDENT REPORT TO DOS INVESTIGATION TRIAGE\n` +
+        `=======================================================\n` +
+        `Target Desk: ${recipientEmail}\n` +
+        `Date Submitted: ${new Date().toLocaleString()}\n\n` +
+        `WITNESS DETAILS:\n` +
+        `- Full Name: ${payload.witnessName}\n` +
+        `- Phone Number: ${payload.contactPhone}\n` +
+        `- Email Address: ${payload.contactEmail}\n` +
+        `- Location / City: ${payload.location}\n` +
+        `- Date of Activity: ${payload.incidentDate || 'Unspecified'}\n` +
+        `- Type of Phenomenon: ${payload.activityType}\n\n` +
+        `DETAILED CHRONOLOGY OF EVENTS:\n` +
+        `-------------------------------------------------------\n` +
+        `${payload.description}\n` +
+        `-------------------------------------------------------\n` +
+        (payload.attachmentUrl ? `Evidence Attachment URL: ${payload.attachmentUrl}\n` : '') +
+        `=======================================================`
+      );
+      const mailtoLink = `mailto:${recipientEmail}?subject=${mailSubject}&body=${mailBody}`;
+
       const res = await safeApiFetch('/api/reports', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1176,27 +1302,57 @@ function initReportForm() {
         form.reset();
         if (msgBox) {
           msgBox.innerHTML = `
-            <div style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; padding:16px; border-radius:6px; margin-top:20px;">
-              <h4 style="font-weight:700; margin-bottom:4px;">INCIDENT LOGGED SUCCESSFULLY</h4>
-              <p style="font-size:0.85rem;">Tracking Reference: <strong>${res.caseId || 'DOS-INCIDENT'}</strong>. The DOS core investigative team has been notified for triage.</p>
+            <div style="background:rgba(16,185,129,0.12); border:1px solid #10b981; color:#34d399; padding:20px; border-radius:6px; margin-top:20px;">
+              <h4 style="font-weight:700; margin-bottom:6px; color:#34d399;">✓ INCIDENT LOGGED & DISPATCHED</h4>
+              <p style="font-size:0.85rem; color:var(--text-main); margin-bottom:6px;">Case Reference: <strong>${res.caseId || 'DOS-INCIDENT'}</strong></p>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">This incident report is routed to the DOS investigation desk at <strong style="color:var(--red-primary);">${recipientEmail}</strong>. If your email application did not launch automatically, click below to confirm:</p>
+              <a href="${mailtoLink}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+                <span>OPEN EMAIL APP (${recipientEmail})</span>
+              </a>
             </div>
           `;
         }
+        try {
+          window.location.href = mailtoLink;
+        } catch (_) {}
       } else {
         throw new Error(res ? res.error : 'Submission failed');
       }
     } catch (err) {
       if (msgBox) {
+        const payload = {
+          witnessName: safeGetVal('witnessName'),
+          contactEmail: safeGetVal('witnessEmail'),
+          contactPhone: safeGetVal('witnessPhone'),
+          location: safeGetVal('incidentLocation'),
+          incidentDate: safeGetVal('incidentDate'),
+          activityType: safeGetVal('incidentType'),
+          description: safeGetVal('incidentDescription')
+        };
+        const mailSubject = encodeURIComponent(`[DOS Case Report] ${payload.activityType} at ${payload.location}`);
+        const mailBody = encodeURIComponent(
+          `CONFIDENTIAL INCIDENT REPORT TO DOS INVESTIGATION TRIAGE\n` +
+          `Target: ${recipientEmail}\n` +
+          `Witness: ${payload.witnessName} (${payload.contactPhone} / ${payload.contactEmail})\n` +
+          `Location: ${payload.location}\n` +
+          `Phenomenon: ${payload.activityType}\n\n` +
+          `Description:\n${payload.description}`
+        );
+        const fallbackMailto = `mailto:${recipientEmail}?subject=${mailSubject}&body=${mailBody}`;
+
         msgBox.innerHTML = `
-          <div style="background:rgba(220,38,38,0.15); border:1px solid #dc2626; color:#f87171; padding:16px; border-radius:6px; margin-top:20px;">
-            Failed to transmit case report. Please contact the emergency desk directly.
+          <div style="background:rgba(220,38,38,0.12); border:1px solid #dc2626; color:#f87171; padding:20px; border-radius:6px; margin-top:20px;">
+            <p style="font-weight:700; margin-bottom:8px;">Please transmit your case directly to ${recipientEmail}:</p>
+            <a href="${fallbackMailto}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+              <span>SEND EMAIL TO ${recipientEmail}</span>
+            </a>
           </div>
         `;
       }
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerText = 'TRANSMIT CASE REPORT FOR TRIAGE';
+        submitBtn.innerText = 'TRANSMIT CASE REPORT TO TEAM.DOS.MAIL@GMAIL.COM';
       }
     }
   });
@@ -1224,6 +1380,13 @@ function initContactForm() {
       message: safeGetVal('contactMessage')
     };
 
+    const recipientEmail = "team.dos.mail@gmail.com";
+    const mailtoSubject = encodeURIComponent(payload.subject ? `[DOS HQ Inquiry] ${payload.subject}` : 'DOS Headquarters Inquiry');
+    const mailtoBody = encodeURIComponent(
+      `Name: ${payload.name}\nEmail: ${payload.email}\nSubject: ${payload.subject}\n\nMessage:\n${payload.message}`
+    );
+    const mailtoLink = `mailto:${recipientEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
     try {
       const res = await safeApiFetch('/api/contact', {
         method: 'POST',
@@ -1234,19 +1397,37 @@ function initContactForm() {
       if (res && (res.success || !res.error)) {
         form.reset();
         if (msgBox) {
-          msgBox.innerHTML = `<p style="color:#34d399; font-size:0.85rem; margin-top:10px;">Message transmitted to DOS headquarters communications desk.</p>`;
+          msgBox.innerHTML = `
+            <div style="margin-top:16px; padding:16px; background:rgba(16, 185, 129, 0.08); border:1px solid #10b981; border-radius:6px;">
+              <p style="color:#34d399; font-weight:600; font-size:0.9rem; margin-bottom:8px;">✓ Message recorded for DOS Headquarters!</p>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Routing to <strong>${recipientEmail}</strong>. If your email application does not open automatically, click below:</p>
+              <a href="${mailtoLink}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+                <span>OPEN EMAIL COMPOSER (${recipientEmail})</span>
+              </a>
+            </div>
+          `;
         }
+        try {
+          window.location.href = mailtoLink;
+        } catch (_) {}
       } else {
         throw new Error(res ? res.error : 'Transmission failed');
       }
     } catch (err) {
       if (msgBox) {
-        msgBox.innerHTML = `<p style="color:#f87171; font-size:0.85rem; margin-top:10px;">Transmission error. Please try again.</p>`;
+        msgBox.innerHTML = `
+          <div style="margin-top:16px; padding:16px; background:rgba(239, 68, 68, 0.08); border:1px solid #ef4444; border-radius:6px;">
+            <p style="color:#f87171; font-size:0.85rem; margin-bottom:10px;">Please click below to transmit directly to team.dos.mail@gmail.com:</p>
+            <a href="${mailtoLink}" class="btn-primary" style="display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; padding:8px 16px; text-decoration:none;">
+              <span>SEND EMAIL TO ${recipientEmail}</span>
+            </a>
+          </div>
+        `;
       }
     } finally {
       if (btn) {
         btn.disabled = false;
-        btn.innerText = 'TRANSMIT MESSAGE';
+        btn.innerText = 'TRANSMIT MESSAGE TO TEAM.DOS.MAIL@GMAIL.COM';
       }
     }
   });
@@ -1322,7 +1503,7 @@ function openVaultModal(vaultId) {
   const videoItem = Array.isArray(v.evidenceItems) ? v.evidenceItems.find(e => e.type === 'video' && e.fileUrl) : null;
 
   body.innerHTML = `
-    <div style="position:relative; aspect-ratio: 16/9; background:#000; border-radius:6px; overflow:hidden; margin-bottom:20px; cursor:pointer;" onclick="openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')">
+    <div style="position:relative; aspect-ratio: 16/9; background:#000; border-radius:6px; overflow:hidden; margin-bottom:20px; cursor:pointer;" onclick="openVaultLightbox('${v.id}')">
       <img src="${photo}" alt="${escapeHtml(v.title)}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onerror="this.src='/horror_background_wide.jpg'" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
       <span class="status-badge documented" style="position:absolute; top:14px; left:14px; font-size:0.75rem;">
         ${escapeHtml(catText)}
@@ -1395,7 +1576,7 @@ function openVaultModal(vaultId) {
     </div>
 
     <div style="display:flex; justify-content:flex-end; gap:10px;">
-      <button onclick="openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(descText)}')" class="btn-primary" style="padding:8px 18px; font-size:0.8rem;">
+      <button onclick="openVaultLightbox('${v.id}')" class="btn-primary" style="padding:8px 18px; font-size:0.8rem;">
         <span>ENLARGE EVIDENCE PHOTO</span>
       </button>
       <button onclick="closeModal('vaultModal')" class="btn-secondary" style="padding:8px 16px; font-size:0.8rem;">
@@ -1413,12 +1594,31 @@ function openLightbox(imgUrl, title, caption) {
   const titleElem = document.getElementById('lightboxTitle');
   const captionElem = document.getElementById('lightboxCaption');
 
-  imgElem.src = imgUrl;
-  titleElem.textContent = title;
-  captionElem.textContent = caption;
+  if (imgElem) imgElem.src = imgUrl || '/horror_background_wide.jpg';
+  if (titleElem) titleElem.textContent = title || '';
+  if (captionElem) captionElem.textContent = caption || '';
 
-  modal.classList.add('active');
+  if (modal) modal.classList.add('active');
 }
+
+function openVaultLightbox(vaultId) {
+  const v = (state.vault || []).find(item => item && (item.id === vaultId || item.caseId === vaultId));
+  if (!v) return;
+  const photo = getVaultPhoto(v);
+  const title = v.title || 'DOS Classified Vault Evidence';
+  const caption = v.synopsis || v.description || v.summary || '';
+  openLightbox(photo, title, caption);
+}
+
+function openGalleryLightbox(galleryId) {
+  const img = (state.gallery || []).find(item => item && item.id === galleryId);
+  if (!img) return;
+  openLightbox(img.imageUrl || '/horror_background_wide.jpg', img.title || 'Gallery Evidence Photo', img.caption || '');
+}
+
+window.openLightbox = openLightbox;
+window.openVaultLightbox = openVaultLightbox;
+window.openGalleryLightbox = openGalleryLightbox;
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
@@ -2002,7 +2202,7 @@ function renderAdminVaultList(filteredList) {
     return `
       <div style="background:#08090d; border:1px solid var(--border-subtle); border-radius:6px; padding:16px; display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
         <div style="display:flex; gap:16px; align-items:center; flex:1; min-width:280px;">
-          <div style="position:relative; width:95px; aspect-ratio:16/10; background:#000; border-radius:4px; overflow:hidden; flex-shrink:0; cursor:pointer;" onclick="openLightbox('${photo}', '${escapeHtml(v.title)}', '${escapeHtml(v.synopsis || v.description || '')}')">
+          <div style="position:relative; width:95px; aspect-ratio:16/10; background:#000; border-radius:4px; overflow:hidden; flex-shrink:0; cursor:pointer;" onclick="openVaultLightbox('${v.id}')">
             <img src="${photo}" alt="${escapeHtml(v.title)}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='/horror_background_wide.jpg'">
             <span style="position:absolute; bottom:2px; right:2px; font-size:0.55rem; background:rgba(0,0,0,0.85); color:#fff; padding:1px 4px; border-radius:2px; font-family:var(--font-mono);">🔍</span>
           </div>
@@ -2201,7 +2401,7 @@ function renderAdminGalleryList(filteredList) {
         </div>
       </div>
       <div style="display:flex; gap:8px; align-items:center;">
-        <button onclick="openLightbox('${img.imageUrl}', '${escapeHtml(img.title)}', '${escapeHtml(img.caption)}')" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem;">
+        <button onclick="openGalleryLightbox('${img.id}')" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem;">
           <span>👁 VIEW</span>
         </button>
         <button onclick="openAdminEntityModal('gallery', '${img.id}')" class="btn-secondary" style="padding:6px 12px; font-size:0.75rem; color:#38bdf8;">
@@ -2569,7 +2769,17 @@ function openAdminEntityModal(section, editId = null) {
       safeSetVal('entityExpertise', item.expertise || '');
       safeSetVal('entityThreatLevel', item.threatLevel || 'Standard');
       safeSetVal('entityCitations', item.citations || '');
-      safeSetVal('entitySpecs', item.specs || '');
+      let formattedSpecs = '';
+      if (typeof item.specs === 'string') {
+        formattedSpecs = item.specs;
+      } else if (item.specs && typeof item.specs === 'object') {
+        if (Array.isArray(item.specs)) {
+          formattedSpecs = item.specs.join(', ');
+        } else {
+          formattedSpecs = Object.entries(item.specs).map(([k, v]) => `${k}: ${v}`).join('; ');
+        }
+      }
+      safeSetVal('entitySpecs', formattedSpecs);
       safeSetVal('entityExternalUrl', item.externalUrl || '');
 
       const photoVal = (section === 'vault' ? getVaultPhoto(item) : '') || item.photoUrl || item.imageUrl || item.heroImage || item.evidenceImage || item.thumbnail || '';
@@ -3194,8 +3404,13 @@ async function uploadVaultPhoto(vaultId, file) {
 
 // Helpers
 function escapeHtml(str) {
-  if (!str) return '';
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function setFilter(category, filterValue) {
