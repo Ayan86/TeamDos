@@ -543,17 +543,17 @@ The team's philosophy is centered around “Rise Above Fear”—encouraging peo
 
           <form id="adminLoginForm" class="dos-card" style="padding: 28px;">
             <div class="form-group">
-              <label class="form-label" for="adminEmail">Investigator Email / Username</label>
-              <input type="text" id="adminEmail" class="form-control" value="admin@dos.in" required />
+              <label class="form-label" for="adminEmail">Investigator Email / Username *</label>
+              <input type="text" id="adminEmail" class="form-control" placeholder="e.g. admin@dos.in or team.dos.mail@gmail.com" required autocomplete="username" />
             </div>
             <div class="form-group">
-              <label class="form-label" for="adminPassword">Passcode</label>
-              <input type="password" id="adminPassword" class="form-control" value="RiseAboveFear2026!" required />
+              <label class="form-label" for="adminPassword">Passcode *</label>
+              <input type="password" id="adminPassword" class="form-control" placeholder="Enter investigator passcode" required autocomplete="current-password" />
             </div>
-            <button type="submit" class="btn-primary" style="width: 100%; justify-content:center;">
-              <span>AUTHENTICATE & ENTER HQ</span>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content:center; margin-top:8px;">
+              <span>🔐 AUTHENTICATE & ENTER HQ</span>
             </button>
-            <div id="adminLoginError" style="display:none; color:#f87171; font-size:0.8rem; margin-top:12px; text-align:center;"></div>
+            <div id="adminLoginError" style="display:none; color:#f87171; font-size:0.85rem; margin-top:14px; text-align:center; padding:10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:4px;"></div>
           </form>
         </div>
 

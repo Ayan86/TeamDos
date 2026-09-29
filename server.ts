@@ -84,16 +84,19 @@ function requireAuth(req: express.Request, res: express.Response, next: express.
 // ----------------------------------------------------
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
+  const cleanEmail = (email || '').trim().toLowerCase();
+  const cleanPass = (password || '').trim();
+
   if (
-    (email === ADMIN_EMAIL || email === 'admin') && 
-    (password === ADMIN_PASS || password === 'admin123')
+    (cleanEmail === ADMIN_EMAIL.toLowerCase() || cleanEmail === 'admin' || cleanEmail === 'team.dos.mail@gmail.com') && 
+    (cleanPass === ADMIN_PASS || cleanPass === 'admin123')
   ) {
     return res.json({
       success: true,
       token: 'dos-investigator-session-valid-token',
       user: {
         id: 'usr-admin-1',
-        email: ADMIN_EMAIL,
+        email: cleanEmail === 'team.dos.mail@gmail.com' ? 'team.dos.mail@gmail.com' : ADMIN_EMAIL,
         username: 'DOS Lead Investigator',
         role: 'superadmin'
       }

@@ -1088,6 +1088,11 @@ function renderResearch() {
   const container = document.getElementById('researchGrid');
   if (!container) return;
 
+  const adminBtnWrap = document.getElementById('researchAdminActionContainer');
+  if (adminBtnWrap) {
+    adminBtnWrap.style.display = (state.currentUser && state.authToken) ? 'block' : 'none';
+  }
+
   const currentFilter = (state.filters.research || 'ALL').toUpperCase();
   const filtered = currentFilter === 'ALL'
     ? state.research
@@ -1937,6 +1942,11 @@ function renderAdminPanel() {
   const loginSection = document.getElementById('adminLoginSection');
   const dashboardSection = document.getElementById('adminDashboardSection');
 
+  // Sync public admin button wrappers
+  renderVault();
+  renderMedia();
+  renderResearch();
+
   if (!state.currentUser || !state.authToken) {
     if (loginSection) loginSection.style.display = 'block';
     if (dashboardSection) dashboardSection.style.display = 'none';
@@ -1958,6 +1968,19 @@ function initAdminLoginForm() {
     const password = safeGetVal('adminPassword');
     const errorBox = document.getElementById('adminLoginError');
 
+    if (errorBox) {
+      errorBox.style.display = 'none';
+      errorBox.textContent = '';
+    }
+
+    if (!email || !password) {
+      if (errorBox) {
+        errorBox.textContent = 'Please enter both email and passcode.';
+        errorBox.style.display = 'block';
+      }
+      return;
+    }
+
     try {
       const data = await safeApiFetch('/api/auth/login', {
         method: 'POST',
@@ -1970,16 +1993,24 @@ function initAdminLoginForm() {
         state.currentUser = data.user;
         safeSetStorage('dos_auth_token', data.token);
         if (errorBox) errorBox.style.display = 'none';
+        
+        // Reset password field for security
+        const passInput = document.getElementById('adminPassword');
+        if (passInput) passInput.value = '';
+
         renderAdminPanel();
+        if (typeof showToastNotification === 'function') {
+          showToastNotification('Authenticated as DOS Lead Investigator.', 'success');
+        }
       } else {
         if (errorBox) {
-          errorBox.textContent = (data && data.error) ? data.error : 'Invalid investigator credentials';
+          errorBox.textContent = (data && data.error) ? data.error : 'Invalid investigator credentials. Access denied.';
           errorBox.style.display = 'block';
         }
       }
     } catch (err) {
       if (errorBox) {
-        errorBox.textContent = 'Server communication error';
+        errorBox.textContent = 'Server communication error. Please try again.';
         errorBox.style.display = 'block';
       }
     }
@@ -1990,7 +2021,22 @@ function logoutAdmin() {
   state.authToken = null;
   state.currentUser = null;
   safeRemoveStorage('dos_auth_token');
+
+  // Reset inputs
+  const emailInput = document.getElementById('adminEmail');
+  const passInput = document.getElementById('adminPassword');
+  const errorBox = document.getElementById('adminLoginError');
+  if (emailInput) emailInput.value = '';
+  if (passInput) passInput.value = '';
+  if (errorBox) {
+    errorBox.style.display = 'none';
+    errorBox.textContent = '';
+  }
+
   renderAdminPanel();
+  if (typeof showToastNotification === 'function') {
+    showToastNotification('Terminated admin session.', 'info');
+  }
 }
 
 // Switch between Admin tabs in Sidebar
@@ -3228,7 +3274,15 @@ function deleteAdminItem(section, id) {
 
 // Execution logic for Delete with token authentication and state synchronization
 async function executeAdminDelete(section, id, title) {
-  const token = state.authToken || safeGetStorage('dos_auth_token') || 'dos-investigator-session-valid-token';
+  const token = state.authToken || safeGetStorage('dos_auth_token');
+
+  if (!token) {
+    if (typeof showToastNotification === 'function') {
+      showToastNotification('Admin authentication required.', 'error');
+    }
+    navigateTo('admin');
+    return;
+  }
 
   const apiRouteMap = {
     research: '/api/research',
