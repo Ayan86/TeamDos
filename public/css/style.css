@@ -1625,3 +1625,217 @@ textarea.form-control {
   width: 100%;
 }
 
+/* ==========================================================================
+   COMPREHENSIVE MOBILE & DESKTOP RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* Filter bar touch scrollability */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  max-width: 100%;
+  padding-bottom: 4px;
+}
+
+.filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Tablet / Medium Screens (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+  }
+  .grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .research-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* Small Screens & Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Typography & Headers */
+  .section-header {
+    margin: 36px auto 24px;
+    padding: 0 8px;
+  }
+
+  .section-title {
+    font-size: clamp(1.35rem, 5.5vw, 1.85rem);
+    letter-spacing: 0.03em;
+  }
+
+  .section-desc {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* Hero Adjustments */
+  .hero-section {
+    padding: 40px 0 50px;
+    min-height: auto;
+  }
+
+  .hero-content {
+    padding: 0 12px;
+  }
+
+  .hero-main-logo {
+    width: clamp(140px, 45vw, 220px);
+    max-height: 220px;
+  }
+
+  .hero-pill {
+    padding: 5px 12px;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.88rem;
+    padding: 10px 14px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  /* Force 1-column layouts for cards on mobile */
+  .grid-4,
+  .grid-3,
+  .grid-2,
+  .research-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Telemetry Grid */
+  .telemetry-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .telemetry-item {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+
+  .telemetry-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .telemetry-data h4 {
+    font-size: 1.15rem;
+  }
+
+  .telemetry-data p {
+    font-size: 0.62rem;
+  }
+
+  /* Buttons & Action Controls */
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px 20px;
+    font-size: 0.82rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Form Controls */
+  .form-control {
+    font-size: 16px; /* Prevents auto-zoom on mobile Safari */
+    padding: 11px 14px;
+  }
+
+  /* Modals */
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-content {
+    padding: 20px 16px;
+    max-width: 100%;
+    max-height: 88vh;
+    border-radius: var(--radius-md);
+  }
+
+  .modal-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+  }
+
+  /* Admin Items & CMS Rows */
+  .admin-item-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .admin-item-thumb {
+    width: 100%;
+    height: 140px;
+    aspect-ratio: auto;
+  }
+
+  .admin-content-pane {
+    padding: 16px;
+  }
+
+  /* Table / List Adjustments */
+  .dos-card {
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Extra Small Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  .nav-brand-title {
+    font-size: 0.72rem;
+  }
+
+  .nav-brand-title .nav-sub {
+    font-size: 0.46rem;
+  }
+
+  .telemetry-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .nav-audio-btn {
+    padding: 5px 8px;
+    font-size: 0.62rem;
+  }
+
+  .mobile-menu-label {
+    display: none;
+  }
+}
+

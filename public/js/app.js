@@ -346,7 +346,7 @@ const state = {
   reports: [],
   messages: [],
   stats: {},
-  authToken: safeGetStorage('dos_auth_token', null),
+  authToken: null,
   currentUser: null,
   filters: {
     investigations: 'ALL',
@@ -471,18 +471,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Error in loadPublicData:', err);
   }
   
-  // Check URL hash for direct routing (e.g., #investigations, #admin)
-  const initialHash = window.location.hash.replace('#', '');
-  if (initialHash) {
-    navigateTo(initialHash);
-  } else {
-    navigateTo('home');
+  // Ensure the page always lands on the Home page after preloader / initial load
+  if (window.location.hash && window.location.hash !== '#home') {
+    history.replaceState(null, '', window.location.pathname);
   }
+  navigateTo('home', false);
 
-  // If token exists, verify admin session
-  if (state.authToken) {
-    verifyAdminSession();
-  }
+  // Clear any stored persistent token on launch so Admin always requires fresh login
+  safeRemoveStorage('dos_auth_token');
+  state.authToken = null;
+  state.currentUser = null;
 });
 
 // Preloader controller
@@ -1991,7 +1989,7 @@ function initAdminLoginForm() {
       if (data && data.success) {
         state.authToken = data.token;
         state.currentUser = data.user;
-        safeSetStorage('dos_auth_token', data.token);
+        safeRemoveStorage('dos_auth_token');
         if (errorBox) errorBox.style.display = 'none';
         
         // Reset password field for security
@@ -3274,7 +3272,7 @@ function deleteAdminItem(section, id) {
 
 // Execution logic for Delete with token authentication and state synchronization
 async function executeAdminDelete(section, id, title) {
-  const token = state.authToken || safeGetStorage('dos_auth_token');
+  const token = state.authToken;
 
   if (!token) {
     if (typeof showToastNotification === 'function') {
